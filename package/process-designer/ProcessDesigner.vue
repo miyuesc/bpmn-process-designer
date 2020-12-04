@@ -11,36 +11,33 @@
             <br />
             <el-button :size="headerButtonSize" type="text">下载为BPMN文件</el-button>
           </div>
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-more" />
+          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-more">下载文件</el-button>
         </el-tooltip>
-        <el-tooltip effect="light" content="打开文件">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened" />
-        </el-tooltip>
-        <el-tooltip effect="light" content="撤销">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-refresh-left" />
-        </el-tooltip>
-        <el-tooltip effect="light" content="恢复">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-refresh-right" />
-        </el-tooltip>
+        <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened">打开文件</el-button>
         <el-tooltip effect="light" content="缩小视图">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-zoom-out" />
+          <el-button :size="headerButtonSize" icon="el-icon-zoom-out" @click="processZoomOut" />
         </el-tooltip>
-        <el-tooltip effect="light" content="视图缩放比">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened" />
-        </el-tooltip>
+        <el-button :size="headerButtonSize">{{ currentScale }}</el-button>
         <el-tooltip effect="light" content="放大视图">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-zoom-in" />
+          <el-button :size="headerButtonSize" icon="el-icon-zoom-in" @click="processZoomIn" />
         </el-tooltip>
         <el-tooltip effect="light" content="重置视图并居中">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-c-scale-to-original" />
+          <el-button :size="headerButtonSize" icon="el-icon-c-scale-to-original" @click="processReZoom" />
+        </el-tooltip>
+        <el-tooltip effect="light" content="撤销">
+          <el-button :size="headerButtonSize" :disabled="!revocable" icon="el-icon-refresh-left" @click="processUndo" />
+        </el-tooltip>
+        <el-tooltip effect="light" content="恢复">
+          <el-button :size="headerButtonSize" :disabled="!recoverable" icon="el-icon-refresh-right" @click="processRedo" />
         </el-tooltip>
         <el-tooltip effect="light" content="重新绘制">
-          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-refresh" />
+          <el-button :size="headerButtonSize" icon="el-icon-refresh" />
         </el-tooltip>
       </el-button-group>
     </div>
-    <div class="my-process-designer__container" ref="bpmn-canvas">
-      <div v-if="camundaPenal" class="my-process-designer__property-panel" id="property-panel"></div>
+    <div class="my-process-designer__container">
+      <div class="my-process-designer__canvas" ref="bpmn-canvas"></div>
+      <div v-if="camundaPenal" class="my-process-designer__property-panel" id="property-panel" :style="panelStyle"></div>
     </div>
   </div>
 </template>
@@ -70,6 +67,10 @@ export default {
       type: Array,
       default: () => ["element.click"]
     },
+    panelWidth: {
+      type: [String, Number],
+      default: 400
+    },
     headerButtonSize: {
       type: String,
       default: "small",
@@ -77,12 +78,17 @@ export default {
     },
     headerButtonType: {
       type: String,
-      default: "default",
+      default: "primary",
       validator: value => ["default", "primary", "success", "warning", "danger", "info"].indexOf(value) !== -1
     }
   },
   data() {
-    return {};
+    return {
+      currentScale: "100%",
+      defaultZoom: 1,
+      recoverable: false,
+      revocable: false
+    };
   },
   computed: {
     additionalModules() {
@@ -100,8 +106,12 @@ export default {
     },
     moddleExtensions() {
       const Extensions = {};
-      if (this.camunda) Extensions.camunda = camundaModdleDescriptor;
+      if (this.camunda || this.camundaPenal) Extensions.camunda = camundaModdleDescriptor;
       return Extensions;
+    },
+    panelStyle() {
+      if (typeof this.panelWidth === "number") return { width: `${this.panelWidth}px` };
+      return { width: this.panelWidth };
     }
   },
   mounted() {
@@ -126,16 +136,18 @@ export default {
       this.$emit("init-finished", this.bpmnModeler);
       this.initModelListeners();
     },
-    async createNewDiagram(xml) {
+    createNewDiagram(xml) {
       // 将字符串转换成图显示出来
-      try {
-        let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程");
-        const result = await this.bpmnModeler.importXML(xmlString);
-        const { warnings } = result;
-        if (warnings && warnings.length) console.warn(warnings);
-      } catch (err) {
-        console.error(err.message + err.warnings);
-      }
+      let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程");
+      this.bpmnModeler
+        .importXML(xmlString)
+        .then(result => {
+          const { warnings } = result;
+          if (warnings && warnings.length) console.warn(warnings);
+        })
+        .catch(e => {
+          console.error(e);
+        });
     },
     initModelListeners() {
       const EventBus = this.bpmnModeler.get("eventBus");
@@ -151,6 +163,8 @@ export default {
       // 监听图形改变返回xml
       EventBus.on("commandStack.changed", async () => {
         try {
+          this.recoverable = this.bpmnModeler.get("commandStack").canRedo();
+          this.revocable = this.bpmnModeler.get("commandStack").canUndo();
           let { xml } = await this.bpmnModeler.saveXML({ format: true });
           this.$emit("input", xml);
           this.$emit("change", xml);
@@ -158,6 +172,34 @@ export default {
           console.error(e);
         }
       });
+      // 监听视图缩放变化
+      this.bpmnModeler.on("canvas.viewbox.changed", e => {
+        this.defaultZoom = Math.floor(e.viewbox.scale * 100) / 100;
+        this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
+        this.currentScale = Math.floor(this.defaultZoom * 100) + "%";
+      });
+    },
+
+    processRedo() {
+      this.bpmnModeler.get("commandStack").redo();
+    },
+    processUndo() {
+      this.bpmnModeler.get("commandStack").undo();
+    },
+    processZoomIn() {
+      this.defaultZoom = Math.floor(this.defaultZoom * 10 + 1) / 10;
+      this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
+    },
+    processZoomOut() {
+      this.defaultZoom = Math.floor(this.defaultZoom * 10 - 1) / 10;
+      this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
+    },
+    processReZoom() {
+      this.defaultZoom = 1;
+      this.bpmnModeler.get("canvas").zoom("fit-viewport", "auto");
+    },
+    processRestart() {
+      this.createNewDiagram(null);
     }
   },
   watch: {

@@ -7,24 +7,30 @@
   .my-process-designer__header {
     width: 100%;
     height: 48px;
+    .el-button {
+      min-width: 64px;
+      text-align: center;
+    }
   }
   .my-process-designer__container {
-    flex: 1;
+    display: inline-flex;
+    width: 100%;
+    height: calc(100% - 48px);
     background: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImEiIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTTAgMTBoNDBNMTAgMHY0ME0wIDIwaDQwTTIwIDB2NDBNMCAzMGg0ME0zMCAwdjQwIiBmaWxsPSJub25lIiBzdHJva2U9IiNlMGUwZTAiIG9wYWNpdHk9Ii4yIi8+PHBhdGggZD0iTTQwIDBIMHY0MCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZTBlMGUwIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI2EpIi8+PC9zdmc+")
     repeat !important;
-    position: relative;
-  }
-  .my-process-designer__property-panel {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 400px;
-    overflow: scroll;
-    overflow-y: auto;
-    z-index: 10;
-    * {
-      box-sizing: border-box;
+    .my-process-designer__canvas {
+      flex: 1;
+      height: 100%;
+      position: relative;
+    }
+    .my-process-designer__property-panel {
+      height: 100%;
+      overflow: scroll;
+      overflow-y: auto;
+      z-index: 10;
+      * {
+        box-sizing: border-box;
+      }
     }
   }
 }
