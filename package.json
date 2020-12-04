@@ -1,0 +1,93 @@
+{
+  "name": "bpmn-process-designer",
+  "version": "0.0.1",
+  "description": "A process designer base on Vue 2.x and ElementUI",
+  "keywords": [
+    "bpmn",
+    "bpmn.js",
+    "vue"
+  ],
+  "author": {
+    "name": "MiyueFE",
+    "email": "913784771@qq.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:miyuesc/bpmn-process-designer.git"
+  },
+  "scripts": {
+    "demo": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lib": "vue-cli-service build --mode lib --target lib --name qtouch-ui --dest qtouch-ui/lib packages/index.js",
+    "update": "npm run lib && node script/update.js --version 0.0.1"
+  },
+  "dependencies": {
+    "bpmn-js": "^7.4.0",
+    "bpmn-js-properties-panel": "^0.37.2",
+    "camunda-bpmn-moddle": "^4.4.1",
+    "core-js": "^3.6.5",
+    "diagram-js": "^6.8.1",
+    "element-ui": "^2.13.2",
+    "min-dash": "^3.5.2",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "@vue/compiler-sfc": "^3.0.1",
+    "@vue/eslint-config-prettier": "^5.0.0",
+    "babel-eslint": "^10.1.0",
+    "compression-webpack-plugin": "^6.0.4",
+    "eslint": "^6.7.2",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-vue": "^6.2.2",
+    "fs-extra": "^8.1.0",
+    "highlight.js": "^10.2.0",
+    "hyperdown": "^2.4.4",
+    "prismjs": "^1.22.0",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "terser-webpack-plugin": "^5.0.3",
+    "vue-router": "^3.4.3",
+    "vue-template-compiler": "^2.6.11",
+    "webpack-bundle-analyzer": "^3.9.0"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended",
+      "@vue/prettier"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "prettier/prettier": [
+        "warn",
+        {
+          "useTabs": false,
+          "singleQuote": false,
+          "printWidth": 100,
+          "semi": true,
+          "trailingComma": "none",
+          "bracketSpacing": true,
+          "jsxBracketSameLine": true,
+          "arrowParens": "avoid",
+          "requirePragma": false,
+          "proseWrap": "preserve"
+        }
+      ]
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "license": "Apache"
+}
