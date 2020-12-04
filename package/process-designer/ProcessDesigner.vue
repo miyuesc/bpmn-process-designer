@@ -15,11 +15,11 @@
         </el-tooltip>
         <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened">打开文件</el-button>
         <el-tooltip effect="light" content="缩小视图">
-          <el-button :size="headerButtonSize" icon="el-icon-zoom-out" @click="processZoomOut" />
+          <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut" />
         </el-tooltip>
         <el-button :size="headerButtonSize">{{ currentScale }}</el-button>
         <el-tooltip effect="light" content="放大视图">
-          <el-button :size="headerButtonSize" icon="el-icon-zoom-in" @click="processZoomIn" />
+          <el-button :size="headerButtonSize" :disabled="defaultZoom > 5" icon="el-icon-zoom-in" @click="processZoomIn" />
         </el-tooltip>
         <el-tooltip effect="light" content="重置视图并居中">
           <el-button :size="headerButtonSize" icon="el-icon-c-scale-to-original" @click="processReZoom" />
@@ -31,7 +31,7 @@
           <el-button :size="headerButtonSize" :disabled="!recoverable" icon="el-icon-refresh-right" @click="processRedo" />
         </el-tooltip>
         <el-tooltip effect="light" content="重新绘制">
-          <el-button :size="headerButtonSize" icon="el-icon-refresh" />
+          <el-button :size="headerButtonSize" icon="el-icon-refresh" @click="processRestart" />
         </el-tooltip>
       </el-button-group>
     </div>
@@ -55,6 +55,10 @@ export default {
   props: {
     value: String,
     translations: Object,
+    activityPanel: {
+      type: Boolean,
+      default: false
+    },
     camundaPenal: {
       type: Boolean,
       default: true
@@ -101,12 +105,21 @@ export default {
       if (this.camundaPenal) {
         Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/camunda"));
       }
+      // 预置activity扩展
+      if (this.activityPanel) {
+        Modules.push(require("./pugins/activiti/index"));
+      }
       Modules.push(TranslateModule);
       return Modules;
     },
     moddleExtensions() {
       const Extensions = {};
-      if (this.camunda || this.camundaPenal) Extensions.camunda = camundaModdleDescriptor;
+      if (this.camunda || this.camundaPenal) {
+        Extensions.camunda = camundaModdleDescriptor;
+      }
+      if (this.activityPanel) {
+        Extensions.activiti = require("./pugins/activiti/activitiDescriptor.json");
+      }
       return Extensions;
     },
     panelStyle() {

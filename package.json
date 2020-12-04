@@ -17,9 +17,7 @@
   },
   "scripts": {
     "demo": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lib": "vue-cli-service build --mode lib --target lib --name qtouch-ui --dest qtouch-ui/lib packages/index.js",
-    "update": "npm run lib && node script/update.js --version 0.0.1"
+    "build": "vue-cli-service build"
   },
   "dependencies": {
     "bpmn-js": "^7.4.0",
