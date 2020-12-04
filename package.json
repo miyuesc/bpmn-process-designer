@@ -72,7 +72,7 @@
         {
           "useTabs": false,
           "singleQuote": false,
-          "printWidth": 100,
+          "printWidth": 128,
           "semi": true,
           "trailingComma": "none",
           "bracketSpacing": true,

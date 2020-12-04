@@ -1,12 +1,17 @@
 <template>
   <div id="app">
-    <my-process-designer />
+    <my-process-designer @element-click="elementClick" />
   </div>
 </template>
 
 <script>
 export default {
-  name: "App"
+  name: "App",
+  methods: {
+    elementClick(element) {
+      console.log(element);
+    }
+  }
 };
 </script>
 
