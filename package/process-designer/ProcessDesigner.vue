@@ -101,24 +101,26 @@ export default {
       const TranslateModule = {
         translate: ["value", require("./pugins/translate/customTranslate.js").default(this.translations || translationsCN)]
       };
-      // 官方侧边栏
-      if (this.camundaPenal) {
-        Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/camunda"));
-      }
       // 预置activity扩展
       if (this.activityPanel) {
         Modules.push(require("./pugins/activiti/index"));
+      } else {
+        // 官方侧边栏
+        if (this.camundaPenal) {
+          Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/camunda"));
+        }
       }
       Modules.push(TranslateModule);
       return Modules;
     },
     moddleExtensions() {
       const Extensions = {};
-      if (this.camunda || this.camundaPenal) {
-        Extensions.camunda = camundaModdleDescriptor;
-      }
       if (this.activityPanel) {
         Extensions.activiti = require("./pugins/activiti/activitiDescriptor.json");
+      } else {
+        if (this.camunda || this.camundaPenal) {
+          Extensions.camunda = camundaModdleDescriptor;
+        }
       }
       return Extensions;
     },

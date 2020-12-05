@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <my-process-designer @element-click="elementClick" />
+    <my-process-designer activity-panel @element-click="elementClick" @change="ProcessChanged" />
   </div>
 </template>
 
@@ -10,6 +10,9 @@ export default {
   methods: {
     elementClick(element) {
       console.log(element);
+    },
+    ProcessChanged(xml) {
+      console.log(xml);
     }
   }
 };

@@ -8,6 +8,20 @@
   "associations": [],
   "types": [
     {
+      "name": "Definitions",
+      "isAbstract": true,
+      "extends": [
+        "bpmn:Definitions"
+      ],
+      "properties": [
+        {
+          "name": "diagramRelationId",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
       "name": "InOutBinding",
       "superClass": [
         "Element"
@@ -85,6 +99,18 @@
           "default": false
         },
         {
+          "name": "asyncBefore",
+          "isAttr": true,
+          "type": "Boolean",
+          "default": false
+        },
+        {
+          "name": "asyncAfter",
+          "isAttr": true,
+          "type": "Boolean",
+          "default": false
+        },
+        {
           "name": "exclusive",
           "isAttr": true,
           "type": "Boolean",
@@ -108,36 +134,17 @@
       ]
     },
     {
-      "name": "Signal",
+      "name": "SignalEventDefinition",
       "isAbstract": true,
       "extends": [
-        "bpmn:Signal"
+        "bpmn:SignalEventDefinition"
       ],
       "properties": [
         {
-          "name": "scope",
+          "name": "async",
           "isAttr": true,
-          "type": "String",
-          "default": "global"
-        }
-      ]
-    },
-    {
-      "name": "MessageEventDefinition",
-      "isAbstract": true,
-      "extends": [
-        "bpmn:MessageEventDefinition"
-      ],
-      "properties": [
-        {
-          "name": "correlationKey",
-          "isAttr": true,
-          "type": "String"
-        },
-        {
-          "name": "messageExpression",
-          "isAttr": true,
-          "type": "String"
+          "type": "Boolean",
+          "default": false
         }
       ]
     },
@@ -155,6 +162,20 @@
         },
         {
           "name": "errorMessageVariable",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "Error",
+      "isAbstract": true,
+      "extends": [
+        "bpmn:Error"
+      ],
+      "properties": [
+        {
+          "name": "activiti:errorMessage",
           "isAttr": true,
           "type": "String"
         }
@@ -270,6 +291,11 @@
           "isAttr": true,
           "type": "Boolean",
           "default": true
+        },
+        {
+          "name":"executionListener",
+          "isAbstract": true,
+          "type":"Expression"
         }
       ]
     },
@@ -299,6 +325,18 @@
           "isAttr": true,
           "type": "String"
         }
+      ]
+    },
+    {
+      "name": "multiinstance_type",
+      "superClass":[
+        "Element"
+      ]
+    },
+    {
+      "name": "multiinstance_condition",
+      "superClass":[
+        "Element"
       ]
     },
     {
@@ -332,6 +370,11 @@
         },
         {
           "name": "priority",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "multiinstance_condition",
           "isAttr": true,
           "type": "String"
         }
@@ -539,9 +582,7 @@
       ],
       "meta": {
         "allowedIn": [
-          "bpmn:ServiceTask",
-          "bpmn:BusinessRuleTask",
-          "bpmn:SendTask"
+          "activiti:ServiceTaskLike"
         ]
       },
       "properties": [
@@ -562,28 +603,8 @@
       ],
       "meta": {
         "allowedIn": [
-          "bpmn:Task",
-          "bpmn:UserTask",
-          "bpmn:ServiceTask",
-          "bpmn:SendTask",
-          "bpmn:BusinessRuleTask",
-          "bpmn:ReceiveTask",
-          "bpmn:ScriptTask",
-          "bpmn:ManualTask",
-          "bpmn:GlobalUserTask",
-          "bpmn:GlobalScriptTask",
-          "bpmn:GlobalBusinessRuleTask",
-          "bpmn:GlobalTask",
-          "bpmn:GlobalManualTask",
-          "bpmn:SubProcess",
-          "bpmn:Transaction",
-          "bpmn:IntermediateCatchEvent",
-          "bpmn:IntermediateThrowEvent",
-          "bpmn:EndEvent",
-          "bpmn:ThrowEvent",
-          "bpmn:CatchEvent",
-          "bpmn:ImplicitThrowEvent",
-          "bpmn:CallActivity"
+          "bpmn:FlowNode",
+          "activiti:Connector"
         ]
       },
       "properties": [
@@ -720,9 +741,9 @@
       "superClass": [ "Element" ],
       "meta": {
         "allowedIn": [
-          "bpmn:ServiceTask",
-          "bpmn:BusinessRuleTask",
-          "bpmn:SendTask"
+          "activiti:ServiceTaskLike",
+          "activiti:ExecutionListener",
+          "activiti:TaskListener"
         ]
       },
       "properties": [
@@ -777,16 +798,7 @@
       "superClass": [ "Element" ],
       "meta": {
         "allowedIn": [
-          "bpmn:Task",
-          "bpmn:ServiceTask",
-          "bpmn:SendTask",
-          "bpmn:UserTask",
-          "bpmn:BusinessRuleTask",
-          "bpmn:ScriptTask",
-          "bpmn:ReceiveTask",
-          "bpmn:CallActivity",
-          "bpmn:TimerEventDefinition",
-          "bpmn:SignalEventDefinition",
+          "activiti:AsyncCapable",
           "bpmn:MultiInstanceLoopCharacteristics"
         ]
       },
@@ -821,7 +833,8 @@
           "bpmn:EndEvent",
           "bpmn:BoundaryEvent",
           "bpmn:CallActivity",
-          "bpmn:SubProcess"
+          "bpmn:SubProcess",
+          "bpmn:Process"
         ]
       },
       "properties": [
@@ -964,29 +977,7 @@
       ]
     },
     {
-      "name": "FormData",
-      "superClass": [ "Element" ],
-      "meta": {
-        "allowedIn": [
-          "bpmn:StartEvent",
-          "bpmn:UserTask"
-        ]
-      },
-      "properties": [
-        {
-          "name": "fields",
-          "type": "FormField",
-          "isMany": true
-        },
-        {
-          "name": "businessKey",
-          "type": "String",
-          "isAttr": true
-        }
-      ]
-    },
-    {
-      "name": "FormField",
+      "name": "FormProperty",
       "superClass": [ "Element" ],
       "properties": [
         {
