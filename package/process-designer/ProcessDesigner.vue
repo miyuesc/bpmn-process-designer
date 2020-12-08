@@ -55,7 +55,7 @@ export default {
   props: {
     value: String, // xml 字符串
     translations: Object, // 自定义的翻译文件
-    additionalModel: Object, // 自定义model
+    additionalModel: [Object, Array], // 自定义model
     moddleExtension: Object, // 自定义moddle
     onlyCustomizeAddi: {
       type: Boolean,
@@ -114,10 +114,12 @@ export default {
         return [this.additionalModel];
       }
 
+      console.log(Object.prototype.toString.call(this.additionalModel));
       if (Object.prototype.toString.call(this.additionalModel) === "[object Array]") {
-        Modules.concat(this.additionalModel || []);
+        Modules.push(...this.additionalModel);
+      } else {
+        this.additionalModel && Modules.push(this.additionalModel);
       }
-      this.additionalModel && Modules.push(this.additionalModel);
       // 翻译模块
       const TranslateModule = {
         translate: ["value", require("./pugins/translate/customTranslate.js").default(this.translations || translationsCN)]

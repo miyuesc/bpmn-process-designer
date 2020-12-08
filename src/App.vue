@@ -2,6 +2,7 @@
   <div id="app">
     <my-process-designer
       :translations="translationsSelf"
+      :additional-model="labelEditing"
       activity-panel
       @element-click="elementClick"
       @change="ProcessChanged"
@@ -15,7 +16,8 @@ export default {
   name: "App",
   data() {
     return {
-      translationsSelf: translations
+      translationsSelf: translations,
+      labelEditing: [{ labelEditingProvider: ["value", ""] }]
     };
   },
   created() {
