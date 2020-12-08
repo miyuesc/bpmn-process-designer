@@ -1,12 +1,26 @@
 <template>
   <div id="app">
-    <my-process-designer activity-panel @element-click="elementClick" @change="ProcessChanged" />
+    <my-process-designer
+      :translations="translationsSelf"
+      activity-panel
+      @element-click="elementClick"
+      @change="ProcessChanged"
+    />
   </div>
 </template>
 
 <script>
+import translations from "@/translations";
 export default {
   name: "App",
+  data() {
+    return {
+      translationsSelf: translations
+    };
+  },
+  created() {
+    console.log(this.translationsSelf);
+  },
   methods: {
     elementClick(element) {
       console.log(element);
