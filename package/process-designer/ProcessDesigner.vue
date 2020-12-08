@@ -53,9 +53,15 @@ export default {
   name: "MyProcessDesigner",
   componentName: "MyProcessDesigner",
   props: {
-    value: String,
-    translations: Object,
-    activityPanel: {
+    value: String, // xml 字符串
+    translations: Object, // 自定义的翻译文件
+    additionalModel: Object, // 自定义model
+    moddleExtension: Object, // 自定义moddle
+    onlyCustomizeAddi: {
+      type: Boolean,
+      default: false
+    },
+    onlyCustomizeModdle: {
       type: Boolean,
       default: false
     },
@@ -66,6 +72,10 @@ export default {
     camunda: {
       type: Boolean,
       default: true
+    },
+    activiti: {
+      type: Boolean,
+      default: false
     },
     events: {
       type: Array,
@@ -97,12 +107,24 @@ export default {
   computed: {
     additionalModules() {
       const Modules = [];
+      if (this.onlyCustomizeAddi) {
+        if (Object.prototype.toString.call(this.additionalModel) === "[object Array]") {
+          return this.additionalModel || [];
+        }
+        return [this.additionalModel];
+      }
+
+      if (Object.prototype.toString.call(this.additionalModel) === "[object Array]") {
+        Modules.concat(this.additionalModel || []);
+      }
+      this.additionalModel && Modules.push(this.additionalModel);
       // 翻译模块
       const TranslateModule = {
         translate: ["value", require("./pugins/translate/customTranslate.js").default(this.translations || translationsCN)]
       };
+      Modules.push(TranslateModule);
       // 预置activity扩展
-      if (this.activityPanel) {
+      if (this.activiti) {
         Modules.push(require("./pugins/activiti/index"));
       } else {
         // 官方侧边栏
@@ -110,12 +132,19 @@ export default {
           Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/camunda"));
         }
       }
-      Modules.push(TranslateModule);
       return Modules;
     },
     moddleExtensions() {
       const Extensions = {};
-      if (this.activityPanel) {
+      if (this.onlyCustomizeModdle) {
+        return this.moddleExtension || null;
+      }
+      if (this.moddleExtension) {
+        for (let key in this.moddleExtension) {
+          Extensions[key] = this.moddleExtension[key];
+        }
+      }
+      if (this.activiti) {
         Extensions.activiti = require("./pugins/activiti/activitiDescriptor.json");
       } else {
         if (this.camunda || this.camundaPenal) {
@@ -140,6 +169,7 @@ export default {
   },
   methods: {
     initBpmnModeler() {
+      if (this.bpmnModeler) return;
       this.bpmnModeler = new BpmnModeler({
         container: this.$refs["bpmn-canvas"],
         propertiesPanel: {
@@ -167,10 +197,10 @@ export default {
     initModelListeners() {
       const EventBus = this.bpmnModeler.get("eventBus");
       const that = this;
-      // 注册需要的监听事件
+      // 注册需要的监听事件, 将. 替换为 - , 避免解析异常
       this.events.forEach(event => {
         EventBus.on(event, function(eventObj) {
-          let eventName = event.replace(".", "-");
+          let eventName = event.replace(/./g, "-");
           let element = eventObj ? eventObj.element : null;
           that.$emit(eventName, element, eventObj);
         });
@@ -190,11 +220,11 @@ export default {
       // 监听视图缩放变化
       this.bpmnModeler.on("canvas.viewbox.changed", e => {
         this.defaultZoom = Math.floor(e.viewbox.scale * 100) / 100;
-        this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
+        // this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
         this.currentScale = Math.floor(this.defaultZoom * 100) + "%";
       });
     },
-
+    /* ------------------------------------------------ refs methods ------------------------------------------------------ */
     processRedo() {
       this.bpmnModeler.get("commandStack").redo();
     },
