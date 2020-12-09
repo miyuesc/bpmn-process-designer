@@ -1,33 +1,43 @@
 <template>
   <div id="app">
     <my-process-designer
-      :translations="translationsSelf"
       :additional-model="labelEditing"
+      :camunda-penal="true"
       @element-click="elementClick"
+      @init-finished="initModeler"
       @change="ProcessChanged"
     />
+    <process-panel :bpmn-modeler="modeler" class="process-panel" />
   </div>
 </template>
 
 <script>
 import translations from "@/translations";
+import ProcessPanel from "../package/process-panel/ProcessPanel";
 export default {
   name: "App",
+  components: { ProcessPanel },
   data() {
     return {
+      xmlString: "",
+      modeler: null,
       translationsSelf: translations,
       labelEditing: [{ labelEditingProvider: ["value", ""] }]
     };
   },
   created() {
-    console.log(this.translationsSelf);
+    // console.log(this.translationsSelf);
   },
   methods: {
+    initModeler(modeler) {
+      this.modeler = modeler;
+    },
     elementClick(element) {
       console.log(element);
     },
     ProcessChanged(xml) {
-      console.log(xml);
+      this.xmlString = xml;
+      // console.log(xml);
     }
   }
 };
@@ -75,5 +85,14 @@ body * {
     background-color: rgba(159, 159, 159, 0.5);
     -webkit-border-radius: 4px;
   }
+}
+.process-panel {
+  position: fixed;
+  top: 48px;
+  right: 400px;
+  bottom: 0;
+  width: 400px;
+  z-index: 99;
+  background: white;
 }
 </style>

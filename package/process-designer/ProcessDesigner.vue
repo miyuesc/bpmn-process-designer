@@ -111,6 +111,7 @@ export default {
   computed: {
     additionalModules() {
       const Modules = [];
+      // 仅保留用户自定义扩展模块
       if (this.onlyCustomizeAddi) {
         if (Object.prototype.toString.call(this.additionalModel) === "[object Array]") {
           return this.additionalModel || [];
@@ -118,22 +119,24 @@ export default {
         return [this.additionalModel];
       }
 
-      console.log(Object.prototype.toString.call(this.additionalModel));
+      // 插入用户自定义扩展模块
       if (Object.prototype.toString.call(this.additionalModel) === "[object Array]") {
         Modules.push(...this.additionalModel);
       } else {
         this.additionalModel && Modules.push(this.additionalModel);
       }
+
       // 翻译模块
       const TranslateModule = {
         translate: ["value", require("./pugins/translate/customTranslate.js").default(this.translations || translationsCN)]
       };
       Modules.push(TranslateModule);
-      // 预置activity扩展
+
+      // 使用预留的 activity 模块
       if (this.activiti) {
         Modules.push(require("./pugins/activiti/index"));
       } else {
-        // 官方侧边栏
+        // 使用预留的官方 camunda 侧边栏
         if (this.camundaPenal) {
           Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/camunda"));
         }
@@ -142,17 +145,23 @@ export default {
     },
     moddleExtensions() {
       const Extensions = {};
+      // 仅使用用户自定义模块
       if (this.onlyCustomizeModdle) {
         return this.moddleExtension || null;
       }
+
+      // 插入用户自定义模块
       if (this.moddleExtension) {
         for (let key in this.moddleExtension) {
           Extensions[key] = this.moddleExtension[key];
         }
       }
+
+      // 使用预置的 activity 解析文件
       if (this.activiti) {
         Extensions.activiti = require("./pugins/activiti/activitiDescriptor.json");
       } else {
+        // 使用预置的 camunda 解析文件
         if (this.camunda || this.camundaPenal) {
           Extensions.camunda = camundaModdleDescriptor;
         }
@@ -206,7 +215,7 @@ export default {
       // 注册需要的监听事件, 将. 替换为 - , 避免解析异常
       this.events.forEach(event => {
         EventBus.on(event, function(eventObj) {
-          let eventName = event.replace(/./g, "-");
+          let eventName = event.replace(/\./g, "-");
           let element = eventObj ? eventObj.element : null;
           that.$emit(eventName, element, eventObj);
         });
