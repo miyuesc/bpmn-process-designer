@@ -3,7 +3,6 @@
     <my-process-designer
       :translations="translationsSelf"
       :additional-model="labelEditing"
-      activity-panel
       @element-click="elementClick"
       @change="ProcessChanged"
     />

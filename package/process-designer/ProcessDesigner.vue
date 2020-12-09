@@ -5,15 +5,17 @@
       <el-button-group v-if="!$slots['control-header']">
         <el-tooltip effect="light">
           <div slot="content">
-            <el-button :size="headerButtonSize" type="text">下载为XML文件</el-button>
+            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsXml">下载为XML文件</el-button>
             <br />
-            <el-button :size="headerButtonSize" type="text">下载为SVG文件</el-button>
+            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsSvg">下载为SVG文件</el-button>
             <br />
-            <el-button :size="headerButtonSize" type="text">下载为BPMN文件</el-button>
+            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsBpmn">下载为BPMN文件</el-button>
           </div>
           <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-more">下载文件</el-button>
         </el-tooltip>
-        <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened">打开文件</el-button>
+        <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened" @click="$refs.refFile.click()"
+          >打开文件</el-button
+        >
         <el-tooltip effect="light" content="缩小视图">
           <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut" />
         </el-tooltip>
@@ -34,6 +36,8 @@
           <el-button :size="headerButtonSize" icon="el-icon-refresh" @click="processRestart" />
         </el-tooltip>
       </el-button-group>
+      <!-- 用于打开本地文件-->
+      <input type="file" id="files" ref="refFile" style="display: none" accept=".xml, .bpmn" @change="importLocalFile" />
     </div>
     <div class="my-process-designer__container">
       <div class="my-process-designer__canvas" ref="bpmn-canvas"></div>
@@ -226,7 +230,75 @@ export default {
         this.currentScale = Math.floor(this.defaultZoom * 100) + "%";
       });
     },
+
+    // 下载流程图到本地
+    async downloadProcess(type) {
+      try {
+        const _this = this;
+        // 按需要类型创建文件并下载
+        if (type === "xml" || type === "bpmn") {
+          const { err, xml } = await this.bpmnModeler.saveXML();
+          // 读取异常时抛出异常
+          if (err) {
+            return console.error(err);
+          }
+          let { href, filename } = _this.setEncoded(type.toUpperCase(), xml);
+          downloadFunc(href, filename);
+        } else {
+          const { err, svg } = await this.bpmnModeler.saveSVG();
+          // 读取异常时抛出异常
+          if (err) {
+            return console.error(err);
+          }
+          let { href, filename } = _this.setEncoded("SVG", svg);
+          downloadFunc(href, filename);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+      // 文件下载方法
+      function downloadFunc(href, filename) {
+        if (href && filename) {
+          let a = document.createElement("a");
+          a.download = filename; //指定下载的文件名
+          a.href = href; //  URL对象
+          a.click(); // 模拟点击
+          URL.revokeObjectURL(a.href); // 释放URL 对象
+        }
+      }
+    },
+
+    // 根据所需类型进行转码并返回下载地址
+    setEncoded(type, data) {
+      const encodedData = encodeURIComponent(data);
+      return {
+        filename: `diagram.${type}`,
+        href: `data:application/${type === "svg" ? "text/xml" : "bpmn20-xml"};charset=UTF-8,${encodedData}`,
+        data: data
+      };
+    },
+
+    // 加载本地文件
+    importLocalFile() {
+      const that = this;
+      const file = this.$refs.refFile.files[0];
+      const reader = new FileReader();
+      reader.readAsText(file);
+      reader.onload = function() {
+        let xmlStr = this.result;
+        that.createNewDiagram(xmlStr);
+      };
+    },
     /* ------------------------------------------------ refs methods ------------------------------------------------------ */
+    downloadProcessAsXml() {
+      this.downloadProcess("xml");
+    },
+    downloadProcessAsBpmn() {
+      this.downloadProcess("bpmn");
+    },
+    downloadProcessAsSvg() {
+      this.downloadProcess("svg");
+    },
     processRedo() {
       this.bpmnModeler.get("commandStack").redo();
     },
