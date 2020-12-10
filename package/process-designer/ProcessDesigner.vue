@@ -73,6 +73,10 @@ export default {
       type: Boolean,
       default: true
     },
+    bpmnPanel: {
+      type: Boolean,
+      default: false
+    },
     camunda: {
       type: Boolean,
       default: true
@@ -137,8 +141,11 @@ export default {
         Modules.push(require("./pugins/activiti/index"));
       } else {
         // 使用预留的官方 camunda 侧边栏
-        if (this.camundaPenal) {
+        if (this.camundaPenal && !this.bpmnPanel) {
           Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/camunda"));
+        }
+        if (this.bpmnPanel) {
+          Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/bpmn"));
         }
       }
       return Modules;

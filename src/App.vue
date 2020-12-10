@@ -2,7 +2,7 @@
   <div id="app">
     <my-process-designer
       :additional-model="labelEditing"
-      :camunda-penal="true"
+      :bpmn-panel="true"
       @element-click="elementClick"
       @init-finished="initModeler"
       @change="ProcessChanged"
@@ -37,7 +37,7 @@ export default {
     },
     ProcessChanged(xml) {
       this.xmlString = xml;
-      // console.log(xml);
+      console.log(xml);
     }
   }
 };
