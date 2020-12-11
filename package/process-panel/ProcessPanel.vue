@@ -180,16 +180,20 @@ export default {
     },
     // 更新连线类型
     updateFlowType(type) {
-      const shape = this.elementRegistry.get(this.elementId);
-      console.log(type, shape, this.elementRegistry.get(shape.businessObject.sourceRef.id));
-      const sourceShape = this.elementRegistry.get(shape.businessObject.sourceRef.id);
+      const line = this.elementRegistry.get(this.elementId);
+      console.log(type, line, this.elementRegistry.get(line.businessObject.sourceRef.id));
+      const sourceShape = this.elementRegistry.get(line.businessObject.sourceRef.id);
       setTimeout(() => {
         if (type === "normal") {
-          this.modeling.updateProperties(sourceShape, { default: "" });
-          this.modeling.updateProperties(shape, { conditionExpression: null });
+          // this.modeling.updateProperties(sourceShape, { default: "" });
+          delete sourceShape.businessObject.default;
+          this.modeling.updateProperties(line, { conditionExpression: null });
         }
         if (type === "default") {
           this.modeling.updateProperties(sourceShape, { default: this.elementId });
+        }
+        if (type === "condition") {
+          this.modeling.updateProperties(line, { conditionExpression: this.moddle.create("bpmn:FormalExpression") });
         }
       });
     },

@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <my-process-designer
-      :additional-model="labelEditing"
-      :bpmn-panel="true"
-      @element-click="elementClick"
-      @init-finished="initModeler"
-      @change="ProcessChanged"
-    />
+    <my-process-designer :additional-model="labelEditing" @element-click="elementClick" @init-finished="initModeler" />
     <process-panel :bpmn-modeler="modeler" class="process-panel" />
   </div>
 </template>
