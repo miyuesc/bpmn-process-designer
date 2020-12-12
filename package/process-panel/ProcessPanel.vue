@@ -43,18 +43,7 @@
             </div>
           </template>
           <!--连接线的基础配置-->
-          <template v-if="flowTypeViewable">
-            <div class="element-property input-property">
-              <div class="element-property__label">条件类型</div>
-              <div class="element-property__value">
-                <el-select v-model="conditionType" size="small" @change="updateFlowType">
-                  <el-option label="普通流转路径" value="normal" />
-                  <el-option label="默认流转路径" value="default" />
-                  <el-option label="条件流转路径" value="condition" />
-                </el-select>
-              </div>
-            </div>
-          </template>
+          <condition-config v-if="flowTypeViewable" v-bind="$props" :conditions="condition" :element-id="elementId" />
         </div>
       </el-collapse-item>
       <el-collapse-item name="listeners">
@@ -89,10 +78,12 @@
 </template>
 <script>
 import { debounce } from "@/utils";
+import ConditionConfig from "./condition-config/ConditionConfig";
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 export default {
   name: "ProcessPanel",
+  components: { ConditionConfig },
   componentName: "ProcessPanel",
   props: {
     bpmnModeler: Object,
@@ -104,6 +95,7 @@ export default {
   data() {
     return {
       activeElement: {},
+      condition: {},
       activeTab: "base",
       element: {},
       documentation: "",
@@ -157,19 +149,34 @@ export default {
       });
 
       // 监听选择事件，修改当前激活的元素
-      this.bpmnModeler.on("element.changed", ({ element }) => {
-        if (!element) return;
-        if (this.elementType === "bpmn:SequenceFlow") return;
-        debounce(this.initFormOnChanged(element.id), 100);
-      });
+      // this.bpmnModeler.on("element.changed", ({ element }) => {
+      //   if (!element) return;
+      //   if (this.elementType === "bpmn:SequenceFlow") return;
+      //   debounce(this.initFormOnChanged(element.id), 100);
+      // });
     },
     // 元素更新时更新表单
     initFormOnChanged(elementId) {
-      const shape = this.elementRegistry.get(elementId);
-      const shapeDoc = shape.businessObject.documentation;
-      this.activeElement = Object.assign({}, shape);
-      this.element = Object.assign({}, shape.businessObject);
+      const element = this.elementRegistry.get(elementId);
+      const shapeDoc = element.businessObject.documentation;
+      this.activeElement = Object.assign({}, element);
+      this.element = Object.assign({}, element.businessObject);
+      // 设置文档属性
       this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0].text : "";
+      // 设置条件属性
+      if (element.type.indexOf("SequenceFlow") !== -1) {
+        if (element.businessObject.conditionExpression) {
+          this.condition = { ...element.businessObject.conditionExpression };
+          this.$set(this.condition, "type", "condition");
+          return;
+        }
+        const sourceShape = this.elementRegistry.get(element.businessObject.sourceRef.id);
+        if (sourceShape.businessObject.default && sourceShape.businessObject.default.id === elementId) {
+          this.$set(this.condition, "type", "default");
+          return;
+        }
+        this.$set(this.condition, "type", "normal");
+      }
     },
     // 更新常规信息
     updateBaseInfo(key, value) {
@@ -177,25 +184,6 @@ export default {
       let attrObj = {};
       attrObj[key] = value;
       this.modeling.updateProperties(shape, attrObj);
-    },
-    // 更新连线类型
-    updateFlowType(type) {
-      const line = this.elementRegistry.get(this.elementId);
-      console.log(type, line, this.elementRegistry.get(line.businessObject.sourceRef.id));
-      const sourceShape = this.elementRegistry.get(line.businessObject.sourceRef.id);
-      setTimeout(() => {
-        if (type === "normal") {
-          // this.modeling.updateProperties(sourceShape, { default: "" });
-          delete sourceShape.businessObject.default;
-          this.modeling.updateProperties(line, { conditionExpression: null });
-        }
-        if (type === "default") {
-          this.modeling.updateProperties(sourceShape, { default: this.elementId });
-        }
-        if (type === "condition") {
-          this.modeling.updateProperties(line, { conditionExpression: this.moddle.create("bpmn:FormalExpression") });
-        }
-      });
     },
     // 更新元素文档
     updateDocumentation() {

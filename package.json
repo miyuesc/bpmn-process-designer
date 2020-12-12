@@ -22,7 +22,8 @@
   "dependencies": {
     "core-js": "^3.8.1",
     "min-dash": "^3.5.2",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vue-router": "^3.4.9"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
