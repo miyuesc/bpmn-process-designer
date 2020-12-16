@@ -25,6 +25,9 @@
   .element-property__value {
     flex: 1;
     line-height: 32px;
+    .el-select {
+      width: 100%;
+    }
   }
 }
 

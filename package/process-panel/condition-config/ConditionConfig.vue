@@ -1,13 +1,59 @@
 <template>
-  <div class="element-property input-property">
-    <div class="element-property__label">流转类型</div>
-    <div class="element-property__value">
-      <el-select v-model="condition.type" size="small" @change="updateFlowType">
-        <el-option label="普通流转路径" value="normal" />
-        <el-option label="默认流转路径" value="default" />
-        <el-option label="条件流转路径" value="condition" />
-      </el-select>
+  <div>
+    <div class="element-property input-property">
+      <div class="element-property__label">流转类型</div>
+      <div class="element-property__value">
+        <el-select v-model="condition.type" size="small" @change="updateFlowType">
+          <el-option label="普通流转路径" value="normal" />
+          <el-option label="默认流转路径" value="default" />
+          <el-option label="条件流转路径" value="condition" />
+        </el-select>
+      </div>
     </div>
+    <div class="element-property input-property" v-if="condition.type === 'condition'">
+      <div class="element-property__label">条件格式</div>
+      <div class="element-property__value">
+        <el-select v-model="condition.conditionType" size="small" @change="changeFlowConditionType">
+          <el-option label="表达式" value="expression" />
+          <el-option label="脚本" value="script" />
+        </el-select>
+      </div>
+    </div>
+    <div class="element-property input-property" v-if="condition.conditionType === 'expression'">
+      <div class="element-property__label">表达式</div>
+      <div class="element-property__value">
+        <el-input v-model="condition.body" size="small" clearable @change="updateFlowCondition" />
+      </div>
+    </div>
+    <template v-if="condition.conditionType === 'script'">
+      <div class="element-property input-property">
+        <div class="element-property__label">脚本格式</div>
+        <div class="element-property__value">
+          <el-input v-model="condition.language" size="small" clearable @change="updateFlowCondition" />
+        </div>
+      </div>
+      <div class="element-property input-property">
+        <div class="element-property__label">脚本类型</div>
+        <div class="element-property__value">
+          <el-select v-model="condition.scriptType" size="small" @change="updateFlowCondition">
+            <el-option label="内联脚本" value="inlineScript" />
+            <el-option label="外部脚本" value="externalScript" />
+          </el-select>
+        </div>
+      </div>
+      <div class="element-property input-property" v-if="condition.scriptType === 'inlineScript'">
+        <div class="element-property__label">脚本</div>
+        <div class="element-property__value">
+          <el-input v-model="condition.body" size="small" clearable @change="updateFlowCondition" />
+        </div>
+      </div>
+      <div class="element-property input-property" v-if="condition.scriptType === 'externalScript'">
+        <div class="element-property__label">资源地址</div>
+        <div class="element-property__value">
+          <el-input v-model="condition.resource" size="small" clearable @change="updateFlowCondition" />
+        </div>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -29,8 +75,6 @@ export default {
       deep: true,
       immediate: true,
       handler: function() {
-        console.log("this.conditions", this.conditions);
-        console.log("this.condition", this.condition);
         if (this.conditions && Object.keys(this.conditions).length) {
           this.condition = this.conditions;
         }
@@ -51,9 +95,9 @@ export default {
       setTimeout(() => {
         if (type === "normal") {
           // delete sourceShape.businessObject.default;
-          if (sourceShape.default && sourceShape.default.id === line.id) {
+          if (sourceShape.businessObject.default && sourceShape.businessObject.default.id === line.id) {
             this.modeling.updateProperties(sourceShape, { default: null });
-            delete sourceShape.businessObject.default;
+            // delete sourceShape.businessObject.default;
           }
           this.modeling.updateProperties(line, { conditionExpression: null });
         }
@@ -64,6 +108,33 @@ export default {
           this.modeling.updateProperties(line, { conditionExpression: this.moddle.create("bpmn:FormalExpression") });
         }
       });
+    },
+    changeFlowConditionType(type) {
+      this.$set(this.condition, "body", "");
+      if (type === "expression") {
+        this.$set(this.condition, "language", undefined);
+        this.$set(this.condition, "resource", undefined);
+      }
+      const line = this.elementRegistry.get(this.elementId);
+      this.modeling.updateProperties(line, {
+        conditionExpression: this.moddle.create("bpmn:FormalExpression", { body: "" })
+      });
+    },
+    updateFlowCondition() {
+      let { conditionType, scriptType, body, resource, language } = this.condition;
+      let condition;
+      const line = this.elementRegistry.get(this.elementId);
+      if (conditionType === "expression") {
+        condition = this.moddle.create("bpmn:FormalExpression", { body });
+      } else {
+        if (scriptType === "inlineScript") {
+          this.$set(this.condition, "resource", undefined);
+        } else {
+          this.$set(this.condition, "body", undefined);
+        }
+        condition = this.moddle.create("bpmn:FormalExpression", { body, resource, language });
+      }
+      this.modeling.updateProperties(line, { conditionExpression: condition });
     }
   }
 };
