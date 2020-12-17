@@ -18,6 +18,9 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css";
 
 import "bpmn-js-properties-panel/dist/assets/bpmn-js-properties-panel.css"; // 右边工具栏样式
 
+import clickoutside from "element-ui/src/utils/clickoutside";
+Vue.directive("clickoutside", clickoutside);
+
 new Vue({
   router: new VueRouter({
     mode: "history"

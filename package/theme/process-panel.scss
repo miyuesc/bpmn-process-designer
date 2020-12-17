@@ -25,9 +25,6 @@
   .element-property__value {
     flex: 1;
     line-height: 32px;
-    .el-select {
-      width: 100%;
-    }
     .element-listener-item {
       width: 100%;
       display: inline-grid;
@@ -42,6 +39,12 @@
       }
     }
   }
+}
+.el-select {
+  width: 100%;
+}
+.el-form-item {
+  width: 100%;
 }
 
 .el-collapse-item__content {
