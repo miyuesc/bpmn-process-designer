@@ -28,6 +28,19 @@
     .el-select {
       width: 100%;
     }
+    .element-listener-item {
+      width: 100%;
+      display: inline-grid;
+      grid-template-columns: 16px auto 32px;
+      grid-column-gap: 8px;
+    }
+    .element-listener-add__button {
+      width: 100%;
+      margin-top: 16px;
+      >.el-button {
+        width: 100%;
+      }
+    }
   }
 }
 

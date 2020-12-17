@@ -48,7 +48,7 @@
       </el-collapse-item>
       <el-collapse-item name="listeners">
         <div slot="title" class="panel-tab__title">监听器</div>
-        <div class="panel-tab__content"></div>
+        <element-listener />
       </el-collapse-item>
       <el-collapse-item name="extensions">
         <div slot="title" class="panel-tab__title">扩展属性</div>
@@ -79,11 +79,12 @@
 <script>
 import { debounce } from "@/utils";
 import ConditionConfig from "./condition-config/ConditionConfig";
+import ElementListener from "./extensional/listeners/ElementListener";
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 export default {
   name: "ProcessPanel",
-  components: { ConditionConfig },
+  components: { ElementListener, ConditionConfig },
   componentName: "ProcessPanel",
   props: {
     bpmnModeler: Object,

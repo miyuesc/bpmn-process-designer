@@ -76,12 +76,7 @@ export default {
       immediate: true,
       handler: function() {
         if (this.conditions && Object.keys(this.conditions).length) {
-          this.condition = {
-            ...this.conditions,
-            conditionType: this.conditions.language ? "script" : "expression",
-            scriptType: this.conditions.resource ? "externalScript" : "inlineScript",
-            resource: this.conditions.resource
-          };
+          this.initConditionForm(this.conditions);
         }
       }
     }
@@ -93,6 +88,16 @@ export default {
     this.elementRegistry = this.bpmnModeler.get("elementRegistry");
   },
   methods: {
+    initConditionForm(conditions) {
+      let conditionType = conditions.language ? "script" : "expression";
+      let scriptType = conditions.resource ? "externalScript" : "inlineScript";
+      this.condition = {
+        ...conditions,
+        conditionType: conditions.type === "condition" ? conditionType : undefined,
+        scriptType: conditions.type === "condition" ? scriptType : undefined,
+        resource: conditions.resource
+      };
+    },
     // 更新连线类型
     updateFlowType(type) {
       const line = this.elementRegistry.get(this.elementId);
@@ -105,13 +110,16 @@ export default {
             // delete sourceShape.businessObject.default;
           }
           this.modeling.updateProperties(line, { conditionExpression: null });
+          delete line.businessObject.conditionExpression;
         }
         if (type === "default") {
           this.modeling.updateProperties(sourceShape, { default: line });
+          delete line.businessObject.conditionExpression;
         }
         if (type === "condition") {
           this.modeling.updateProperties(line, { conditionExpression: this.moddle.create("bpmn:FormalExpression") });
         }
+        this.initConditionForm({ type: type });
       });
     },
     changeFlowConditionType(type) {
