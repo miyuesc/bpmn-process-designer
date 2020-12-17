@@ -44,7 +44,7 @@
       <div class="element-property input-property" v-if="condition.scriptType === 'inlineScript'">
         <div class="element-property__label">脚本</div>
         <div class="element-property__value">
-          <el-input v-model="condition.body" size="small" clearable @change="updateFlowCondition" />
+          <el-input v-model="condition.body" size="small" type="textarea" clearable @change="updateFlowCondition" />
         </div>
       </div>
       <div class="element-property input-property" v-if="condition.scriptType === 'externalScript'">
@@ -76,7 +76,12 @@ export default {
       immediate: true,
       handler: function() {
         if (this.conditions && Object.keys(this.conditions).length) {
-          this.condition = this.conditions;
+          this.condition = {
+            ...this.conditions,
+            conditionType: this.conditions.language ? "script" : "expression",
+            scriptType: this.conditions.resource ? "externalScript" : "inlineScript",
+            resource: this.conditions.resource
+          };
         }
       }
     }
