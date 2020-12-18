@@ -31,20 +31,20 @@
       grid-template-columns: 16px auto 32px;
       grid-column-gap: 8px;
     }
-    .element-listener-add__button {
-      width: 100%;
-      margin-top: 16px;
-      >.el-button {
-        width: 100%;
-      }
-    }
+  }
+  .el-form-item {
+    width: 100%;
+    margin-bottom: 0;
+    padding-bottom: 18px;
   }
 }
 .el-select {
   width: 100%;
 }
-.el-form-item {
+.element-listener-add__button {
   width: 100%;
+  display: inline-flex;
+  justify-content: space-around;
 }
 
 .el-collapse-item__content {

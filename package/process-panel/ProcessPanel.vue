@@ -48,7 +48,7 @@
       </el-collapse-item>
       <el-collapse-item name="listeners">
         <div slot="title" class="panel-tab__title">监听器</div>
-        <element-listener />
+        <element-listener v-bind="$props" :element-id="elementId" />
       </el-collapse-item>
       <el-collapse-item name="extensions">
         <div slot="title" class="panel-tab__title">扩展属性</div>
@@ -128,9 +128,10 @@ export default {
   methods: {
     getActiveElement() {
       if (!this.bpmnModeler) {
-        setTimeout(() => this.getActiveElement(), 10);
+        this.timer = setTimeout(() => this.getActiveElement(), 10);
         return;
       }
+      if (this.timer) clearTimeout(this.timer);
       this.modeling = this.bpmnModeler.get("modeling");
       this.moddle = this.bpmnModeler.get("moddle");
       this.eventBus = this.bpmnModeler.get("eventBus");

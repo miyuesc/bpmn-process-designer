@@ -8,15 +8,11 @@
           <el-input :value="listener.class" size="small" readonly />
           <el-button icon="el-icon-close" size="small" circle />
         </div>
-        <div class="element-listener-add__button">
-          <el-button size="small" type="primary" icon="el-icon-plus" @click="addListener">添加监听器</el-button>
-        </div>
       </div>
     </div>
     <el-collapse-transition>
       <div v-if="showListenerForm">
-        <el-divider>执行监听器</el-divider>
-        <el-form size="small" :model="listenerForm" label-width="100px">
+        <el-form size="small" :model="listenerForm" label-width="96px" style="padding-top: 8px; border-top: 1px solid #eeeeee">
           <el-form-item label="事件类型">
             <el-select v-model="listenerForm.event">
               <el-option label="start" value="start" />
@@ -44,7 +40,7 @@
         <el-form
           :model="listenerScriptForm"
           size="small"
-          label-width="100px"
+          label-width="96px"
           v-show="listenerForm.listenerType === 'scriptListener'"
         >
           <el-form-item label="脚本格式">
@@ -63,7 +59,15 @@
             <el-input v-model="listenerScriptForm.resource" clearable />
           </el-form-item>
         </el-form>
-        <el-divider>字段注入</el-divider>
+        <div class="element-listener-add__button">
+          <el-button size="small" @click="handleCancel">取消</el-button>
+          <el-button size="small" type="primary" @click="addListener">添加</el-button>
+        </div>
+      </div>
+    </el-collapse-transition>
+    <el-collapse-transition>
+      <div class="element-listener-add__button" v-show="!showListenerForm">
+        <el-button size="small" type="primary" icon="el-icon-plus" @click="openAddListenerForm">添加监听器</el-button>
       </div>
     </el-collapse-transition>
   </div>
@@ -90,15 +94,49 @@ export default {
   },
   watch: {},
   mounted() {
-    if (!this.bpmnModeler) return;
-    this.modeling = this.bpmnModeler.get("modeling");
-    this.moddle = this.bpmnModeler.get("moddle");
-    this.elementRegistry = this.bpmnModeler.get("elementRegistry");
+    this.initModel();
   },
   methods: {
-    addListener() {
+    initModel() {
+      if (!this.bpmnModeler) {
+        this.timer = setTimeout(() => this.initModel(), 10);
+        return;
+      }
+      if (this.timer) clearTimeout(this.timer);
+      if (!this.bpmnModeler) return;
+      this.modeling = this.bpmnModeler.get("modeling");
+      this.moddle = this.bpmnModeler.get("moddle");
+      this.elementRegistry = this.bpmnModeler.get("elementRegistry");
+    },
+    openAddListenerForm() {
       this.showListenerForm = true;
       // this.newListener = this.moddle.create("camunda:ExecutionListener", {});
+    },
+    handleCancel() {
+      this.showListenerForm = false;
+      this.listenerForm = {};
+      this.listenerScriptForm = {};
+    },
+    addListener() {
+      const element = this.elementRegistry.get(this.elementId);
+      const newListener = this.moddle.create("camunda:ExecutionListener", {
+        ...this.listenerForm
+      });
+      if (
+        !element.businessObject.extensionElements ||
+        !element.businessObject.extensionElements.values ||
+        !element.businessObject.extensionElements.values.length
+      ) {
+        const extension = this.moddle.create("bpmn:ExtensionElements", {
+          values: [newListener]
+        });
+        this.modeling.updateProperties(element, { extensionElements: extension });
+      } else {
+        element.businessObject.extensionElements.values.push(newListener);
+      }
+    },
+    clickoutsideEvent() {
+      this.showListenerForm = false;
     }
   }
 };
