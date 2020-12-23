@@ -39,7 +39,7 @@ export default {
 
 <style lang="scss">
 body {
-  overflow-y: scroll;
+  overflow: hidden;
   margin: 0;
   padding: 8px;
   box-sizing: border-box;

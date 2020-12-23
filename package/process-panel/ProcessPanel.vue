@@ -48,7 +48,7 @@
       </el-collapse-item>
       <el-collapse-item name="listeners">
         <div slot="title" class="panel-tab__title">监听器</div>
-        <element-listener v-bind="$props" :element-id="elementId" />
+        <element-listener v-bind="$props" :element-id="elementId" :listeners="elementListeners" />
       </el-collapse-item>
       <el-collapse-item name="extensions">
         <div slot="title" class="panel-tab__title">扩展属性</div>
@@ -100,7 +100,8 @@ export default {
       activeTab: "base",
       element: {},
       documentation: "",
-      conditionType: ""
+      conditionType: "",
+      elementListeners: null
     };
   },
   computed: {
@@ -122,7 +123,7 @@ export default {
       console.log(type);
     },
     elementId() {
-      this.activeTab = "base";
+      // this.activeTab = "base";
     }
   },
   methods: {
@@ -165,6 +166,8 @@ export default {
       this.element = Object.assign({}, element.businessObject);
       // 设置文档属性
       this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0].text : "";
+      // 设置扩展监听
+      this.elementListeners = element.businessObject.extensionElements;
       // 设置条件属性
       if (element.type.indexOf("SequenceFlow") !== -1) {
         if (element.businessObject.conditionExpression) {

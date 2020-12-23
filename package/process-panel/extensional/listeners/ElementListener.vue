@@ -1,75 +1,95 @@
 <template>
   <div class="panel-tab__content">
-    <div class="element-property input-property">
-      <div class="element-property__label">监听列表</div>
-      <div class="element-property__value">
-        <div class="element-listener-item" v-for="(listener, index) in listenersSelf" :key="index">
-          <span>{{ index + 1 }}.</span>
-          <el-input :value="listener.class" size="small" readonly />
-          <el-button icon="el-icon-close" size="small" circle />
-        </div>
+    <div class="element-property list-property">
+      <div class="element-listener-item" v-for="(listener, index) in listenersSelf" :key="index">
+        <span>{{ index + 1 }}.</span>
+        <el-input :value="`${listener.event}: ${listenerTypeObject[listener.listenerType]}`" size="small" readonly />
+        <el-button icon="el-icon-close" size="small" circle />
       </div>
+      <!--      <div class="element-property__label">监听列表</div>-->
+      <!--      <div class="element-property__value">-->
+      <!--      </div>-->
     </div>
-    <el-collapse-transition>
-      <div v-if="showListenerForm">
-        <el-form size="small" :model="listenerForm" label-width="96px" style="padding-top: 8px; border-top: 1px solid #eeeeee">
-          <el-form-item label="事件类型">
-            <el-select v-model="listenerForm.event">
-              <el-option label="start" value="start" />
-              <el-option label="end" value="end" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="监听器类型">
-            <el-select v-model="listenerForm.listenerType">
-              <el-option label="Java类" value="classListener" />
-              <el-option label="表达式" value="expressionListener" />
-              <el-option label="代理表达式" value="delegateExpressionListener" />
-              <el-option label="脚本" value="scriptListener" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="Java类" v-show="listenerForm.listenerType === 'classListener'">
-            <el-input v-model="listenerForm.class" clearable />
-          </el-form-item>
-          <el-form-item label="表达式" v-show="listenerForm.listenerType === 'expressionListener'">
-            <el-input v-model="listenerForm.expression" clearable />
-          </el-form-item>
-          <el-form-item label="代理表达式" v-show="listenerForm.listenerType === 'delegateExpressionListener'">
-            <el-input v-model="listenerForm.delegateExpression" clearable />
-          </el-form-item>
-        </el-form>
-        <el-form
-          :model="listenerScriptForm"
-          size="small"
-          label-width="96px"
-          v-show="listenerForm.listenerType === 'scriptListener'"
+    <el-drawer :visible.sync="showListenerForm" size="400px" append-to-body>
+      <el-form size="small" :model="listenerForm" label-width="96px" ref="listenerFormRef">
+        <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
+          <el-select v-model="listenerForm.event">
+            <el-option label="start" value="start" />
+            <el-option label="end" value="end" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="监听器类型" prop="listenerType" :rules="{ required: true, trigger: ['blur', 'change'] }">
+          <el-select v-model="listenerForm.listenerType">
+            <el-option v-for="i in Object.keys(listenerTypeObject)" :key="i" :label="listenerTypeObject[i]" :value="i" />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="Java类"
+          prop="class"
+          :rules="{ required: true, trigger: ['blur', 'change'] }"
+          v-if="listenerForm.listenerType === 'classListener'"
         >
-          <el-form-item label="脚本格式">
-            <el-input v-model="listenerScriptForm.scriptFormat" clearable />
-          </el-form-item>
-          <el-form-item label="脚本类型">
-            <el-select v-model="listenerScriptForm.scriptType">
-              <el-option label="内联脚本" value="inlineScript" />
-              <el-option label="外部脚本" value="externalScript" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="脚本" v-show="listenerScriptForm.scriptType === 'inlineScript'">
-            <el-input v-model="listenerScriptForm.value" clearable />
-          </el-form-item>
-          <el-form-item label="资源地址" v-show="listenerScriptForm.scriptType === 'externalScript'">
-            <el-input v-model="listenerScriptForm.resource" clearable />
-          </el-form-item>
-        </el-form>
-        <div class="element-listener-add__button">
-          <el-button size="small" @click="handleCancel">取消</el-button>
-          <el-button size="small" type="primary" @click="addListener">添加</el-button>
-        </div>
+          <el-input v-model="listenerForm.class" clearable />
+        </el-form-item>
+        <el-form-item
+          label="表达式"
+          prop="expression"
+          :rules="{ required: true, trigger: ['blur', 'change'] }"
+          v-if="listenerForm.listenerType === 'expressionListener'"
+        >
+          <el-input v-model="listenerForm.expression" clearable />
+        </el-form-item>
+        <el-form-item
+          label="代理表达式"
+          prop="delegateExpression"
+          :rules="{ required: true, trigger: ['blur', 'change'] }"
+          v-if="listenerForm.listenerType === 'delegateExpressionListener'"
+        >
+          <el-input v-model="listenerForm.delegateExpression" clearable />
+        </el-form-item>
+      </el-form>
+      <el-form
+        :model="listenerScriptForm"
+        size="small"
+        label-width="96px"
+        v-if="listenerForm.listenerType === 'scriptListener'"
+        ref="listenerScriptFormRef"
+      >
+        <el-form-item label="脚本格式" prop="scriptFormat" :rules="{ required: true, trigger: ['blur', 'change'] }">
+          <el-input v-model="listenerScriptForm.scriptFormat" clearable />
+        </el-form-item>
+        <el-form-item label="脚本类型" prop="scriptType" :rules="{ required: true, trigger: ['blur', 'change'] }">
+          <el-select v-model="listenerScriptForm.scriptType">
+            <el-option label="内联脚本" value="inlineScript" />
+            <el-option label="外部脚本" value="externalScript" />
+          </el-select>
+        </el-form-item>
+        <el-form-item
+          label="脚本"
+          prop="value"
+          v-if="listenerScriptForm.scriptType === 'inlineScript'"
+          :rules="{ required: true, trigger: ['blur', 'change'] }"
+        >
+          <el-input v-model="listenerScriptForm.value" clearable />
+        </el-form-item>
+        <el-form-item
+          label="资源地址"
+          prop="resource"
+          v-if="listenerScriptForm.scriptType === 'externalScript'"
+          :rules="{ required: true, trigger: ['blur', 'change'] }"
+        >
+          <el-input v-model="listenerScriptForm.resource" clearable />
+        </el-form-item>
+      </el-form>
+      <div class="listener-form-slider" style="flex: 1"></div>
+      <div class="element-listener-add__button">
+        <el-button size="small" @click="handleCancel">取消</el-button>
+        <el-button size="small" type="primary" @click="addListener">添加</el-button>
       </div>
-    </el-collapse-transition>
-    <el-collapse-transition>
-      <div class="element-listener-add__button" v-show="!showListenerForm">
-        <el-button size="small" type="primary" icon="el-icon-plus" @click="openAddListenerForm">添加监听器</el-button>
-      </div>
-    </el-collapse-transition>
+    </el-drawer>
+    <div class="element-listener-add__button">
+      <el-button size="small" type="primary" icon="el-icon-plus" @click="openAddListenerForm">添加监听器</el-button>
+    </div>
   </div>
 </template>
 
@@ -78,21 +98,48 @@ export default {
   name: "ElementListener",
   props: {
     listeners: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     },
     bpmnModeler: Object,
     elementId: String
   },
   data() {
     return {
-      listenersSelf: [{ class: "test" }],
+      listenersSelf: [],
       listenerForm: {},
       listenerScriptForm: {},
-      showListenerForm: false
+      showListenerForm: false,
+      listenerTypeObject: {
+        classListener: "Java 类",
+        expressionListener: "表达式",
+        delegateExpressionListener: "代理表达式",
+        scriptListener: "脚本"
+      }
     };
   },
-  watch: {},
+  watch: {
+    listeners: {
+      deep: true,
+      handler: function(newVal) {
+        if (newVal && newVal.values && newVal.values.length) {
+          this.listenersSelf = newVal.values.map(li => {
+            let listenerType;
+            if (li.class) listenerType = "classListener";
+            if (li.expression) listenerType = "expressionListener";
+            if (li.delegateExpression) listenerType = "delegateExpressionListener";
+            if (li.script) listenerType = "scriptListener";
+            return {
+              ...li,
+              listenerType: listenerType
+            };
+          });
+        } else {
+          this.listenersSelf = [];
+        }
+      }
+    }
+  },
   mounted() {
     this.initModel();
   },
@@ -117,23 +164,43 @@ export default {
       this.listenerForm = {};
       this.listenerScriptForm = {};
     },
-    addListener() {
+    async addListener() {
+      let validateStatus1 = await this.$refs["listenerFormRef"].validate();
+      if (!validateStatus1) return;
+      if (this.listenerForm.listenerType === "scriptListener") {
+        let validateStatus2 = await this.$refs["listenerScriptFormRef"].validate();
+        if (!validateStatus2) return;
+      }
       const element = this.elementRegistry.get(this.elementId);
+      let scriptModdle;
+      if (this.listenerForm.listenerType === "scriptListener") {
+        scriptModdle = this.moddle.create("camunda:Script", { ...this.listenerScriptForm });
+      }
       const newListener = this.moddle.create("camunda:ExecutionListener", {
-        ...this.listenerForm
+        ...this.listenerForm,
+        script: scriptModdle
       });
-      if (
-        !element.businessObject.extensionElements ||
-        !element.businessObject.extensionElements.values ||
-        !element.businessObject.extensionElements.values.length
-      ) {
+      // 当前元素已有的扩展监听器
+      const elExtensions = element.businessObject.extensionElements;
+      // 不存在则新建
+      if (!elExtensions || !elExtensions.values || !elExtensions.values.length) {
         const extension = this.moddle.create("bpmn:ExtensionElements", {
           values: [newListener]
         });
         this.modeling.updateProperties(element, { extensionElements: extension });
       } else {
-        element.businessObject.extensionElements.values.push(newListener);
+        // 存在则在末尾添加
+        elExtensions.values.push(newListener);
+        this.modeling.updateProperties(element, { extensionElements: elExtensions });
       }
+
+      if (this.listenerForm.listenerType === "scriptListener") {
+        this.listenersSelf.push(JSON.parse(JSON.stringify({ ...this.listenerForm, script: this.listenerScriptForm })));
+      } else {
+        this.listenersSelf.push(JSON.parse(JSON.stringify(this.listenerForm)));
+      }
+      this.showListenerForm = false;
+      this.listenerForm = {};
     },
     clickoutsideEvent() {
       this.showListenerForm = false;
@@ -141,5 +208,3 @@ export default {
   }
 };
 </script>
-
-<style scoped></style>
