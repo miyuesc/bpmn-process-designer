@@ -37,7 +37,7 @@
   .element-listener-item {
     width: 100%;
     display: inline-grid;
-    grid-template-columns: 16px auto 32px;
+    grid-template-columns: 16px auto 32px 32px;
     grid-column-gap: 8px;
   }
   .element-listener-item + .element-listener-item {
@@ -61,18 +61,4 @@
 }
 .el-input.is-disabled .el-input__inner {
   color: #999999;
-}
-.el-drawer__header {
-  padding: 8px;
-  margin: 0;
-}
-div[class^="el-drawer"]:focus {
-  outline: none;
-}
-.el-drawer__body {
-  box-sizing: border-box;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }

@@ -1,16 +1,25 @@
 <template>
   <div class="panel-tab__content">
     <div class="element-property list-property">
-      <div class="element-listener-item" v-for="(listener, index) in listenersSelf" :key="index">
-        <span>{{ index + 1 }}.</span>
-        <el-input :value="`${listener.event}: ${listenerTypeObject[listener.listenerType]}`" size="small" readonly />
-        <el-button icon="el-icon-close" size="small" circle />
-      </div>
-      <!--      <div class="element-property__label">监听列表</div>-->
-      <!--      <div class="element-property__value">-->
-      <!--      </div>-->
+      <el-table :data="listenersSelf" size="mini" border fit>
+        <el-table-column label="序号" width="48px" type="index" />
+        <el-table-column label="事件类型" min-width="100px" prop="event" />
+        <el-table-column
+          label="监听器类型"
+          min-width="100px"
+          show-overflow-tooltip
+          :formatter="row => listenerTypeObject[row.listenerType]"
+        />
+        <el-table-column label="操作" width="100px">
+          <template slot-scope="scope">
+            <el-button size="mini" type="text" @click="$alert(scope.row.event)">编辑</el-button>
+            <el-divider direction="vertical" />
+            <el-button size="mini" type="text" @click="$alert(scope.row.event)">移除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-    <el-drawer :visible.sync="showListenerForm" size="400px" append-to-body>
+    <el-drawer :visible.sync="showListenerForm" size="480px" append-to-body>
       <el-form size="small" :model="listenerForm" label-width="96px" ref="listenerFormRef">
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
@@ -99,7 +108,7 @@ export default {
   props: {
     listeners: {
       type: Object,
-      default: () => {}
+      default: () => []
     },
     bpmnModeler: Object,
     elementId: String
@@ -122,8 +131,8 @@ export default {
     listeners: {
       deep: true,
       handler: function(newVal) {
-        if (newVal && newVal.values && newVal.values.length) {
-          this.listenersSelf = newVal.values.map(li => {
+        if (newVal.length) {
+          this.listenersSelf = newVal.map(li => {
             let listenerType;
             if (li.class) listenerType = "classListener";
             if (li.expression) listenerType = "expressionListener";

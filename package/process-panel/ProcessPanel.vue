@@ -1,5 +1,5 @@
 <template>
-  <div class="process-panel__container">
+  <div class="process-panel__container" :style="panelStyle">
     <el-collapse v-model="activeTab" accordion>
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title">常规</div>
@@ -88,6 +88,10 @@ export default {
   componentName: "ProcessPanel",
   props: {
     bpmnModeler: Object,
+    width: {
+      type: Number,
+      default: 480
+    },
     idEditDisabled: {
       type: Boolean,
       default: true
@@ -101,10 +105,13 @@ export default {
       element: {},
       documentation: "",
       conditionType: "",
-      elementListeners: null
+      elementListeners: []
     };
   },
   computed: {
+    panelStyle() {
+      return { width: `${this.width}px` };
+    },
     elementType() {
       if (this.activeElement) return this.activeElement.type;
       return null;
@@ -167,7 +174,13 @@ export default {
       // 设置文档属性
       this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0].text : "";
       // 设置扩展监听
-      this.elementListeners = element.businessObject.extensionElements;
+      if (element.businessObject?.extensionElements?.values) {
+        this.elementListeners = element.businessObject.extensionElements.values.filter(
+          ex => ex.$type === "camunda:ExecutionListener"
+        );
+      } else {
+        this.elementListeners = [];
+      }
       // 设置条件属性
       if (element.type.indexOf("SequenceFlow") !== -1) {
         if (element.businessObject.conditionExpression) {

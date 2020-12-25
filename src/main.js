@@ -6,7 +6,7 @@ Vue.use(VueRouter);
 // 加载基础ElementUI
 import ElementUI from "element-ui";
 Vue.use(ElementUI);
-import "element-ui/lib/theme-chalk/index.css";
+import "../package/theme/element-variables.scss";
 
 import MyPD from "../package/index.js";
 Vue.use(MyPD);
