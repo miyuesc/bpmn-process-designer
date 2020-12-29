@@ -1,7 +1,7 @@
 <template>
   <div class="panel-tab__content">
     <div class="element-property list-property">
-      <el-table :data="listenersSelf" size="mini" border fit>
+      <el-table :data="ownerListenersList" size="mini" border fit>
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="事件类型" min-width="100px" prop="event" />
         <el-table-column
@@ -14,7 +14,7 @@
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openListenerForm(row, $index)">编辑</el-button>
             <el-divider direction="vertical" />
-            <el-button size="mini" type="text" style="color: #ff4d4f" @click="$alert(scope.row.event)">移除</el-button>
+            <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeListener(row, $index)">移除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -128,15 +128,15 @@
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openListenerFieldForm(row, $index)">编辑</el-button>
             <el-divider direction="vertical" />
-            <el-button size="mini" type="text" style="color: #ff4d4f" @click="$alert(scope.row.event)">移除</el-button>
+            <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeListenerField(row, $index)">移除</el-button>
           </template>
         </el-table-column>
       </el-table>
 
       <div class="listener-form-slider" style="flex: 1"></div>
       <div class="element-listener-add__button">
-        <el-button size="small" @click="handleCancel">取消</el-button>
-        <el-button size="small" type="primary" @click="addListener">添加</el-button>
+        <el-button size="small" @click="handleCancel">取 消</el-button>
+        <el-button size="small" type="primary" @click="saveListenerConfig">保 存</el-button>
       </div>
     </el-drawer>
 
@@ -190,7 +190,7 @@ export default {
   },
   data() {
     return {
-      listenersSelf: [],
+      ownerListenersList: [],
       listenerForm: {},
       listenerFieldForm: {},
       fieldsOfListener: [],
@@ -215,7 +215,7 @@ export default {
       deep: true,
       handler: function(newVal) {
         if (newVal.length) {
-          this.listenersSelf = newVal.map(li => {
+          this.ownerListenersList = newVal.map(li => {
             let listenerType;
             if (li.class) listenerType = "classListener";
             if (li.expression) listenerType = "expressionListener";
@@ -227,7 +227,7 @@ export default {
             };
           });
         } else {
-          this.listenersSelf = [];
+          this.ownerListenersList = [];
         }
       }
     }
@@ -239,6 +239,7 @@ export default {
     // console.log(this);
   },
   methods: {
+    // 初始化依赖
     initModel() {
       if (!this.bpmnModeler) {
         this.timer = setTimeout(() => this.initModel(), 10);
@@ -250,6 +251,7 @@ export default {
       this.moddle = this.bpmnModeler.get("moddle");
       this.elementRegistry = this.bpmnModeler.get("elementRegistry");
     },
+    // 打开事件监听器侧边栏
     openListenerForm(listener, index) {
       if (listener) {
         let listenerFormS = JSON.parse(JSON.stringify(listener));
@@ -263,55 +265,79 @@ export default {
           this.$set(this.listenerForm, key, listenerFormS[key]);
         }
         this.listenerIndex = index;
-        this.fieldsOfListener = listener.fields ? [...listener.fields] : [];
       } else {
         this.listenerForm = {};
         this.listenerIndex = -1;
       }
+      this.initListenerFields();
       this.showListenerForm = true;
       this.$nextTick(() => {
         if (this.$refs["listenerFormRef"]) this.$refs["listenerFormRef"].clearValidate();
       });
     },
+    // 取消编辑
     handleCancel() {
       this.showListenerForm = false;
       this.listenerForm = {};
       this.listenerScriptForm = {};
     },
-    async addListener() {
+    // 保存事件监听器配置
+    async saveListenerConfig() {
       let validateStatus = await this.$refs["listenerFormRef"].validate();
-      if (!validateStatus) return;
-      const element = this.elementRegistry.get(this.elementId);
-      let scriptModdle;
-      if (this.listenerForm.listenerType === "scriptListener") {
-        scriptModdle = this.moddle.create("camunda:Script", { ...this.listenerScriptForm });
-      }
-      const newListener = this.moddle.create("camunda:ExecutionListener", {
-        ...this.listenerForm,
-        script: scriptModdle
-      });
-      // 当前元素已有的扩展监听器
-      const elExtensions = element.businessObject.extensionElements;
-      // 不存在则新建
-      if (!elExtensions || !elExtensions.values || !elExtensions.values.length) {
-        const extension = this.moddle.create("bpmn:ExtensionElements", {
-          values: [newListener]
-        });
-        this.modeling.updateProperties(element, { extensionElements: extension });
+      if (!validateStatus) return; // 验证不通过直接返回
+      // 1. 创建事件监听器实例
+      const listenerObj = this.initListenerObject(this.listenerForm);
+      const listenerModel = this.moddle.create("camunda:ExecutionListener", listenerObj);
+      this.$emit("listener-save", listenerModel);
+      // 2. 更新到事件监听器列表
+      if (this.listenerIndex === -1) {
+        this.ownerListenersList.push(listenerModel);
       } else {
-        // 存在则在末尾添加
-        elExtensions.values.push(newListener);
-        this.modeling.updateProperties(element, { extensionElements: elExtensions });
+        this.ownerListenersList.splice(this.listenerIndex, 1, listenerModel);
       }
-
-      if (this.listenerForm.listenerType === "scriptListener") {
-        this.listenersSelf.push(JSON.parse(JSON.stringify({ ...this.listenerForm, script: this.listenerScriptForm })));
-      } else {
-        this.listenersSelf.push(JSON.parse(JSON.stringify(this.listenerForm)));
-      }
+      // 3. 更新事件监听器列表到父组件
+      this.$emit("change", this.ownerListenersList);
+      // 4. 隐藏侧边栏
       this.showListenerForm = false;
       this.listenerForm = {};
     },
+    initListenerObject(options) {
+      const listenerObj = {};
+      listenerObj.event = options.event;
+      switch (options.listenerType) {
+        case "scriptListener":
+          listenerObj.script = this.moddle.create("camunda:Script", { ...this.listenerScriptForm });
+          break;
+        case "expressionListener":
+          listenerObj.expression = options.expression;
+          break;
+        case "delegateExpressionListener":
+          listenerObj.delegateExpression = options.delegateExpression;
+          break;
+        default:
+          listenerObj.class = options.class;
+      }
+      if (options.fields) {
+        listenerObj.fields = options.fields.map(field => {
+          return this.moddle.create("camunda:Field", field);
+        });
+      }
+      return listenerObj;
+    },
+    // 对字段表格进行赋值
+    initListenerFields() {
+      if (this.listenerForm.fields && this.listenerForm.fields.length) {
+        this.fieldsOfListener = this.listenerForm.fields.map(field => {
+          return {
+            ...field,
+            fieldType: field.string ? "string" : "expression"
+          };
+        });
+        return;
+      }
+      this.fieldsOfListener = [];
+    },
+    // 打开事件监听器字段编辑弹窗
     openListenerFieldForm(filed, index) {
       this.listenerFieldForm = filed ? JSON.parse(JSON.stringify(filed)) : {};
       this.listenerFiledIndex = filed ? index : -1;
@@ -320,26 +346,39 @@ export default {
         if (this.$refs["listenerFieldFormRef"]) this.$refs["listenerFieldFormRef"].clearValidate();
       });
     },
+    // 保存监听器字段编辑
     async saveListenerFiled() {
       let validateStatus = await this.$refs["listenerFieldFormRef"].validate();
-      if (validateStatus) {
-        const field = this.moddle.create("camunda:Field", {
-          name: this.listenerFieldForm.name,
-          string: this.listenerFieldForm.string,
-          expression: this.listenerFieldForm.expression
-        });
-        if (this.listenerFiledIndex === -1) {
-          if (this.listenerForm.fields) {
-            this.listenerFieldForm.fields.push(field);
-          } else {
-            this.$set(this.listenerForm, "fields", [field]);
-          }
+      if (!validateStatus) return; // 验证不通过直接返回
+      const filedObj =
+        this.listenerFieldForm.fieldType === "string"
+          ? { name: this.listenerFieldForm.name, string: this.listenerFieldForm.string }
+          : {
+              name: this.listenerFieldForm.name,
+              expression: this.listenerFieldForm.expression
+            };
+      // const field = this.moddle.create("camunda:Field", filedObj);
+      if (this.listenerFiledIndex === -1) {
+        if (this.listenerForm.fields) {
+          this.listenerForm.fields.push(filedObj);
         } else {
-          this.listenerForm.fields.splice(this.listenerFiledIndex, 1, [field]);
+          this.$set(this.listenerForm, "fields", [filedObj]);
         }
-        this.fieldsOfListener = [...this.listenerForm.fields];
-        this.showListenerFieldForm = false;
+      } else {
+        this.listenerForm.fields.splice(this.listenerFiledIndex, 1, filedObj);
       }
+      this.initListenerFields();
+      this.showListenerFieldForm = false;
+    },
+    removeListener(listener, index) {
+      const removedListener = this.ownerListenersList.splice(index, 1);
+      this.$emit("remove-listener", removedListener);
+      this.$emit("change", this.ownerListenersList);
+    },
+    removeListenerField(field, index) {
+      this.listenerForm.fields.splice(index, 1);
+      const removedField = this.fieldsOfListener.splice(index, 1);
+      this.$emit("remove-listener", removedField);
     }
   }
 };

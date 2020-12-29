@@ -48,7 +48,12 @@
       </el-collapse-item>
       <el-collapse-item name="listeners">
         <div slot="title" class="panel-tab__title">监听器</div>
-        <element-listener v-bind="$props" :element-id="elementId" :listeners="elementListeners" />
+        <element-listener
+          v-bind="$props"
+          :element-id="elementId"
+          :listeners="elementListeners"
+          @change="updateElementListener"
+        />
       </el-collapse-item>
       <el-collapse-item name="extensions">
         <div slot="title" class="panel-tab__title">扩展属性</div>
@@ -133,6 +138,12 @@ export default {
       // this.activeTab = "base";
     }
   },
+  mounted() {
+    this.getActiveElement();
+  },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+  },
   methods: {
     getActiveElement() {
       if (!this.bpmnModeler) {
@@ -205,18 +216,30 @@ export default {
     },
     // 更新元素文档
     updateDocumentation() {
-      const shape = this.elementRegistry.get(this.elementId);
+      const element = this.elementRegistry.get(this.elementId);
       const documentation = this.bpmnFactory.create("bpmn:Documentation", { text: this.documentation });
-      this.modeling.updateProperties(shape, {
+      this.modeling.updateProperties(element, {
         documentation: [documentation]
       });
+    },
+    // 更新事件监听器
+    updateElementListener(listeners) {
+      console.log(this);
+      const element = this.elementRegistry.get(this.elementId);
+      let otherExtensions = [];
+      if (element.businessObject.extensionElements && element.businessObject.extensionElements.values)
+        otherExtensions = element.businessObject.extensionElements.values.filter(
+          ex => ex.$type !== "camunda:ExecutionListener"
+        );
+      const extensions = this.moddle.create("bpmn:ExtensionElements", {
+        values: otherExtensions.concat(listeners)
+      });
+      this.modeling.updateProperties(element, {
+        extensionElements: extensions
+      });
+
+      this.initFormOnChanged(this.elementId);
     }
-  },
-  mounted() {
-    this.getActiveElement();
-  },
-  beforeDestroy() {
-    clearTimeout();
   }
 };
 </script>
