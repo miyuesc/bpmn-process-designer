@@ -1,5 +1,6 @@
 /* 改变主题色变量 */
 $--color-primary: #1890ff;
+$--color-danger: #ff4d4f;
 
 /* 改变 icon 字体路径变量，必需 */
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
@@ -11,16 +12,44 @@ $--font-path: '~element-ui/lib/theme-chalk/fonts';
   color: #333;
 }
 .el-drawer__header {
-  padding: 8px;
+  padding: 16px 16px 8px 16px;
   margin: 0;
+  line-height: 24px;
+  font-size: 18px;
+  color: #303133;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e8e8e8;
 }
-div[class^="el-drawer"]:focus {
+div[class^="el-drawer"]:focus,
+span:focus {
   outline: none;
 }
 .el-drawer__body {
   box-sizing: border-box;
-  padding: 8px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   width: 100%;
+}
+.el-dialog__header {
+  padding: 16px 16px 8px 16px;
+  box-sizing: border-box;
+  border-bottom: 1px solid #e8e8e8;
+}
+.el-dialog__body {
+  padding: 16px;
+}
+.el-dialog__footer {
+  padding: 8px 16px 16px 16px;
+  box-sizing: border-box;
+  border-top: 1px solid #e8e8e8;
+}
+.el-dialog__close {
+  font-weight: 600;
+}
+.el-select {
+  width: 100%;
+}
+.el-divider:not(.el-divider--vertical) {
+  margin: 0;
 }

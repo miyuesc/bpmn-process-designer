@@ -44,8 +44,19 @@
     margin-top: 8px;
   }
 }
-.el-select {
+.listener-filed__title {
+  display: inline-flex;
   width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  span {
+    width: 96px;
+    text-align: right;
+    font-size: 14px;
+  }
+  i {
+    margin-right: 8px;
+  }
 }
 .element-listener-add__button {
   width: 100%;
