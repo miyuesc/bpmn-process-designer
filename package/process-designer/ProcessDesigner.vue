@@ -1,5 +1,5 @@
 <template>
-  <div class="my-process-designer__main-container">
+  <div class="my-process-designer">
     <div class="my-process-designer__header">
       <slot name="control-header"></slot>
       <el-button-group v-if="!$slots['control-header']">
@@ -41,7 +41,7 @@
     </div>
     <div class="my-process-designer__container">
       <div class="my-process-designer__canvas" ref="bpmn-canvas"></div>
-      <div v-if="camundaPenal" class="my-process-designer__property-panel" id="property-panel" :style="panelStyle"></div>
+      <div v-if="showCamundaPenal" class="my-process-designer__property-panel" id="property-panel" :style="panelStyle"></div>
     </div>
   </div>
 </template>
@@ -50,8 +50,17 @@
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import DefaultEmptyXML from "./pugins/defaultEmpty";
 import translationsCN from "./pugins/translate/zh";
-// 官方标签解析文件
+// 翻译方法
+import customTranslate from "./pugins/translate/customTranslate";
+// 这里引入的是右侧属性栏这个框
+import propertiesPanelModule from "bpmn-js-properties-panel";
+// 标签解析构建器
+import camundaPropertiesProvider from "bpmn-js-properties-panel/lib/provider/camunda";
+import bpmnPropertiesProvider from "bpmn-js-properties-panel/lib/provider/bpmn";
+import activitiPropertiesProvider from "./pugins/activiti/index";
+// camunda标签解析文件
 import camundaModdleDescriptor from "camunda-bpmn-moddle/resources/camunda";
+import activitiModdleDescriptor from "./pugins/activiti/activitiDescriptor";
 
 export default {
   name: "MyProcessDesigner",
@@ -132,20 +141,22 @@ export default {
 
       // 翻译模块
       const TranslateModule = {
-        translate: ["value", require("./pugins/translate/customTranslate.js").default(this.translations || translationsCN)]
+        translate: ["value", customTranslate(this.translations || translationsCN)]
       };
       Modules.push(TranslateModule);
 
       // 使用预留的 activity 模块
       if (this.activiti) {
-        Modules.push(require("./pugins/activiti/index"));
+        Modules.push(activitiPropertiesProvider);
       } else {
-        // 使用预留的官方 camunda 侧边栏
+        Modules.push(propertiesPanelModule);
+        // 使用预留的官方 camunda 属性解析
         if (this.camundaPenal && !this.bpmnPanel) {
-          Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/camunda"));
+          Modules.push(camundaPropertiesProvider);
         }
+        // 使用预留的官方 bpmn 属性解析
         if (this.bpmnPanel) {
-          Modules.push(require("bpmn-js-properties-panel"), require("bpmn-js-properties-panel/lib/provider/bpmn"));
+          Modules.push(bpmnPropertiesProvider);
         }
       }
       return Modules;
@@ -166,7 +177,7 @@ export default {
 
       // 使用预置的 activity 解析文件
       if (this.activiti) {
-        Extensions.activiti = require("./pugins/activiti/activitiDescriptor.json");
+        Extensions.activiti = activitiModdleDescriptor;
       } else {
         // 使用预置的 camunda 解析文件
         if (this.camunda || this.camundaPenal) {
@@ -178,6 +189,9 @@ export default {
     panelStyle() {
       if (typeof this.panelWidth === "number") return { width: `${this.panelWidth}px` };
       return { width: this.panelWidth };
+    },
+    showCamundaPenal() {
+      return this.camundaPenal && this.camunda && !this.activiti;
     }
   },
   mounted() {
