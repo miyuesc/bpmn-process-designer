@@ -2,10 +2,10 @@
   <div class="process-panel__container" :style="panelStyle">
     <el-collapse v-model="activeTab">
       <el-collapse-item name="base">
-        <div slot="title" class="panel-tab__title">常规</div>
+        <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
         <div class="panel-tab__content">
           <div class="element-property input-property">
-            <div class="element-property__label">编号</div>
+            <div class="element-property__label">ID</div>
             <div class="element-property__value">
               <el-input
                 v-model="element.id"
@@ -47,7 +47,7 @@
         </div>
       </el-collapse-item>
       <el-collapse-item name="listeners">
-        <div slot="title" class="panel-tab__title">监听器</div>
+        <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
         <element-listener
           v-bind="$props"
           :element-id="elementId"
@@ -56,11 +56,11 @@
         />
       </el-collapse-item>
       <el-collapse-item name="extensions">
-        <div slot="title" class="panel-tab__title">扩展属性</div>
-        <div class="panel-tab__content"></div>
+        <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
+        <element-attributes v-bind="$props" :element-id="elementId" :attributes="elementAttributes" />
       </el-collapse-item>
       <el-collapse-item name="other">
-        <div slot="title" class="panel-tab__title">其他</div>
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>其他</div>
         <div class="panel-tab__content">
           <div class="element-property input-property">
             <div class="element-property__label">元素文档</div>
@@ -85,11 +85,12 @@
 import { debounce } from "@/utils";
 import ConditionConfig from "./condition-config/ConditionConfig";
 import ElementListener from "./extensional/listeners/ElementListener";
+import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 export default {
   name: "ProcessPanel",
-  components: { ElementListener, ConditionConfig },
+  components: { ElementAttributes, ElementListener, ConditionConfig },
   componentName: "ProcessPanel",
   props: {
     bpmnModeler: Object,
@@ -108,7 +109,8 @@ export default {
   },
   provide() {
     return {
-      propertiesPrefix: this.prefix
+      propertiesPrefix: this.prefix,
+      drawerWidth: this.width
     };
   },
   data() {
@@ -119,7 +121,8 @@ export default {
       element: {},
       documentation: "",
       conditionType: "",
-      elementListeners: []
+      elementListeners: [],
+      elementAttributes: []
     };
   },
   computed: {
@@ -199,8 +202,12 @@ export default {
           // ex => ex.$type === "camunda:ExecutionListener"
           ex => ex.$type === `${this.prefix}:ExecutionListener`
         );
+        this.elementAttributes = element.businessObject.extensionElements.values.filter(
+          ex => ex.$type === `${this.prefix}:Properties`
+        );
       } else {
         this.elementListeners = [];
+        this.elementAttributes = [];
       }
       // 设置条件属性
       if (element.type.indexOf("SequenceFlow") !== -1) {
@@ -234,16 +241,16 @@ export default {
     },
     // 更新事件监听器
     updateElementListener(listeners) {
-      console.log(this);
       const element = this.elementRegistry.get(this.elementId);
-      let otherExtensions = [];
-      if (element.businessObject.extensionElements && element.businessObject.extensionElements.values)
-        otherExtensions = element.businessObject.extensionElements.values.filter(
-          ex => ex.$type !== `${this.prefix}:ExecutionListener`
-        );
+      const extensionElements = element.businessObject.get("extensionElements");
+      // 截取不是监听器的属性
+      const otherExtensions =
+        extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) || [];
+      // 重建扩展属性
       const extensions = this.moddle.create("bpmn:ExtensionElements", {
         values: otherExtensions.concat(listeners)
       });
+      // 更新属性到元素
       this.modeling.updateProperties(element, {
         extensionElements: extensions
       });
