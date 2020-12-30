@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <my-process-designer :additional-model="labelEditing" activiti @element-click="elementClick" @init-finished="initModeler" />
-    <process-panel :bpmn-modeler="modeler" prefix="activiti" class="process-panel" />
+    <my-process-designer :additional-model="labelEditing" @element-click="elementClick" @init-finished="initModeler" />
+    <process-panel :bpmn-modeler="modeler" prefix="camunda" class="process-panel" />
   </div>
 </template>
 
@@ -48,6 +48,11 @@ body {
   width: 100%;
   height: calc(100vh - 16px);
   box-sizing: border-box;
+  display: inline-grid;
+  grid-template-columns: auto max-content;
+}
+.my-process-designer {
+  overflow: auto;
 }
 body,
 body * {
@@ -79,14 +84,5 @@ body * {
     background-color: rgba(159, 159, 159, 0.5);
     -webkit-border-radius: 4px;
   }
-}
-.process-panel {
-  position: fixed;
-  top: 48px;
-  right: 0;
-  bottom: 0;
-  width: 400px;
-  z-index: 99;
-  background: white;
 }
 </style>

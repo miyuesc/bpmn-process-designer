@@ -23,7 +23,7 @@
       <el-button size="small" type="primary" icon="el-icon-plus" @click="openListenerForm(null)">添加监听器</el-button>
     </div>
 
-    <el-drawer :visible.sync="showListenerForm" title="事件监听器" size="480px" append-to-body>
+    <el-drawer :visible.sync="showListenerForm" title="事件监听器" :size="`${this.width}px`" append-to-body>
       <el-form size="small" :model="listenerForm" label-width="96px" ref="listenerFormRef">
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
@@ -189,7 +189,8 @@ export default {
     elementId: String
   },
   inject: {
-    prefix: "propertiesPrefix"
+    prefix: "propertiesPrefix",
+    width: "drawerWidth"
   },
   data() {
     return {
@@ -238,9 +239,6 @@ export default {
   created() {
     this.initModel();
   },
-  mounted() {
-    console.log(this.prefix);
-  },
   methods: {
     // 初始化依赖
     initModel() {
@@ -249,10 +247,7 @@ export default {
         return;
       }
       if (this.timer) clearTimeout(this.timer);
-      if (!this.bpmnModeler) return;
-      this.modeling = this.bpmnModeler.get("modeling");
       this.moddle = this.bpmnModeler.get("moddle");
-      this.elementRegistry = this.bpmnModeler.get("elementRegistry");
     },
     // 打开事件监听器侧边栏
     openListenerForm(listener, index) {

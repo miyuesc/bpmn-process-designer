@@ -1,6 +1,16 @@
+.process-panel__container {
+  box-sizing: border-box;
+  padding: 0 8px;
+  border-left: 1px solid #eeeeee;
+  box-shadow: 0 0 8px #cccccc;
+}
 .panel-tab__title {
   font-weight: 600;
-  padding: 0 16px;
+  padding: 0 8px;
+  font-size: 1.1em;
+  i {
+    margin-right: 8px;
+  }
 }
 .panel-tab__content {
   width: 100%;
