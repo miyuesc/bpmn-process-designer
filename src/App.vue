@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <my-process-designer :additional-model="labelEditing" @element-click="elementClick" @init-finished="initModeler" />
-    <process-panel :bpmn-modeler="modeler" class="process-panel" />
+    <my-process-designer :additional-model="labelEditing" activiti @element-click="elementClick" @init-finished="initModeler" />
+    <process-panel :bpmn-modeler="modeler" prefix="activiti" class="process-panel" />
   </div>
 </template>
 
@@ -83,7 +83,7 @@ body * {
 .process-panel {
   position: fixed;
   top: 48px;
-  right: 400px;
+  right: 0;
   bottom: 0;
   width: 400px;
   z-index: 99;

@@ -188,6 +188,9 @@ export default {
     bpmnModeler: Object,
     elementId: String
   },
+  inject: {
+    prefix: "propertiesPrefix"
+  },
   data() {
     return {
       ownerListenersList: [],
@@ -236,7 +239,7 @@ export default {
     this.initModel();
   },
   mounted() {
-    // console.log(this);
+    console.log(this.prefix);
   },
   methods: {
     // 初始化依赖
@@ -287,7 +290,7 @@ export default {
       if (!validateStatus) return; // 验证不通过直接返回
       // 1. 创建事件监听器实例
       const listenerObj = this.initListenerObject(this.listenerForm);
-      const listenerModel = this.moddle.create("camunda:ExecutionListener", listenerObj);
+      const listenerModel = this.moddle.create(`${this.prefix}:ExecutionListener`, listenerObj);
       this.$emit("listener-save", listenerModel);
       // 2. 更新到事件监听器列表
       if (this.listenerIndex === -1) {
@@ -306,7 +309,7 @@ export default {
       listenerObj.event = options.event;
       switch (options.listenerType) {
         case "scriptListener":
-          listenerObj.script = this.moddle.create("camunda:Script", { ...this.listenerScriptForm });
+          listenerObj.script = this.moddle.create(`${this.prefix}:Script`, { ...this.listenerScriptForm });
           break;
         case "expressionListener":
           listenerObj.expression = options.expression;
@@ -319,7 +322,7 @@ export default {
       }
       if (options.fields) {
         listenerObj.fields = options.fields.map(field => {
-          return this.moddle.create("camunda:Field", field);
+          return this.moddle.create(`${this.prefix}:Field`, field);
         });
       }
       return listenerObj;
@@ -357,7 +360,6 @@ export default {
               name: this.listenerFieldForm.name,
               expression: this.listenerFieldForm.expression
             };
-      // const field = this.moddle.create("camunda:Field", filedObj);
       if (this.listenerFiledIndex === -1) {
         if (this.listenerForm.fields) {
           this.listenerForm.fields.push(filedObj);

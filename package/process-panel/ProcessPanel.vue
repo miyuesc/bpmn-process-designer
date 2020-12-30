@@ -1,6 +1,6 @@
 <template>
   <div class="process-panel__container" :style="panelStyle">
-    <el-collapse v-model="activeTab" accordion>
+    <el-collapse v-model="activeTab">
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title">常规</div>
         <div class="panel-tab__content">
@@ -93,6 +93,10 @@ export default {
   componentName: "ProcessPanel",
   props: {
     bpmnModeler: Object,
+    prefix: {
+      type: String,
+      default: "camunda"
+    },
     width: {
       type: Number,
       default: 480
@@ -101,6 +105,11 @@ export default {
       type: Boolean,
       default: true
     }
+  },
+  provide() {
+    return {
+      propertiesPrefix: this.prefix
+    };
   },
   data() {
     return {
@@ -187,7 +196,8 @@ export default {
       // 设置扩展监听
       if (element.businessObject?.extensionElements?.values) {
         this.elementListeners = element.businessObject.extensionElements.values.filter(
-          ex => ex.$type === "camunda:ExecutionListener"
+          // ex => ex.$type === "camunda:ExecutionListener"
+          ex => ex.$type === `${this.prefix}:ExecutionListener`
         );
       } else {
         this.elementListeners = [];
@@ -229,7 +239,7 @@ export default {
       let otherExtensions = [];
       if (element.businessObject.extensionElements && element.businessObject.extensionElements.values)
         otherExtensions = element.businessObject.extensionElements.values.filter(
-          ex => ex.$type !== "camunda:ExecutionListener"
+          ex => ex.$type !== `${this.prefix}:ExecutionListener`
         );
       const extensions = this.moddle.create("bpmn:ExtensionElements", {
         values: otherExtensions.concat(listeners)
