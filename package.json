@@ -21,9 +21,11 @@
   },
   "dependencies": {
     "core-js": "^3.8.1",
+    "highlight.js": "^10.5.0",
     "min-dash": "^3.5.2",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.9"
+    "vue-router": "^3.4.9",
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

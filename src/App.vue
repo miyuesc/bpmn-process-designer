@@ -8,6 +8,7 @@
 <script>
 import translations from "@/translations";
 import ProcessPanel from "../package/process-panel/ProcessPanel";
+
 export default {
   name: "App",
   components: { ProcessPanel },

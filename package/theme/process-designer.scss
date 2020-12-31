@@ -72,3 +72,13 @@
     }
   }
 }
+pre {
+  margin: 0;
+}
+.hljs {
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.hljs * {
+  font-family: Consolas, Monaco, monospace;
+}

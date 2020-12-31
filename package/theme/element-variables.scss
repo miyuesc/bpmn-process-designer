@@ -31,6 +31,16 @@ span:focus {
   flex-direction: column;
   width: 100%;
 }
+
+.el-dialog {
+  margin-top: 50vh !important;
+  transform: translateY(-50%);
+  overflow: hidden;
+}
+.el-dialog__wrapper {
+  overflow: hidden;
+  max-height: 100vh;
+}
 .el-dialog__header {
   padding: 16px 16px 8px 16px;
   box-sizing: border-box;
@@ -38,6 +48,9 @@ span:focus {
 }
 .el-dialog__body {
   padding: 16px;
+  max-height: 80vh;
+  box-sizing: border-box;
+  overflow: scroll;
 }
 .el-dialog__footer {
   padding: 16px;

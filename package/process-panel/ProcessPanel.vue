@@ -12,6 +12,7 @@
                 size="small"
                 :disabled="idEditDisabled"
                 clearable
+                @keyup.native="updateBaseInfo('id', element.id)"
                 @change="updateBaseInfo('id', $event)"
               />
             </div>
@@ -19,7 +20,13 @@
           <div class="element-property input-property">
             <div class="element-property__label">名称</div>
             <div class="element-property__value">
-              <el-input v-model="element.name" size="small" clearable @change="updateBaseInfo('name', $event)" />
+              <el-input
+                v-model="element.name"
+                size="small"
+                clearable
+                @keyup.native="updateBaseInfo('name', element.name)"
+                @change="updateBaseInfo('name', $event)"
+              />
             </div>
           </div>
           <!--流程的基础属性-->
@@ -27,7 +34,13 @@
             <div class="element-property input-property">
               <div class="element-property__label">版本标签</div>
               <div class="element-property__value">
-                <el-input v-model="element.versionTag" size="small" clearable @change="updateBaseInfo('versionTag', $event)" />
+                <el-input
+                  v-model="element.versionTag"
+                  size="small"
+                  clearable
+                  @keyup.native="updateBaseInfo('versionTag', element.versionTag)"
+                  @change="updateBaseInfo('versionTag', $event)"
+                />
               </div>
             </div>
             <div class="element-property input-property">

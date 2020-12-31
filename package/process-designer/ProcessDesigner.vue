@@ -16,6 +16,14 @@
         <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened" @click="$refs.refFile.click()"
           >打开文件</el-button
         >
+        <el-tooltip effect="light">
+          <div slot="content">
+            <el-button :size="headerButtonSize" type="text" @click="previewProcessXML">预览XML</el-button>
+            <br />
+            <el-button :size="headerButtonSize" type="text" @click="previewProcessJson">预览JSON</el-button>
+          </div>
+          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-view">预览</el-button>
+        </el-tooltip>
         <el-tooltip effect="light" content="缩小视图">
           <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut" />
         </el-tooltip>
@@ -43,6 +51,9 @@
       <div class="my-process-designer__canvas" ref="bpmn-canvas"></div>
       <div v-if="showCamundaPenal" class="my-process-designer__property-panel" id="property-panel" :style="panelStyle"></div>
     </div>
+    <el-dialog title="预览" width="60%" :visible.sync="previewModelVisible" append-to-body destroy-on-close>
+      <highlightjs :language="previewType" :code="previewResult" />
+    </el-dialog>
   </div>
 </template>
 
@@ -61,6 +72,12 @@ import activitiPropertiesProvider from "./pugins/activiti/index";
 // camunda标签解析文件
 import camundaModdleDescriptor from "camunda-bpmn-moddle/resources/camunda";
 import activitiModdleDescriptor from "./pugins/activiti/activitiDescriptor";
+// 引入json转换方法
+import convert from "xml-js";
+import hljs from "highlight.js";
+import Vue from "vue";
+Vue.use(hljs.vuePlugin);
+import "highlight.js/styles/atom-one-dark-reasonable.css";
 
 export default {
   name: "MyProcessDesigner",
@@ -117,6 +134,9 @@ export default {
     return {
       currentScale: "100%",
       defaultZoom: 1,
+      previewModelVisible: false,
+      previewResult: "",
+      previewType: "xml",
       recoverable: false,
       revocable: false
     };
@@ -349,6 +369,20 @@ export default {
     },
     processRestart() {
       this.createNewDiagram(null);
+    },
+    previewProcessXML() {
+      this.bpmnModeler.saveXML({ format: true }).then(({ xml }) => {
+        this.previewResult = xml;
+        this.previewType = "xml";
+        this.previewModelVisible = true;
+      });
+    },
+    previewProcessJson() {
+      this.bpmnModeler.saveXML({ format: true }).then(({ xml }) => {
+        this.previewResult = convert.xml2json(xml, { spaces: 2 });
+        this.previewType = "json";
+        this.previewModelVisible = true;
+      });
     }
   },
   watch: {
