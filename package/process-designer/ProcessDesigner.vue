@@ -169,13 +169,14 @@ export default {
       if (this.activiti) {
         Modules.push(activitiPropertiesProvider);
       } else {
-        Modules.push(propertiesPanelModule);
         // 使用预留的官方 camunda 属性解析
-        if (this.camundaPenal && !this.bpmnPanel) {
+        if ((this.camunda || this.camundaPenal) && !this.bpmnPanel) {
           Modules.push(camundaPropertiesProvider);
+          if (this.camundaPenal) Modules.push(propertiesPanelModule);
         }
         // 使用预留的官方 bpmn 属性解析
         if (this.bpmnPanel) {
+          Modules.push(propertiesPanelModule);
           Modules.push(bpmnPropertiesProvider);
         }
       }
