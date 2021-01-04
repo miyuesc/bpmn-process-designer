@@ -69,9 +69,9 @@ import camundaModdleDescriptor from "./plugins/descriptor/camundaDescriptor.json
 import activitiModdleDescriptor from "./plugins/descriptor/activitiDescriptor.json";
 import flowableModdleDescriptor from "./plugins/descriptor/flowableDescriptor.json";
 // 标签解析 Extension
-import camundaModdleExtension from "./plugins/extensionModdle/camunda";
-import activitiModdleExtension from "./plugins/extensionModdle/activiti";
-import flowableModdleExtension from "./plugins/extensionModdle/flowable";
+import camundaModdleExtension from "./plugins/extension-moddle/camunda";
+import activitiModdleExtension from "./plugins/extension-moddle/activiti";
+import flowableModdleExtension from "./plugins/extension-moddle/flowable";
 // 引入json转换方法
 import convert from "xml-js";
 import hljs from "highlight.js";
