@@ -2,7 +2,7 @@
   <div id="app">
     <my-process-designer
       :additional-model="labelEditing"
-      :camunda-penal="false"
+      process-type="camunda"
       @element-click="elementClick"
       @init-finished="initModeler"
     />
@@ -31,6 +31,8 @@ export default {
   methods: {
     initModeler(modeler) {
       this.modeler = modeler;
+      console.log(this.modeler);
+      console.log(this.modeler.getDefinitions());
     },
     elementClick(element) {
       console.log(element);

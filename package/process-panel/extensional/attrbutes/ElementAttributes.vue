@@ -47,8 +47,8 @@ export default {
     elementId: String
   },
   inject: {
-    prefix: "propertiesPrefix",
-    width: "drawerWidth"
+    prefix: "prefix",
+    width: "width"
   },
   data() {
     return {

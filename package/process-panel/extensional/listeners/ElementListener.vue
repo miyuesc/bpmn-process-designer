@@ -189,12 +189,13 @@ export default {
     elementId: String
   },
   inject: {
-    prefix: "propertiesPrefix",
-    width: "drawerWidth"
+    prefix: "prefix",
+    width: "width"
   },
   data() {
     return {
       ownerListenersList: [],
+      ownerListenersObjectList: [],
       listenerForm: {},
       listenerFieldForm: {},
       fieldsOfListener: [],
@@ -219,6 +220,7 @@ export default {
       deep: true,
       handler: function(newVal) {
         if (newVal.length) {
+          this.ownerListenersObjectList = newVal;
           this.ownerListenersList = newVal.map(li => {
             let listenerType;
             if (li.class) listenerType = "classListener";
@@ -231,6 +233,7 @@ export default {
             };
           });
         } else {
+          this.ownerListenersObjectList = [];
           this.ownerListenersList = [];
         }
       }
@@ -289,12 +292,14 @@ export default {
       this.$emit("listener-save", listenerModel);
       // 2. 更新到事件监听器列表
       if (this.listenerIndex === -1) {
-        this.ownerListenersList.push(listenerModel);
+        this.ownerListenersObjectList.push(listenerModel);
+        this.ownerListenersList.push(this.listenerForm);
       } else {
-        this.ownerListenersList.splice(this.listenerIndex, 1, listenerModel);
+        this.ownerListenersObjectList.splice(this.listenerIndex, 1, listenerModel);
+        this.ownerListenersList.splice(this.listenerIndex, 1, this.listenerForm);
       }
       // 3. 更新事件监听器列表到父组件
-      this.$emit("change", this.ownerListenersList);
+      this.$emit("change", this.ownerListenersObjectList);
       // 4. 隐藏侧边栏
       this.showListenerForm = false;
       this.listenerForm = {};

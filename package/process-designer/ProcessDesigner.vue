@@ -49,7 +49,6 @@
     </div>
     <div class="my-process-designer__container">
       <div class="my-process-designer__canvas" ref="bpmn-canvas"></div>
-      <div v-if="showCamundaPenal" class="my-process-designer__property-panel" id="property-panel" :style="panelStyle"></div>
     </div>
     <el-dialog title="预览" width="60%" :visible.sync="previewModelVisible" append-to-body destroy-on-close>
       <highlightjs :language="previewType" :code="previewResult" />
@@ -59,19 +58,20 @@
 
 <script>
 import BpmnModeler from "bpmn-js/lib/Modeler";
-import DefaultEmptyXML from "./pugins/defaultEmpty";
-import translationsCN from "./pugins/translate/zh";
+import DefaultEmptyXML from "./plugins/defaultEmpty";
 // 翻译方法
-import customTranslate from "./pugins/translate/customTranslate";
-// 这里引入的是右侧属性栏这个框
-import propertiesPanelModule from "bpmn-js-properties-panel";
+import customTranslate from "./plugins/translate/customTranslate";
+import translationsCN from "./plugins/translate/zh";
 // 标签解析构建器
-import camundaPropertiesProvider from "bpmn-js-properties-panel/lib/provider/camunda";
-import bpmnPropertiesProvider from "bpmn-js-properties-panel/lib/provider/bpmn";
-import activitiPropertiesProvider from "./pugins/activiti/index";
-// camunda标签解析文件
-import camundaModdleDescriptor from "camunda-bpmn-moddle/resources/camunda";
-import activitiModdleDescriptor from "./pugins/activiti/activitiDescriptor";
+// import bpmnPropertiesProvider from "bpmn-js-properties-panel/lib/provider/bpmn";
+// 标签解析 Moddle
+import camundaModdleDescriptor from "./plugins/descriptor/camundaDescriptor.json";
+import activitiModdleDescriptor from "./plugins/descriptor/activitiDescriptor.json";
+import flowableModdleDescriptor from "./plugins/descriptor/flowableDescriptor.json";
+// 标签解析 Extension
+import camundaModdleExtension from "./plugins/extensionModdle/camunda";
+import activitiModdleExtension from "./plugins/extensionModdle/activiti";
+import flowableModdleExtension from "./plugins/extensionModdle/flowable";
 // 引入json转换方法
 import convert from "xml-js";
 import hljs from "highlight.js";
@@ -95,21 +95,9 @@ export default {
       type: Boolean,
       default: false
     },
-    camundaPenal: {
-      type: Boolean,
-      default: true
-    },
-    bpmnPanel: {
-      type: Boolean,
-      default: false
-    },
-    camunda: {
-      type: Boolean,
-      default: true
-    },
-    activiti: {
-      type: Boolean,
-      default: false
+    processType: {
+      type: String,
+      default: "camunda"
     },
     events: {
       type: Array,
@@ -165,21 +153,20 @@ export default {
       };
       Modules.push(TranslateModule);
 
-      // 使用预留的 activity 模块
-      if (this.activiti) {
-        Modules.push(activitiPropertiesProvider);
-      } else {
-        // 使用预留的官方 camunda 属性解析
-        if ((this.camunda || this.camundaPenal) && !this.bpmnPanel) {
-          Modules.push(camundaPropertiesProvider);
-          if (this.camundaPenal) Modules.push(propertiesPanelModule);
-        }
-        // 使用预留的官方 bpmn 属性解析
-        if (this.bpmnPanel) {
-          Modules.push(propertiesPanelModule);
-          Modules.push(bpmnPropertiesProvider);
-        }
+      // 根据需要的流程类型设置侧边栏构建器
+      // if (this.processType === "bpmn") {
+      //   Modules.push(bpmnModdleExtension);
+      // }
+      if (this.processType === "camunda") {
+        Modules.push(camundaModdleExtension);
       }
+      if (this.processType === "flowable") {
+        Modules.push(flowableModdleExtension);
+      }
+      if (this.processType === "activiti") {
+        Modules.push(activitiModdleExtension);
+      }
+
       return Modules;
     },
     moddleExtensions() {
@@ -196,23 +183,21 @@ export default {
         }
       }
 
-      // 使用预置的 activity 解析文件
-      if (this.activiti) {
+      // 根据需要的 "流程类型" 设置 对应的解析文件
+      if (this.processType === "activiti") {
         Extensions.activiti = activitiModdleDescriptor;
-      } else {
-        // 使用预置的 camunda 解析文件
-        if (this.camunda || this.camundaPenal) {
-          Extensions.camunda = camundaModdleDescriptor;
-        }
+      }
+      if (this.processType === "flowable") {
+        Extensions.flowable = flowableModdleDescriptor;
+      }
+      if (this.processType === "camunda") {
+        Extensions.camunda = camundaModdleDescriptor;
       }
       return Extensions;
     },
     panelStyle() {
       if (typeof this.panelWidth === "number") return { width: `${this.panelWidth}px` };
       return { width: this.panelWidth };
-    },
-    showCamundaPenal() {
-      return this.camundaPenal && this.camunda && !this.activiti;
     }
   },
   mounted() {
@@ -229,9 +214,6 @@ export default {
       if (this.bpmnModeler) return;
       this.bpmnModeler = new BpmnModeler({
         container: this.$refs["bpmn-canvas"],
-        propertiesPanel: {
-          parent: "#property-panel"
-        },
         additionalModules: this.additionalModules,
         moddleExtensions: this.moddleExtensions
       });

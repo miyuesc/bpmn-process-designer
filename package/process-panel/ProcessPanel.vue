@@ -122,8 +122,8 @@ export default {
   },
   provide() {
     return {
-      propertiesPrefix: this.prefix,
-      drawerWidth: this.width
+      prefix: this.prefix,
+      width: this.width
     };
   },
   data() {
