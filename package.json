@@ -17,7 +17,7 @@
   },
   "scripts": {
     "demo": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "build": "vue-cli-service build --report"
   },
   "dependencies": {
     "core-js": "^3.8.1",
@@ -37,7 +37,7 @@
     "bpmn-js": "^7.4.0",
     "bpmn-js-properties-panel": "^0.37.2",
     "camunda-bpmn-moddle": "^4.4.1",
-    "compression-webpack-plugin": "^6.0.4",
+    "compression-webpack-plugin": "^6.1.1",
     "element-ui": "^2.13.2",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.0",

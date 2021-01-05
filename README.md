@@ -4,6 +4,7 @@ A process designer that depends on [bpmn.js](https://github.com/bpmn-io/bpmn-js)
 
 You can view and edit BPMN 2.0 diagrams in the browser.
 
+在线demo请访问[MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 
 ## Installation
