@@ -97,6 +97,7 @@
   </div>
 </template>
 <script>
+import { debounce } from "@/utils";
 import ConditionConfig from "./condition-config/ConditionConfig";
 import ElementListener from "./extensional/listeners/ElementListener";
 import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
@@ -159,11 +160,14 @@ export default {
   },
   watch: {
     elementType(type) {
-      console.log(type);
+      console.log("selectionElementType: ", type);
     },
-    elementId() {
-      // this.activeTab = "base";
+    elementId(id) {
+      console.log("selectionElementId: ", id);
     }
+  },
+  created() {
+    this.initFormOnChanged = debounce(this.initFormOnChanged, 100);
   },
   mounted() {
     this.getActiveElement();
@@ -195,13 +199,6 @@ export default {
         const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
         this.initFormOnChanged(shape.id);
       });
-
-      // 监听选择事件，修改当前激活的元素
-      // this.bpmnModeler.on("element.changed", ({ element }) => {
-      //   if (!element) return;
-      //   if (this.elementType === "bpmn:SequenceFlow") return;
-      //   debounce(this.initFormOnChanged(element.id), 100);
-      // });
     },
     // 元素更新时更新表单
     initFormOnChanged(elementId) {

@@ -97,13 +97,26 @@ export default {
       if (this.loopCharacteristicsObject) {
         let loopType = this.loopCharacteristicsObject.$type;
         if (loopType === "bpmn:MultiInstanceLoopCharacteristics") {
-          return (this.loopCharacteristics = this.loopCharacteristicsObject.isSequential
+          this.loopCharacteristics = this.loopCharacteristicsObject.isSequential
             ? "SequentialMultiInstance"
-            : "ParallelMultiInstance");
+            : "ParallelMultiInstance";
         }
         if (loopType === "bpmn:StandardLoopCharacteristics") {
-          return (this.loopCharacteristics = "StandardLoop");
+          this.loopCharacteristics = "StandardLoop";
         }
+        this.$set(this.loopInstanceForm, "collection", this.loopCharacteristicsObject.collection);
+        this.$set(this.loopInstanceForm, "elementVariable", this.loopCharacteristicsObject.elementVariable);
+        this.$set(this.loopInstanceForm, "isSequential", this.loopCharacteristicsObject.isSequential);
+        this.$set(this.loopInstanceForm, "asyncBefore", this.loopCharacteristicsObject.asyncBefore);
+        this.$set(this.loopInstanceForm, "asyncAfter", this.loopCharacteristicsObject.asyncAfter);
+        this.$set(this.loopInstanceForm, "exclusive", this.loopCharacteristicsObject.exclusive);
+        this.$set(this.loopInstanceForm, "loopCardinality", this.loopCharacteristicsObject.loopCardinality?.body);
+        this.$set(this.loopInstanceForm, "completionCondition", this.loopCharacteristicsObject.completionCondition?.body);
+        this.$set(
+          this.loopInstanceForm,
+          "failedJobRetryTimeCycle",
+          this.loopCharacteristicsObject?.extensionElements?.values[0]?.body
+        );
       } else {
         this.loopCharacteristics = "Null";
       }
@@ -171,6 +184,9 @@ export default {
       } else {
         this.loopCharacteristicsObject.completionCondition && delete this.loopCharacteristicsObject.completionCondition;
       }
+      this.loopCharacteristicsObject.asyncBefore = this.loopInstanceForm.asyncBefore;
+      this.loopCharacteristicsObject.asyncAfter = this.loopInstanceForm.asyncAfter;
+      this.loopCharacteristicsObject.exclusive = this.loopInstanceForm.exclusive;
       // 没有异步时清空 failedJobRetryTimeCycle
       if (!this.loopInstanceForm?.asyncBefore && !this.loopInstanceForm?.asyncAfter) {
         this.$set(this.loopInstanceForm, "failedJobRetryTimeCycle", "");
