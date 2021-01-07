@@ -72,7 +72,12 @@
       </el-collapse-item>
       <el-collapse-item name="extensions">
         <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
-        <element-attributes v-bind="$props" :element-id="elementId" :attributes="elementAttributes" />
+        <element-attributes
+          v-bind="$props"
+          :element-id="elementId"
+          :attributes="elementAttributes"
+          @change="updateElementAttributes"
+        />
       </el-collapse-item>
       <el-collapse-item name="other">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>其他</div>
@@ -262,10 +267,27 @@ export default {
       const extensions = this.moddle.create("bpmn:ExtensionElements", {
         values: otherExtensions.concat(listeners)
       });
-      // 更新属性到元素
-      this.modeling.updateProperties(element, {
-        extensionElements: extensions
+      this.updateElementExtensions(element, extensions);
+    },
+    // 更新扩展属性
+    updateElementAttributes(attributes) {
+      // attributes 是普通数组，需要重新创建实例
+      const properties = this.moddle.create(`${this.prefix}:Properties`, {
+        values: attributes.map(attr => {
+          return this.moddle.create(`${this.prefix}:Property`, { name: attr.name, value: attr.value });
+        })
       });
+      const element = this.elementRegistry.get(this.elementId);
+      const extensionElements = element.businessObject.get("extensionElements");
+      // 截取不是扩展属性的属性
+      const otherExtensions = extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:Properties`) || [];
+      // 重建扩展属性
+      const extensions = this.moddle.create("bpmn:ExtensionElements", { values: otherExtensions.concat([properties]) });
+      this.updateElementExtensions(element, extensions);
+    },
+    updateElementExtensions(element, extensions) {
+      // 更新属性到元素
+      this.modeling.updateProperties(element, { extensionElements: extensions });
 
       this.initFormOnChanged(this.elementId);
     }

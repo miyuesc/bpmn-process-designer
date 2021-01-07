@@ -54,14 +54,26 @@ export default {
     return {
       ownerAttributes: [],
       attributeForm: {},
-      attribute: 0,
+      attributeIndex: -1,
       showAttributeForm: false
     };
   },
   computed: {},
-  created() {},
+  created() {
+    this.initModel();
+  },
   methods: {
+    // 初始化依赖
+    initModel() {
+      if (!this.bpmnModeler) {
+        this.timer = setTimeout(() => this.initModel(), 10);
+        return;
+      }
+      if (this.timer) clearTimeout(this.timer);
+      this.moddle = this.bpmnModeler.get("moddle");
+    },
     openAttributesForm(attr, index) {
+      this.attributeIndex = index;
       this.attributeForm = index === -1 ? {} : JSON.parse(JSON.stringify(attr));
       this.showAttributeForm = true;
       this.$nextTick(() => {
@@ -71,7 +83,18 @@ export default {
     removeAttributes(attr, index) {
       console.log(attr, index);
     },
-    saveAttribute() {}
+    async saveAttribute() {
+      let validateStatus = await this.$refs["attributeFormRef"].validate();
+      if (!validateStatus) return; // 验证不通过直接返回
+      if (this.attributeIndex === -1) {
+        this.ownerAttributes.push(this.attributeForm);
+      } else {
+        this.ownerAttributes.splice(this.attributeIndex, 1, this.attributeForm);
+      }
+      this.$emit("saved", this.attributeForm);
+      this.$emit("change", this.ownerAttributes);
+      this.showAttributeForm = false;
+    }
   },
   watch: {
     attributes: {

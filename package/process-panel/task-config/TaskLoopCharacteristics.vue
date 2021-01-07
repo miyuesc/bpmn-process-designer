@@ -71,6 +71,7 @@ export default {
     elementId: {
       immediate: true,
       handler: function(newVal) {
+        if (!this.bpmnModeler || !this.bpmnModeler.get) return;
         this.modeling = this.bpmnModeler.get("modeling");
         this.moddle = this.bpmnModeler.get("moddle");
         this.elementRegistry = this.bpmnModeler.get("elementRegistry");
