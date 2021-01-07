@@ -72,7 +72,7 @@ import flowableModdleDescriptor from "./plugins/descriptor/flowableDescriptor.js
 import camundaModdleExtension from "./plugins/extension-moddle/camunda";
 import activitiModdleExtension from "./plugins/extension-moddle/activiti";
 import flowableModdleExtension from "./plugins/extension-moddle/flowable";
-// 引入json转换方法
+// 引入json转换与高亮
 import convert from "xml-js";
 import hljs from "highlight.js";
 import Vue from "vue";

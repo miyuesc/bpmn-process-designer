@@ -1,5 +1,5 @@
 <template>
-  <div class="process-panel__container" :style="panelStyle">
+  <div class="process-panel__container" :style="{ width: `${this.width}px` }">
     <el-collapse v-model="activeTab">
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
@@ -57,6 +57,8 @@
           </template>
           <!--连接线的基础配置-->
           <condition-config v-if="flowTypeViewable" v-bind="$props" :conditions="condition" :element-id="elementId" />
+          <!--任务节点配置-->
+          <task-loop-characteristics v-if="taskLoopViewable" v-bind="$props" :element-id="elementId" />
         </div>
       </el-collapse-item>
       <el-collapse-item name="listeners">
@@ -95,15 +97,15 @@
   </div>
 </template>
 <script>
-import { debounce } from "@/utils";
 import ConditionConfig from "./condition-config/ConditionConfig";
 import ElementListener from "./extensional/listeners/ElementListener";
 import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
+import TaskLoopCharacteristics from "./task-config/TaskLoopCharacteristics";
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 export default {
   name: "ProcessPanel",
-  components: { ElementAttributes, ElementListener, ConditionConfig },
+  components: { TaskLoopCharacteristics, ElementAttributes, ElementListener, ConditionConfig },
   componentName: "ProcessPanel",
   props: {
     bpmnModeler: Object,
@@ -139,9 +141,6 @@ export default {
     };
   },
   computed: {
-    panelStyle() {
-      return { width: `${this.width}px` };
-    },
     elementType() {
       if (this.activeElement) return this.activeElement.type;
       return null;
@@ -153,6 +152,9 @@ export default {
     flowTypeViewable() {
       if (this.elementType !== "bpmn:SequenceFlow") return false;
       return this.element.sourceRef && this.element.sourceRef.$type !== "bpmn:StartEvent";
+    },
+    taskLoopViewable() {
+      return this.elementType && this.elementType.indexOf("Task") !== -1;
     }
   },
   watch: {
@@ -191,7 +193,7 @@ export default {
       // 监听选择事件，修改当前激活的元素
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
         const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
-        debounce(this.initFormOnChanged(shape.id), 100);
+        this.initFormOnChanged(shape.id);
       });
 
       // 监听选择事件，修改当前激活的元素
