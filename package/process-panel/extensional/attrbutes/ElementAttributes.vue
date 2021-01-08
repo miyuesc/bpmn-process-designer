@@ -62,6 +62,9 @@ export default {
   created() {
     this.initModel();
   },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+  },
   methods: {
     // 初始化依赖
     initModel() {
@@ -81,7 +84,9 @@ export default {
       });
     },
     removeAttributes(attr, index) {
-      console.log(attr, index);
+      const removedAttr = this.ownerAttributes.splice(index, 1);
+      this.$emit("removed", removedAttr);
+      this.$emit("change", this.ownerAttributes);
     },
     async saveAttribute() {
       let validateStatus = await this.$refs["attributeFormRef"].validate();

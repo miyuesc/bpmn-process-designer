@@ -8,11 +8,11 @@
             <div class="element-property__label">ID</div>
             <div class="element-property__value">
               <el-input
-                v-model="element.id"
+                v-model="activeElementBusiness.id"
                 size="small"
                 :disabled="idEditDisabled"
                 clearable
-                @keyup.native="updateBaseInfo('id', element.id)"
+                @keyup.native="updateBaseInfo('id', activeElementBusiness.id)"
                 @change="updateBaseInfo('id', $event)"
               />
             </div>
@@ -21,10 +21,10 @@
             <div class="element-property__label">名称</div>
             <div class="element-property__value">
               <el-input
-                v-model="element.name"
+                v-model="activeElementBusiness.name"
                 size="small"
                 clearable
-                @keyup.native="updateBaseInfo('name', element.name)"
+                @keyup.native="updateBaseInfo('name', activeElementBusiness.name)"
                 @change="updateBaseInfo('name', $event)"
               />
             </div>
@@ -35,10 +35,10 @@
               <div class="element-property__label">版本标签</div>
               <div class="element-property__value">
                 <el-input
-                  v-model="element.versionTag"
+                  v-model="activeElementBusiness.versionTag"
                   size="small"
                   clearable
-                  @keyup.native="updateBaseInfo('versionTag', element.versionTag)"
+                  @keyup.native="updateBaseInfo('versionTag', activeElementBusiness.versionTag)"
                   @change="updateBaseInfo('versionTag', $event)"
                 />
               </div>
@@ -47,7 +47,7 @@
               <div class="element-property__label">可执行</div>
               <div class="element-property__value">
                 <el-switch
-                  v-model="element.isExecutable"
+                  v-model="activeElementBusiness.isExecutable"
                   active-text="是"
                   inactive-text="否"
                   @change="updateBaseInfo('isExecutable', $event)"
@@ -136,10 +136,9 @@ export default {
   },
   data() {
     return {
-      activeElement: {},
       condition: {},
       activeTab: "base",
-      element: {},
+      activeElementBusiness: {},
       documentation: "",
       conditionType: "",
       elementListeners: [],
@@ -148,16 +147,16 @@ export default {
   },
   computed: {
     elementType() {
-      if (this.activeElement) return this.activeElement.type;
+      if (this.activeElementBusiness) return this.activeElementBusiness.$type;
       return null;
     },
     elementId() {
-      if (this.activeElement) return this.activeElement.id;
+      if (this.activeElementBusiness) return this.activeElementBusiness.id;
       return null;
     },
     flowTypeViewable() {
       if (this.elementType !== "bpmn:SequenceFlow") return false;
-      return this.element.sourceRef && this.element.sourceRef.$type !== "bpmn:StartEvent";
+      return this.activeElementBusiness.sourceRef && this.activeElementBusiness.sourceRef.$type !== "bpmn:StartEvent";
     },
     taskLoopViewable() {
       return this.elementType && this.elementType.indexOf("Task") !== -1;
@@ -182,6 +181,7 @@ export default {
   },
   methods: {
     getActiveElement() {
+      // 初始化 modeler 以及其他 moddle
       if (!this.bpmnModeler) {
         this.timer = setTimeout(() => this.getActiveElement(), 10);
         return;
@@ -196,10 +196,10 @@ export default {
       this.selection = this.bpmnModeler.get("selection");
 
       // 初始第一个选中元素 bpmn:Process
-      this.activeElement = this.elementRegistry.find(el => el.type === "bpmn:Process");
-      this.element = Object.assign({}, this.activeElement.businessObject);
+      const processElement = this.elementRegistry.find(el => el.type === "bpmn:Process");
+      this.activeElementBusiness = Object.assign({}, processElement.businessObject);
 
-      // 监听选择事件，修改当前激活的元素
+      // 监听选择事件，修改当前激活的元素以及表单
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
         const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
         this.initFormOnChanged(shape.id);
@@ -207,12 +207,12 @@ export default {
     },
     // 元素更新时更新表单
     initFormOnChanged(elementId) {
-      const element = this.elementRegistry.get(elementId);
-      const shapeDoc = element.businessObject.documentation;
-      this.activeElement = Object.assign({}, element);
-      this.element = Object.assign({}, element.businessObject);
+      const element = this.elementRegistry.get(elementId); // 元素
+      const shapeDoc = element.businessObject.documentation; // 元素文档
+      this.activeElementBusiness = Object.assign({}, element.businessObject);
+      console.log("activeElementBusiness:", this.activeElementBusiness);
       // 设置文档属性
-      this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0].text : "";
+      this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0]?.text : "";
       // 设置扩展监听
       if (element.businessObject?.extensionElements?.values) {
         this.elementListeners = element.businessObject.extensionElements.values.filter(
@@ -285,10 +285,10 @@ export default {
       const extensions = this.moddle.create("bpmn:ExtensionElements", { values: otherExtensions.concat([properties]) });
       this.updateElementExtensions(element, extensions);
     },
+    // 更新属性到元素
     updateElementExtensions(element, extensions) {
-      // 更新属性到元素
       this.modeling.updateProperties(element, { extensionElements: extensions });
-
+      // 更新表单
       this.initFormOnChanged(this.elementId);
     }
   }

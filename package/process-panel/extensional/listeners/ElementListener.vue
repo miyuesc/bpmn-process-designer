@@ -242,6 +242,9 @@ export default {
   created() {
     this.initModel();
   },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+  },
   methods: {
     // 初始化依赖
     initModel() {
