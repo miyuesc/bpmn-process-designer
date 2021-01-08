@@ -33,7 +33,7 @@ export default {
       this.modeler = modeler;
     },
     elementClick(element) {
-      this.modeler = element;
+      this.element = element;
     },
     ProcessChanged(xml) {
       this.xmlString = xml;
