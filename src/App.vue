@@ -31,9 +31,13 @@ export default {
   methods: {
     initModeler(modeler) {
       this.modeler = modeler;
+      console.log(this.modeler);
+      console.log(this.modeler.get("modeling"));
     },
     elementClick(element) {
       this.element = element;
+      console.log(element);
+      console.log(this.modeler.getDefinitions());
     },
     ProcessChanged(xml) {
       this.xmlString = xml;
