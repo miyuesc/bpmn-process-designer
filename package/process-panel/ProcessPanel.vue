@@ -98,57 +98,19 @@
         </div>
       </el-collapse-item>
       <!-- 外置表单配置-->
-      <el-collapse-item name="form">
-        <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>表单</div>
-        <div class="panel-tab__content">
-          <div class="element-property input-property">
-            <div class="element-property__label">选择表单</div>
-            <div class="element-property__value">
-              <el-select v-model="activeElementBusiness.formKey" size="small"
-                         @change="updateBaseInfo('formKey', activeElementBusiness.formKey)">
-                <!--bpmn:MultiInstanceLoopCharacteristics-->
-                <el-option label="请假单" value="leaveForm"/>
-                <el-option label="补卡申请单" value="cardReplacementApplicationForm"/>
-                <el-option label="公章申请单" value="officialSealApplicationForm"/>
-              </el-select>
-            </div>
-          </div>
-        </div>
-      </el-collapse-item>
-      <template v-if="elementType === 'bpmn:UserTask'">
-        <el-collapse-item name="user">
-          <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>人员</div>
+      <template v-if="elementType === 'bpmn:UserTask' || elementType === 'bpmn:StartEvent'">
+        <el-collapse-item name="form">
+          <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>表单</div>
           <div class="panel-tab__content">
             <div class="element-property input-property">
-              <div class="element-property__label">处理人</div>
+              <div class="element-property__label">选择表单</div>
               <div class="element-property__value">
-                <el-select v-model="activeElementBusiness.assignee" size="small"
-                           @change="updateBaseInfo('assignee', activeElementBusiness.assignee)">
-                  <el-option label="诸葛亮" value="zgl"/>
-                  <el-option label="张良" value="zhangliang"/>
-                  <el-option label="墨子" value="mozi"/>
-                </el-select>
-              </div>
-            </div>
-            <div class="element-property input-property">
-              <div class="element-property__label">候选人</div>
-              <div class="element-property__value">
-                <el-select v-model="activeElementBusiness.candidateUsers" size="small"
-                           @change="updateBaseInfo('candidateUsers', activeElementBusiness.candidateUsers)">
-                  <el-option label="孙悟空" value="swk"/>
-                  <el-option label="花木兰" value="hml"/>
-                  <el-option label="唐僧" value="ts"/>
-                </el-select>
-              </div>
-            </div>
-            <div class="element-property input-property">
-              <div class="element-property__label">候选组</div>
-              <div class="element-property__value">
-                <el-select v-model="activeElementBusiness.candidateGroups" size="small"
-                           @change="updateBaseInfo('candidateGroups', activeElementBusiness.candidateGroups)">
-                  <el-option label="战士" value="zs"/>
-                  <el-option label="坦克" value="tk"/>
-                  <el-option label="刺客" value="ck"/>
+                <el-select v-model="activeElementBusiness.formKey" size="small"
+                           @change="updateBaseInfo('formKey', activeElementBusiness.formKey)">
+                  <!--bpmn:MultiInstanceLoopCharacteristics-->
+                  <el-option label="请假单" value="leaveForm"/>
+                  <el-option label="补卡申请单" value="cardReplacementApplicationForm"/>
+                  <el-option label="公章申请单" value="officialSealApplicationForm"/>
                 </el-select>
               </div>
             </div>
