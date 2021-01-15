@@ -29,6 +29,42 @@
               />
             </div>
           </div>
+          <!-- 人员信息配置 -->
+          <template v-if="elementType === 'bpmn:UserTask'">
+            <div class="element-property input-property">
+              <div class="element-property__label">处理人</div>
+              <div class="element-property__value">
+                <el-select v-model="activeElementBusiness.assignee" size="small"
+                           @change="updateBaseInfo('assignee', activeElementBusiness.assignee)">
+                  <el-option label="诸葛亮" value="zgl"/>
+                  <el-option label="张良" value="zhangliang"/>
+                  <el-option label="墨子" value="mozi"/>
+                </el-select>
+              </div>
+            </div>
+            <div class="element-property input-property">
+              <div class="element-property__label">候选人</div>
+              <div class="element-property__value">
+                <el-select v-model="activeElementBusiness.candidateUsers" size="small"
+                           @change="updateBaseInfo('candidateUsers', activeElementBusiness.candidateUsers)">
+                  <el-option label="孙悟空" value="swk"/>
+                  <el-option label="花木兰" value="hml"/>
+                  <el-option label="唐僧" value="ts"/>
+                </el-select>
+              </div>
+            </div>
+            <div class="element-property input-property">
+              <div class="element-property__label">候选组</div>
+              <div class="element-property__value">
+                <el-select v-model="activeElementBusiness.candidateGroups" size="small"
+                           @change="updateBaseInfo('candidateGroups', activeElementBusiness.candidateGroups)">
+                  <el-option label="战士" value="zs"/>
+                  <el-option label="坦克" value="tk"/>
+                  <el-option label="刺客" value="ck"/>
+                </el-select>
+              </div>
+            </div>
+          </template>
           <!--流程的基础属性-->
           <template v-if="elementType === 'bpmn:Process'">
             <div class="element-property input-property">
@@ -56,27 +92,47 @@
             </div>
           </template>
           <!--连接线的基础配置-->
-          <condition-config v-if="flowTypeViewable" v-bind="$props" :conditions="condition" :element-id="elementId" />
+          <condition-config v-if="flowTypeViewable" v-bind="$props" :conditions="condition" :element-id="elementId"/>
           <!--任务节点配置-->
-          <task-loop-characteristics v-if="taskLoopViewable" v-bind="$props" :element-id="elementId" />
+          <task-loop-characteristics v-if="taskLoopViewable" v-bind="$props" :element-id="elementId"/>
         </div>
       </el-collapse-item>
+      <!-- 外置表单配置-->
+      <template v-if="elementType === 'bpmn:UserTask' || elementType === 'bpmn:StartEvent'">
+        <el-collapse-item name="form">
+          <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>表单</div>
+          <div class="panel-tab__content">
+            <div class="element-property input-property">
+              <div class="element-property__label">选择表单</div>
+              <div class="element-property__value">
+                <el-select v-model="activeElementBusiness.formKey" size="small"
+                           @change="updateBaseInfo('formKey', activeElementBusiness.formKey)">
+                  <!--bpmn:MultiInstanceLoopCharacteristics-->
+                  <el-option label="请假单" value="leaveForm"/>
+                  <el-option label="补卡申请单" value="cardReplacementApplicationForm"/>
+                  <el-option label="公章申请单" value="officialSealApplicationForm"/>
+                </el-select>
+              </div>
+            </div>
+          </div>
+        </el-collapse-item>
+      </template>
       <el-collapse-item name="listeners">
         <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
         <element-listener
-          v-bind="$props"
-          :element-id="elementId"
-          :listeners="elementListeners"
-          @change="updateElementListener"
+            v-bind="$props"
+            :element-id="elementId"
+            :listeners="elementListeners"
+            @change="updateElementListener"
         />
       </el-collapse-item>
       <el-collapse-item name="extensions">
         <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
         <element-attributes
-          v-bind="$props"
-          :element-id="elementId"
-          :attributes="elementAttributes"
-          @change="updateElementAttributes"
+            v-bind="$props"
+            :element-id="elementId"
+            :attributes="elementAttributes"
+            @change="updateElementAttributes"
         />
       </el-collapse-item>
       <el-collapse-item name="other">
@@ -86,13 +142,13 @@
             <div class="element-property__label">元素文档</div>
             <div class="element-property__value">
               <el-input
-                type="textarea"
-                v-model="documentation"
-                size="small"
-                resize="vertical"
-                :autosize="{ minRows: 2, maxRows: 4 }"
-                @input="updateDocumentation"
-                @blur="updateDocumentation"
+                  type="textarea"
+                  v-model="documentation"
+                  size="small"
+                  resize="vertical"
+                  :autosize="{ minRows: 2, maxRows: 4 }"
+                  @input="updateDocumentation"
+                  @blur="updateDocumentation"
               />
             </div>
           </div>
@@ -102,195 +158,195 @@
   </div>
 </template>
 <script>
-import { debounce } from "@/utils";
-import ConditionConfig from "./condition-config/ConditionConfig";
-import ElementListener from "./extensional/listeners/ElementListener";
-import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
-import TaskLoopCharacteristics from "./task-config/TaskLoopCharacteristics";
-// import { is } from 'bpmn-js/lib/util/ModelUtil';
+    import {debounce} from "@/utils";
+    import ConditionConfig from "./condition-config/ConditionConfig";
+    import ElementListener from "./extensional/listeners/ElementListener";
+    import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
+    import TaskLoopCharacteristics from "./task-config/TaskLoopCharacteristics";
+    // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
-export default {
-  name: "ProcessPanel",
-  components: { TaskLoopCharacteristics, ElementAttributes, ElementListener, ConditionConfig },
-  componentName: "ProcessPanel",
-  props: {
-    bpmnModeler: Object,
-    prefix: {
-      type: String,
-      default: "camunda"
-    },
-    width: {
-      type: Number,
-      default: 480
-    },
-    idEditDisabled: {
-      type: Boolean,
-      default: true
-    }
-  },
-  provide() {
-    return {
-      prefix: this.prefix,
-      width: this.width
-    };
-  },
-  data() {
-    return {
-      condition: {},
-      activeTab: "base",
-      activeElementBusiness: {},
-      documentation: "",
-      conditionType: "",
-      elementListeners: [],
-      elementAttributes: []
-    };
-  },
-  computed: {
-    elementType() {
-      if (this.activeElementBusiness) return this.activeElementBusiness.$type;
-      return null;
-    },
-    elementId() {
-      if (this.activeElementBusiness) return this.activeElementBusiness.id;
-      return null;
-    },
-    flowTypeViewable() {
-      if (this.elementType !== "bpmn:SequenceFlow") return false;
-      return this.activeElementBusiness.sourceRef && this.activeElementBusiness.sourceRef.$type !== "bpmn:StartEvent";
-    },
-    taskLoopViewable() {
-      return this.elementType && this.elementType.indexOf("Task") !== -1;
-    }
-  },
-  watch: {
-    elementType(type) {
-      console.log("selectionElementType: ", type);
-    },
-    elementId(id) {
-      console.log("selectionElementId: ", id);
-    }
-  },
-  created() {
-    this.initFormOnChanged = debounce(this.initFormOnChanged, 100);
-  },
-  mounted() {
-    this.getActiveElement();
-  },
-  beforeDestroy() {
-    clearTimeout(this.timer);
-  },
-  methods: {
-    getActiveElement() {
-      // 初始化 modeler 以及其他 moddle
-      if (!this.bpmnModeler) {
-        this.timer = setTimeout(() => this.getActiveElement(), 10);
-        return;
-      }
-      if (this.timer) clearTimeout(this.timer);
-      this.modeling = this.bpmnModeler.get("modeling");
-      this.moddle = this.bpmnModeler.get("moddle");
-      this.eventBus = this.bpmnModeler.get("eventBus");
-      this.bpmnFactory = this.bpmnModeler.get("bpmnFactory");
-      this.elementRegistry = this.bpmnModeler.get("elementRegistry");
-      this.replace = this.bpmnModeler.get("replace");
-      this.selection = this.bpmnModeler.get("selection");
+    export default {
+        name: "ProcessPanel",
+        components: {TaskLoopCharacteristics, ElementAttributes, ElementListener, ConditionConfig},
+        componentName: "ProcessPanel",
+        props: {
+            bpmnModeler: Object,
+            prefix: {
+                type: String,
+                default: "camunda"
+            },
+            width: {
+                type: Number,
+                default: 480
+            },
+            idEditDisabled: {
+                type: Boolean,
+                default: true
+            }
+        },
+        provide() {
+            return {
+                prefix: this.prefix,
+                width: this.width
+            };
+        },
+        data() {
+            return {
+                condition: {},
+                activeTab: "base",
+                activeElementBusiness: {},
+                documentation: "",
+                conditionType: "",
+                elementListeners: [],
+                elementAttributes: []
+            };
+        },
+        computed: {
+            elementType() {
+                if (this.activeElementBusiness) return this.activeElementBusiness.$type;
+                return null;
+            },
+            elementId() {
+                if (this.activeElementBusiness) return this.activeElementBusiness.id;
+                return null;
+            },
+            flowTypeViewable() {
+                if (this.elementType !== "bpmn:SequenceFlow") return false;
+                return this.activeElementBusiness.sourceRef && this.activeElementBusiness.sourceRef.$type !== "bpmn:StartEvent";
+            },
+            taskLoopViewable() {
+                return this.elementType && this.elementType.indexOf("Task") !== -1;
+            }
+        },
+        watch: {
+            elementType(type) {
+                console.log("selectionElementType: ", type);
+            },
+            elementId(id) {
+                console.log("selectionElementId: ", id);
+            }
+        },
+        created() {
+            this.initFormOnChanged = debounce(this.initFormOnChanged, 100);
+        },
+        mounted() {
+            this.getActiveElement();
+        },
+        beforeDestroy() {
+            clearTimeout(this.timer);
+        },
+        methods: {
+            getActiveElement() {
+                // 初始化 modeler 以及其他 moddle
+                if (!this.bpmnModeler) {
+                    this.timer = setTimeout(() => this.getActiveElement(), 10);
+                    return;
+                }
+                if (this.timer) clearTimeout(this.timer);
+                this.modeling = this.bpmnModeler.get("modeling");
+                this.moddle = this.bpmnModeler.get("moddle");
+                this.eventBus = this.bpmnModeler.get("eventBus");
+                this.bpmnFactory = this.bpmnModeler.get("bpmnFactory");
+                this.elementRegistry = this.bpmnModeler.get("elementRegistry");
+                this.replace = this.bpmnModeler.get("replace");
+                this.selection = this.bpmnModeler.get("selection");
 
-      // 初始第一个选中元素 bpmn:Process
-      const processElement = this.elementRegistry.find(el => el.type === "bpmn:Process");
-      this.activeElementBusiness = Object.assign({}, processElement.businessObject);
+                // 初始第一个选中元素 bpmn:Process
+                const processElement = this.elementRegistry.find(el => el.type === "bpmn:Process");
+                this.activeElementBusiness = Object.assign({}, processElement.businessObject);
 
-      // 监听选择事件，修改当前激活的元素以及表单
-      this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
-        const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
-        this.initFormOnChanged(shape.id);
-      });
-    },
-    // 元素更新时更新表单
-    initFormOnChanged(elementId) {
-      const element = this.elementRegistry.get(elementId); // 元素
-      const shapeDoc = element.businessObject.documentation; // 元素文档
-      this.activeElementBusiness = Object.assign({}, element.businessObject);
-      console.log("activeElementBusiness:", this.activeElementBusiness);
-      // 设置文档属性
-      this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0]?.text : "";
-      // 设置扩展监听
-      if (element.businessObject?.extensionElements?.values) {
-        this.elementListeners = element.businessObject.extensionElements.values.filter(
-          // ex => ex.$type === "camunda:ExecutionListener"
-          ex => ex.$type === `${this.prefix}:ExecutionListener`
-        );
-        this.elementAttributes = element.businessObject.extensionElements.values.filter(
-          ex => ex.$type === `${this.prefix}:Properties`
-        );
-      } else {
-        this.elementListeners = [];
-        this.elementAttributes = [];
-      }
-      // 设置条件属性
-      if (element.type.indexOf("SequenceFlow") !== -1) {
-        if (element.businessObject.conditionExpression) {
-          this.condition = { ...element.businessObject.conditionExpression };
-          this.$set(this.condition, "type", "condition");
-          return;
+                // 监听选择事件，修改当前激活的元素以及表单
+                this.bpmnModeler.on("selection.changed", ({newSelection}) => {
+                    const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
+                    this.initFormOnChanged(shape.id);
+                });
+            },
+            // 元素更新时更新表单
+            initFormOnChanged(elementId) {
+                const element = this.elementRegistry.get(elementId); // 元素
+                const shapeDoc = element.businessObject.documentation; // 元素文档
+                this.activeElementBusiness = Object.assign({}, element.businessObject);
+                console.log("activeElementBusiness:", this.activeElementBusiness);
+                // 设置文档属性
+                this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0]?.text : "";
+                // 设置扩展监听
+                if (element.businessObject?.extensionElements?.values) {
+                    this.elementListeners = element.businessObject.extensionElements.values.filter(
+                        // ex => ex.$type === "camunda:ExecutionListener"
+                        ex => ex.$type === `${this.prefix}:ExecutionListener`
+                    );
+                    this.elementAttributes = element.businessObject.extensionElements.values.filter(
+                        ex => ex.$type === `${this.prefix}:Properties`
+                    );
+                } else {
+                    this.elementListeners = [];
+                    this.elementAttributes = [];
+                }
+                // 设置条件属性
+                if (element.type.indexOf("SequenceFlow") !== -1) {
+                    if (element.businessObject.conditionExpression) {
+                        this.condition = {...element.businessObject.conditionExpression};
+                        this.$set(this.condition, "type", "condition");
+                        return;
+                    }
+                    const sourceShape = this.elementRegistry.get(element.businessObject.sourceRef.id);
+                    if (sourceShape.businessObject.default && sourceShape.businessObject.default.id === elementId) {
+                        this.$set(this.condition, "type", "default");
+                        return;
+                    }
+                    this.$set(this.condition, "type", "normal");
+                }
+            },
+            // 更新常规信息
+            updateBaseInfo(key, value) {
+                const shape = this.elementRegistry.get(this.elementId);
+                let attrObj = {};
+                attrObj[key] = value;
+                this.modeling.updateProperties(shape, attrObj);
+            },
+            // 更新元素文档
+            updateDocumentation() {
+                const element = this.elementRegistry.get(this.elementId);
+                const documentation = this.bpmnFactory.create("bpmn:Documentation", {text: this.documentation});
+                this.modeling.updateProperties(element, {
+                    documentation: [documentation]
+                });
+            },
+            // 更新事件监听器
+            updateElementListener(listeners) {
+                const element = this.elementRegistry.get(this.elementId);
+                const extensionElements = element.businessObject.get("extensionElements");
+                // 截取不是监听器的属性
+                const otherExtensions =
+                    extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) || [];
+                // 重建扩展属性
+                const extensions = this.moddle.create("bpmn:ExtensionElements", {
+                    values: otherExtensions.concat(listeners)
+                });
+                this.updateElementExtensions(element, extensions);
+            },
+            // 更新扩展属性
+            updateElementAttributes(attributes) {
+                // attributes 是普通数组，需要重新创建实例
+                const properties = this.moddle.create(`${this.prefix}:Properties`, {
+                    values: attributes.map(attr => {
+                        return this.moddle.create(`${this.prefix}:Property`, {name: attr.name, value: attr.value});
+                    })
+                });
+                const element = this.elementRegistry.get(this.elementId);
+                const extensionElements = element.businessObject.get("extensionElements");
+                // 截取不是扩展属性的属性
+                const otherExtensions = extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:Properties`) || [];
+                // 重建扩展属性
+                const extensions = this.moddle.create("bpmn:ExtensionElements", {values: otherExtensions.concat([properties])});
+                this.updateElementExtensions(element, extensions);
+            },
+            // 更新属性到元素
+            updateElementExtensions(element, extensions) {
+                this.modeling.updateProperties(element, {extensionElements: extensions});
+                // 更新表单
+                this.initFormOnChanged(this.elementId);
+            }
         }
-        const sourceShape = this.elementRegistry.get(element.businessObject.sourceRef.id);
-        if (sourceShape.businessObject.default && sourceShape.businessObject.default.id === elementId) {
-          this.$set(this.condition, "type", "default");
-          return;
-        }
-        this.$set(this.condition, "type", "normal");
-      }
-    },
-    // 更新常规信息
-    updateBaseInfo(key, value) {
-      const shape = this.elementRegistry.get(this.elementId);
-      let attrObj = {};
-      attrObj[key] = value;
-      this.modeling.updateProperties(shape, attrObj);
-    },
-    // 更新元素文档
-    updateDocumentation() {
-      const element = this.elementRegistry.get(this.elementId);
-      const documentation = this.bpmnFactory.create("bpmn:Documentation", { text: this.documentation });
-      this.modeling.updateProperties(element, {
-        documentation: [documentation]
-      });
-    },
-    // 更新事件监听器
-    updateElementListener(listeners) {
-      const element = this.elementRegistry.get(this.elementId);
-      const extensionElements = element.businessObject.get("extensionElements");
-      // 截取不是监听器的属性
-      const otherExtensions =
-        extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) || [];
-      // 重建扩展属性
-      const extensions = this.moddle.create("bpmn:ExtensionElements", {
-        values: otherExtensions.concat(listeners)
-      });
-      this.updateElementExtensions(element, extensions);
-    },
-    // 更新扩展属性
-    updateElementAttributes(attributes) {
-      // attributes 是普通数组，需要重新创建实例
-      const properties = this.moddle.create(`${this.prefix}:Properties`, {
-        values: attributes.map(attr => {
-          return this.moddle.create(`${this.prefix}:Property`, { name: attr.name, value: attr.value });
-        })
-      });
-      const element = this.elementRegistry.get(this.elementId);
-      const extensionElements = element.businessObject.get("extensionElements");
-      // 截取不是扩展属性的属性
-      const otherExtensions = extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:Properties`) || [];
-      // 重建扩展属性
-      const extensions = this.moddle.create("bpmn:ExtensionElements", { values: otherExtensions.concat([properties]) });
-      this.updateElementExtensions(element, extensions);
-    },
-    // 更新属性到元素
-    updateElementExtensions(element, extensions) {
-      this.modeling.updateProperties(element, { extensionElements: extensions });
-      // 更新表单
-      this.initFormOnChanged(this.elementId);
-    }
-  }
-};
+    };
 </script>
