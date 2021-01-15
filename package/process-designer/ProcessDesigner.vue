@@ -103,10 +103,6 @@ export default {
       type: Array,
       default: () => ["element.click"]
     },
-    panelWidth: {
-      type: [String, Number],
-      default: 400
-    },
     headerButtonSize: {
       type: String,
       default: "small",
@@ -194,10 +190,6 @@ export default {
         Extensions.camunda = camundaModdleDescriptor;
       }
       return Extensions;
-    },
-    panelStyle() {
-      if (typeof this.panelWidth === "number") return { width: `${this.panelWidth}px` };
-      return { width: this.panelWidth };
     }
   },
   mounted() {
@@ -222,7 +214,7 @@ export default {
     },
     createNewDiagram(xml) {
       // 将字符串转换成图显示出来
-      let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程");
+      let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程", this.processType);
       this.bpmnModeler
         .importXML(xmlString)
         .then(result => {
@@ -259,7 +251,6 @@ export default {
       // 监听视图缩放变化
       this.bpmnModeler.on("canvas.viewbox.changed", e => {
         this.defaultZoom = Math.floor(e.viewbox.scale * 100) / 100;
-        // this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
         this.currentScale = Math.floor(this.defaultZoom * 100) + "%";
       });
     },
