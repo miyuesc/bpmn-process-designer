@@ -56,7 +56,8 @@ export default {
   name: "TaskLoopCharacteristics",
   props: {
     bpmnModeler: Object,
-    elementId: String
+    elementId: String,
+    elementBusinessObject: Object
   },
   inject: {
     prefix: "prefix"
@@ -71,14 +72,15 @@ export default {
     elementId: {
       immediate: true,
       handler: function(newVal) {
-        if (!this.bpmnModeler || !this.bpmnModeler.get) return;
-        this.modeling = this.bpmnModeler.get("modeling");
-        this.moddle = this.bpmnModeler.get("moddle");
-        this.elementRegistry = this.bpmnModeler.get("elementRegistry");
-        if (newVal) {
-          this.element = this.elementRegistry.get(newVal);
-          this.loopCharacteristicsObject = this.element.businessObject?.get("loopCharacteristics") ?? null;
-          this.initLoopCharacteristics();
+        this.initElementBusinessObject(newVal);
+      }
+    },
+    elementBusinessObject: {
+      immediate: false,
+      deep: true,
+      handler: function(newVal, oldVal) {
+        if (newVal.loopCharacteristics !== oldVal.loopCharacteristics) {
+          this.initElementBusinessObject(newVal.id);
         }
       }
     },
@@ -93,6 +95,16 @@ export default {
     this.updateLoopCharacteristicsObject = debounce(this.updateLoopCharacteristicsObject, 200);
   },
   methods: {
+    initElementBusinessObject(elementId) {
+      !this.modeling && (this.modeling = this.bpmnModeler.get("modeling"));
+      !this.moddle && (this.moddle = this.bpmnModeler.get("moddle"));
+      !this.elementRegistry && (this.elementRegistry = this.bpmnModeler.get("elementRegistry"));
+      if (elementId) {
+        this.element = this.elementRegistry.get(elementId);
+        this.loopCharacteristicsObject = this.element.businessObject?.get("loopCharacteristics") ?? null;
+        this.initLoopCharacteristics();
+      }
+    },
     // 初始化多实例类型
     initLoopCharacteristics() {
       if (this.loopCharacteristicsObject) {
@@ -129,9 +141,9 @@ export default {
       }
       if (type === "Null" || !type) {
         this.loopCharacteristicsObject = {};
-        this.modeling.updateProperties(this.element, {
-          loopCharacteristics: null
-        });
+        // this.modeling.updateProperties(this.element, {
+        //   loopCharacteristics: null
+        // });
         delete this.element.businessObject.loopCharacteristics;
         return;
       }

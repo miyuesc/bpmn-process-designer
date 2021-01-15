@@ -108,7 +108,12 @@
             :element-id="elementId"
           />
           <!--任务节点配置-->
-          <task-loop-characteristics v-if="taskLoopViewable" v-bind="$props" :element-id="elementId" />
+          <task-loop-characteristics
+            v-if="taskLoopViewable"
+            v-bind="$props"
+            :element-id="elementId"
+            :element-business-object="activeElementBusinessObject"
+          />
         </div>
       </el-collapse-item>
       <!-- 外置表单配置-->
