@@ -8,11 +8,11 @@
             <div class="element-property__label">ID</div>
             <div class="element-property__value">
               <el-input
-                v-model="activeElementBusiness.id"
+                v-model="activeElementBusinessObject.id"
                 size="small"
                 :disabled="idEditDisabled"
                 clearable
-                @keyup.native="updateBaseInfo('id', activeElementBusiness.id)"
+                @keyup.native="updateBaseInfo('id', activeElementBusinessObject.id)"
                 @change="updateBaseInfo('id', $event)"
               />
             </div>
@@ -21,10 +21,10 @@
             <div class="element-property__label">名称</div>
             <div class="element-property__value">
               <el-input
-                v-model="activeElementBusiness.name"
+                v-model="activeElementBusinessObject.name"
                 size="small"
                 clearable
-                @keyup.native="updateBaseInfo('name', activeElementBusiness.name)"
+                @keyup.native="updateBaseInfo('name', activeElementBusinessObject.name)"
                 @change="updateBaseInfo('name', $event)"
               />
             </div>
@@ -35,9 +35,9 @@
               <div class="element-property__label">处理人</div>
               <div class="element-property__value">
                 <el-select
-                  v-model="activeElementBusiness.assignee"
+                  v-model="activeElementBusinessObject.assignee"
                   size="small"
-                  @change="updateBaseInfo('assignee', activeElementBusiness.assignee)"
+                  @change="updateBaseInfo('assignee', activeElementBusinessObject.assignee)"
                 >
                   <el-option label="诸葛亮" value="zgl" />
                   <el-option label="张良" value="zhangliang" />
@@ -49,9 +49,9 @@
               <div class="element-property__label">候选人</div>
               <div class="element-property__value">
                 <el-select
-                  v-model="activeElementBusiness.candidateUsers"
+                  v-model="activeElementBusinessObject.candidateUsers"
                   size="small"
-                  @change="updateBaseInfo('candidateUsers', activeElementBusiness.candidateUsers)"
+                  @change="updateBaseInfo('candidateUsers', activeElementBusinessObject.candidateUsers)"
                 >
                   <el-option label="孙悟空" value="swk" />
                   <el-option label="花木兰" value="hml" />
@@ -63,9 +63,9 @@
               <div class="element-property__label">候选组</div>
               <div class="element-property__value">
                 <el-select
-                  v-model="activeElementBusiness.candidateGroups"
+                  v-model="activeElementBusinessObject.candidateGroups"
                   size="small"
-                  @change="updateBaseInfo('candidateGroups', activeElementBusiness.candidateGroups)"
+                  @change="updateBaseInfo('candidateGroups', activeElementBusinessObject.candidateGroups)"
                 >
                   <el-option label="战士" value="zs" />
                   <el-option label="坦克" value="tk" />
@@ -80,10 +80,10 @@
               <div class="element-property__label">版本标签</div>
               <div class="element-property__value">
                 <el-input
-                  v-model="activeElementBusiness.versionTag"
+                  v-model="activeElementBusinessObject.versionTag"
                   size="small"
                   clearable
-                  @keyup.native="updateBaseInfo('versionTag', activeElementBusiness.versionTag)"
+                  @keyup.native="updateBaseInfo('versionTag', activeElementBusinessObject.versionTag)"
                   @change="updateBaseInfo('versionTag', $event)"
                 />
               </div>
@@ -92,7 +92,7 @@
               <div class="element-property__label">可执行</div>
               <div class="element-property__value">
                 <el-switch
-                  v-model="activeElementBusiness.isExecutable"
+                  v-model="activeElementBusinessObject.isExecutable"
                   active-text="是"
                   inactive-text="否"
                   @change="updateBaseInfo('isExecutable', $event)"
@@ -101,7 +101,12 @@
             </div>
           </template>
           <!--连接线的基础配置-->
-          <condition-config v-if="flowTypeViewable" v-bind="$props" :conditions="condition" :element-id="elementId" />
+          <condition-config
+            v-if="flowTypeViewable"
+            v-bind="$props"
+            :conditions="sequenceFlowCondition"
+            :element-id="elementId"
+          />
           <!--任务节点配置-->
           <task-loop-characteristics v-if="taskLoopViewable" v-bind="$props" :element-id="elementId" />
         </div>
@@ -115,11 +120,10 @@
               <div class="element-property__label">选择表单</div>
               <div class="element-property__value">
                 <el-select
-                  v-model="activeElementBusiness.formKey"
+                  v-model="activeElementBusinessObject.formKey"
                   size="small"
-                  @change="updateBaseInfo('formKey', activeElementBusiness.formKey)"
+                  @change="updateBaseInfo('formKey', activeElementBusinessObject.formKey)"
                 >
-                  <!--bpmn:MultiInstanceLoopCharacteristics-->
                   <el-option label="请假单" value="leaveForm" />
                   <el-option label="补卡申请单" value="cardReplacementApplicationForm" />
                   <el-option label="公章申请单" value="officialSealApplicationForm" />
@@ -204,27 +208,28 @@ export default {
   },
   data() {
     return {
-      condition: {},
       activeTab: "base",
-      activeElementBusiness: {},
-      documentation: "",
-      conditionType: "",
-      elementListeners: [],
-      elementAttributes: []
+      activeElementBusinessObject: {},
+      documentation: "", // 元素文档 对应的字符串
+      sequenceFlowCondition: {}, // 连线条件实例（包含需要的类型字段）
+      elementListeners: [], // 扩展属性 -- 监听器实例集合
+      elementAttributes: [] // 扩展属性 -- 自定义字段属性实例集合
     };
   },
   computed: {
     elementType() {
-      if (this.activeElementBusiness) return this.activeElementBusiness.$type;
+      if (this.activeElementBusinessObject) return this.activeElementBusinessObject.$type;
       return null;
     },
     elementId() {
-      if (this.activeElementBusiness) return this.activeElementBusiness.id;
+      if (this.activeElementBusinessObject) return this.activeElementBusinessObject.id;
       return null;
     },
     flowTypeViewable() {
       if (this.elementType !== "bpmn:SequenceFlow") return false;
-      return this.activeElementBusiness.sourceRef && this.activeElementBusiness.sourceRef.$type !== "bpmn:StartEvent";
+      return (
+        this.activeElementBusinessObject.sourceRef && this.activeElementBusinessObject.sourceRef.$type !== "bpmn:StartEvent"
+      );
     },
     taskLoopViewable() {
       return this.elementType && this.elementType.indexOf("Task") !== -1;
@@ -240,18 +245,20 @@ export default {
   },
   created() {
     this.initFormOnChanged = debounce(this.initFormOnChanged, 100);
+    this.initModels();
   },
   mounted() {
-    this.getActiveElement();
+    // this.initModels();
   },
   beforeDestroy() {
-    clearTimeout(this.timer);
+    // clearTimeout(this.timer);
   },
   methods: {
-    getActiveElement() {
+    initModels() {
       // 初始化 modeler 以及其他 moddle
       if (!this.bpmnModeler) {
-        this.timer = setTimeout(() => this.getActiveElement(), 10);
+        // 避免加载时 流程图 并未加载完成
+        this.timer = setTimeout(() => this.initModels(), 10);
         return;
       }
       if (this.timer) clearTimeout(this.timer);
@@ -262,23 +269,29 @@ export default {
       this.elementRegistry = this.bpmnModeler.get("elementRegistry");
       this.replace = this.bpmnModeler.get("replace");
       this.selection = this.bpmnModeler.get("selection");
-
+      this.$nextTick(() => this.getActiveElement());
+    },
+    getActiveElement() {
       // 初始第一个选中元素 bpmn:Process
       const processElement = this.elementRegistry.find(el => el.type === "bpmn:Process");
-      this.activeElementBusiness = Object.assign({}, processElement.businessObject);
-
+      this.activeElementBusinessObject = { ...processElement.businessObject };
       // 监听选择事件，修改当前激活的元素以及表单
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
         const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
         this.initFormOnChanged(shape.id);
+      });
+      this.bpmnModeler.on("element.changed", ({ element }) => {
+        // 保证 修改 "默认流转路径" 类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。
+        if (element && element.id === this.activeElementBusinessObject.id) {
+          this.initFormOnChanged(element.id);
+        }
       });
     },
     // 元素更新时更新表单
     initFormOnChanged(elementId) {
       const element = this.elementRegistry.get(elementId); // 元素
       const shapeDoc = element.businessObject.documentation; // 元素文档
-      this.activeElementBusiness = Object.assign({}, element.businessObject);
-      console.log("activeElementBusiness:", this.activeElementBusiness);
+      this.activeElementBusinessObject = { ...element.businessObject };
       // 设置文档属性
       this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0]?.text : "";
       // 设置扩展监听
@@ -297,16 +310,16 @@ export default {
       // 设置条件属性
       if (element.type.indexOf("SequenceFlow") !== -1) {
         if (element.businessObject.conditionExpression) {
-          this.condition = { ...element.businessObject.conditionExpression };
-          this.$set(this.condition, "type", "condition");
+          this.sequenceFlowCondition = { ...element.businessObject.conditionExpression };
+          this.$set(this.sequenceFlowCondition, "type", "condition");
           return;
         }
         const sourceShape = this.elementRegistry.get(element.businessObject.sourceRef.id);
         if (sourceShape.businessObject.default && sourceShape.businessObject.default.id === elementId) {
-          this.$set(this.condition, "type", "default");
+          this.$set(this.sequenceFlowCondition, "type", "default");
           return;
         }
-        this.$set(this.condition, "type", "normal");
+        this.$set(this.sequenceFlowCondition, "type", "normal");
       }
     },
     // 更新常规信息
@@ -353,7 +366,7 @@ export default {
       const extensions = this.moddle.create("bpmn:ExtensionElements", { values: otherExtensions.concat([properties]) });
       this.updateElementExtensions(element, extensions);
     },
-    // 更新属性到元素
+    // 更新扩展配置 extensionElements 到元素
     updateElementExtensions(element, extensions) {
       this.modeling.updateProperties(element, { extensionElements: extensions });
       // 更新表单
