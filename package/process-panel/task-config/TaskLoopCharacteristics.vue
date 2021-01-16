@@ -75,15 +75,15 @@ export default {
         this.initElementBusinessObject(newVal);
       }
     },
-    elementBusinessObject: {
-      immediate: false,
-      deep: true,
-      handler: function(newVal, oldVal) {
-        if (newVal.loopCharacteristics !== oldVal.loopCharacteristics) {
-          this.initElementBusinessObject(newVal.id);
-        }
-      }
-    },
+    // elementBusinessObject: {
+    //   immediate: false,
+    //   deep: true,
+    //   handler: function(newVal, oldVal) {
+    //     if (newVal.loopCharacteristics !== oldVal.loopCharacteristics) {
+    //       this.initElementBusinessObject(newVal.id);
+    //     }
+    //   }
+    // },
     loopInstanceForm: {
       deep: true,
       handler: function() {
@@ -136,14 +136,12 @@ export default {
     },
     // 更新多实例类型，创建 多实例对象
     updateLoopCharacteristics(type) {
-      for (let key in this.loopInstanceForm) {
-        this.$delete(this.loopInstanceForm, key);
-      }
+      this.loopInstanceForm = {};
       if (type === "Null" || !type) {
         this.loopCharacteristicsObject = {};
-        // this.modeling.updateProperties(this.element, {
-        //   loopCharacteristics: null
-        // });
+        this.modeling.updateProperties(this.element, {
+          loopCharacteristics: null
+        });
         delete this.element.businessObject.loopCharacteristics;
         return;
       }
