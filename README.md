@@ -49,10 +49,10 @@ npm run demo
 
 #### 2. Events
 
-1. | Event Name      | Description                                                  | Callback Parameters              |
-   | --------------- | ------------------------------------------------------------ | -------------------------------- |
-   | `init-finished` | The modeler Instance initialization completed                | `modeler`                        |
-   | `change`        | When the process changed ( `EventBus.on("commandStack.changed")`) | `XMLString`                      |
-   | `destroy`       | Before this Vue Component destroy and this bpmnModeler destroyed。 | `modeler`                        |
-   | `BpmnEvents`    | Like `element.click`, will replace `.` to `-` (`ep: "element.click" => "element-click"` ). If you want to use an event, you must add the event name to the "`events`" parameter | `element, InternalEventInstance` |
+| Event Name      | Description                                                  | Callback Parameters              |
+| --------------- | ------------------------------------------------------------ | -------------------------------- |
+| `init-finished` | The modeler Instance initialization completed                | `modeler`                        |
+| `change`        | When the process changed ( `EventBus.on("commandStack.changed")`) | `XMLString`                      |
+| `destroy`       | Before this Vue Component destroy and this bpmnModeler destroyed。 | `modeler`                        |
+| `BpmnEvents`    | Like `element.click`, will replace `.` to `-` (`ep: "element.click" => "element-click"` ). If you want to use an event, you must add the event name to the "`events`" parameter | `element, InternalEventInstance` |
 
