@@ -69,21 +69,21 @@ export default {
     };
   },
   watch: {
-    elementId: {
-      immediate: true,
-      handler: function(newVal) {
-        this.initElementBusinessObject(newVal);
-      }
-    },
-    // elementBusinessObject: {
-    //   immediate: false,
-    //   deep: true,
-    //   handler: function(newVal, oldVal) {
-    //     if (newVal.loopCharacteristics !== oldVal.loopCharacteristics) {
-    //       this.initElementBusinessObject(newVal.id);
-    //     }
+    // elementId: {
+    //   immediate: true,
+    //   handler: function(newVal) {
+    //     this.initElementBusinessObject(newVal);
     //   }
     // },
+    elementBusinessObject: {
+      immediate: true,
+      deep: true,
+      handler: function(newVal, oldVal) {
+        if (!oldVal?.loopCharacteristics || newVal.loopCharacteristics !== oldVal.loopCharacteristics) {
+          this.initElementBusinessObject(newVal.id);
+        }
+      }
+    },
     loopInstanceForm: {
       deep: true,
       handler: function() {
@@ -161,12 +161,12 @@ export default {
     },
     // 根据表单值更新多实例对象
     updateLoopCharacteristicsObject() {
+      // 根据配置更新
+      if (!Object.keys(this.loopInstanceForm).length) return;
       // 没有多实例对象时先创建
       if (!this.loopCharacteristicsObject) {
         this.updateLoopCharacteristics(this.loopCharacteristics);
       }
-      // 根据配置更新
-      if (!this.loopInstanceForm) return;
       // loopCardinality
       if (this.loopInstanceForm.loopCardinality) {
         this.loopCharacteristicsObject.loopCardinality = this.moddle.create("bpmn:FormalExpression", {
