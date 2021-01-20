@@ -87,7 +87,6 @@ export default {
     loopInstanceForm: {
       deep: true,
       handler: function() {
-        console.log(this.element);
         this.updateLoopCharacteristicsObject();
       }
     }
