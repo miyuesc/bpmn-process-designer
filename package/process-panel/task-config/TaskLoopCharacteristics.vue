@@ -222,6 +222,7 @@ export default {
     updateElementProperties(loopCharacteristicsModdle) {
       let business = { ...this.element.businessObject };
       if (business["$type"]) delete business["$type"];
+      if (business["loopCharacteristics"]) delete business["loopCharacteristics"];
       this.modeling.updateProperties(
         this.element,
         Object.assign(business, {
