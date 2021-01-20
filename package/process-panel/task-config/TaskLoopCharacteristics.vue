@@ -87,6 +87,7 @@ export default {
     loopInstanceForm: {
       deep: true,
       handler: function() {
+        console.log(this.element);
         this.updateLoopCharacteristicsObject();
       }
     }
@@ -220,7 +221,8 @@ export default {
     },
     // 更新 多实例配置 到元素
     updateElementProperties(loopCharacteristicsModdle) {
-      const business = this.element.businessObject;
+      let business = { ...this.element.businessObject };
+      if (business["$type"]) delete business["$type"];
       this.modeling.updateProperties(
         this.element,
         Object.assign(business, {
