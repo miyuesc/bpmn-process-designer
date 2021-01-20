@@ -220,15 +220,16 @@ export default {
     },
     // 更新 多实例配置 到元素
     updateElementProperties(loopCharacteristicsModdle) {
+      // 复制原有属性，避免更新丢失
       let business = { ...this.element.businessObject };
+      // 移除多余属性，更新内部属性
       if (business["$type"]) delete business["$type"];
+      if (business["di"]) delete business["di"];
+      if (business["id"]) delete business["id"];
+      if (business["$parent"]) delete business["$parent"];
       if (business["loopCharacteristics"]) delete business["loopCharacteristics"];
-      this.modeling.updateProperties(
-        this.element,
-        Object.assign(business, {
-          loopCharacteristics: loopCharacteristicsModdle
-        })
-      );
+      // 更新到节点元素上
+      this.modeling.updateProperties(this.element, { ...business, loopCharacteristics: loopCharacteristicsModdle });
     }
   }
 };
