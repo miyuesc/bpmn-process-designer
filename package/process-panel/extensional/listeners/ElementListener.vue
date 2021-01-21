@@ -4,12 +4,7 @@
       <el-table :data="ownerListenersList" size="mini" border fit>
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="事件类型" min-width="100px" prop="event" />
-        <el-table-column
-          label="监听器类型"
-          min-width="100px"
-          show-overflow-tooltip
-          :formatter="row => listenerTypeObject[row.listenerType]"
-        />
+        <el-table-column label="监听器类型" min-width="100px" show-overflow-tooltip :formatter="row => listenerTypeObject[row.listenerType]" />
         <el-table-column label="操作" width="100px">
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openListenerForm(row, $index)">编辑</el-button>
@@ -64,20 +59,10 @@
           <el-input v-model="listenerForm.delegateExpression" clearable />
         </el-form-item>
         <template v-if="listenerForm.listenerType === 'scriptListener'">
-          <el-form-item
-            label="脚本格式"
-            prop="scriptFormat"
-            key="listener-script-format"
-            :rules="{ required: true, trigger: ['blur', 'change'] }"
-          >
+          <el-form-item label="脚本格式" prop="scriptFormat" key="listener-script-format" :rules="{ required: true, trigger: ['blur', 'change'] }">
             <el-input v-model="listenerForm.script.scriptFormat" clearable />
           </el-form-item>
-          <el-form-item
-            label="脚本类型"
-            prop="script.scriptType"
-            key="listener-script-type"
-            :rules="{ required: true, trigger: ['blur', 'change'] }"
-          >
+          <el-form-item label="脚本类型" prop="script.scriptType" key="listener-script-type" :rules="{ required: true, trigger: ['blur', 'change'] }">
             <el-select v-model="listenerForm.script.scriptType">
               <el-option label="内联脚本" value="inlineScript" />
               <el-option label="外部脚本" value="externalScript" />
@@ -112,18 +97,8 @@
       <el-table :data="fieldsOfListener" size="mini" border fit style="flex: none">
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="字段名称" min-width="100px" prop="name" />
-        <el-table-column
-          label="字段类型"
-          min-width="80px"
-          show-overflow-tooltip
-          :formatter="row => fieldTypeObject[row.fieldType]"
-        />
-        <el-table-column
-          label="字段值/表达式"
-          min-width="100px"
-          show-overflow-tooltip
-          :formatter="row => row.string || row.expression"
-        />
+        <el-table-column label="字段类型" min-width="80px" show-overflow-tooltip :formatter="row => fieldTypeObject[row.fieldType]" />
+        <el-table-column label="字段值/表达式" min-width="100px" show-overflow-tooltip :formatter="row => row.string || row.expression" />
         <el-table-column label="操作" width="100px">
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openListenerFieldForm(row, $index)">编辑</el-button>
@@ -359,10 +334,7 @@ export default {
       const filedObj =
         this.listenerFieldForm.fieldType === "string"
           ? { name: this.listenerFieldForm.name, string: this.listenerFieldForm.string }
-          : {
-              name: this.listenerFieldForm.name,
-              expression: this.listenerFieldForm.expression
-            };
+          : { name: this.listenerFieldForm.name, expression: this.listenerFieldForm.expression };
       if (this.listenerFiledIndex === -1) {
         if (this.listenerForm.fields) {
           this.listenerForm.fields.push(filedObj);

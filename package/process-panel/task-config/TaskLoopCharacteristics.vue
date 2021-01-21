@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="element-property input-property">
-      <div class="element-property__label">回路特性</div>
+      <div class="element-property__label">回路特性：</div>
       <div class="element-property__value">
         <el-select v-model="loopCharacteristics" size="small" @change="updateLoopCharacteristics">
           <!--bpmn:MultiInstanceLoopCharacteristics-->
@@ -15,7 +15,7 @@
     </div>
     <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
       <el-divider><i class="el-icon-coin"></i> 多实例配置</el-divider>
-      <el-form :model="loopInstanceForm" size="small" label-width="100px" ref="loopInstanceFormRef">
+      <el-form :model="loopInstanceForm" size="small" label-width="100px" label-suffix="：" ref="loopInstanceFormRef">
         <el-form-item label="循环基数" prop="loopCardinality">
           <el-input v-model="loopInstanceForm.loopCardinality" clearable />
         </el-form-item>
@@ -31,17 +31,9 @@
         <el-form-item label="异步状态">
           <el-checkbox v-model="loopInstanceForm.asyncBefore" label="异步前" />
           <el-checkbox v-model="loopInstanceForm.asyncAfter" label="异步后" />
-          <el-checkbox
-            v-model="loopInstanceForm.exclusive"
-            v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore"
-            label="排除"
-          />
+          <el-checkbox v-model="loopInstanceForm.exclusive" v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore" label="排除" />
         </el-form-item>
-        <el-form-item
-          label="重试时间周期"
-          prop="failedJobRetryTimeCycle"
-          v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore"
-        >
+        <el-form-item label="重试周期" prop="failedJobRetryTimeCycle" v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore">
           <el-input v-model="loopInstanceForm.failedJobRetryTimeCycle" clearable />
         </el-form-item>
       </el-form>
@@ -50,6 +42,12 @@
 </template>
 
 <script>
+/**
+ * 任务类节点多实例配置
+ * @Author MiyueFE
+ * @Home https://github.com/miyuesc
+ * @Date 2021年1月21日09:36:25
+ */
 import { debounce } from "@/utils";
 
 export default {
@@ -110,9 +108,7 @@ export default {
       if (this.loopCharacteristicsObject) {
         let loopType = this.loopCharacteristicsObject.$type;
         if (loopType === "bpmn:MultiInstanceLoopCharacteristics") {
-          this.loopCharacteristics = this.loopCharacteristicsObject.isSequential
-            ? "SequentialMultiInstance"
-            : "ParallelMultiInstance";
+          this.loopCharacteristics = this.loopCharacteristicsObject.isSequential ? "SequentialMultiInstance" : "ParallelMultiInstance";
         }
         if (loopType === "bpmn:StandardLoopCharacteristics") {
           this.loopCharacteristics = "StandardLoop";
@@ -125,11 +121,7 @@ export default {
         this.$set(this.loopInstanceForm, "exclusive", this.loopCharacteristicsObject.exclusive);
         this.$set(this.loopInstanceForm, "loopCardinality", this.loopCharacteristicsObject.loopCardinality?.body);
         this.$set(this.loopInstanceForm, "completionCondition", this.loopCharacteristicsObject.completionCondition?.body);
-        this.$set(
-          this.loopInstanceForm,
-          "failedJobRetryTimeCycle",
-          this.loopCharacteristicsObject?.extensionElements?.values[0]?.body
-        );
+        this.$set(this.loopInstanceForm, "failedJobRetryTimeCycle", this.loopCharacteristicsObject?.extensionElements?.values[0]?.body);
       } else {
         this.loopCharacteristics = "Null";
       }

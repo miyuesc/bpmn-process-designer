@@ -13,9 +13,7 @@
           </div>
           <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-more">下载文件</el-button>
         </el-tooltip>
-        <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened" @click="$refs.refFile.click()"
-          >打开文件</el-button
-        >
+        <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened" @click="$refs.refFile.click()">打开文件</el-button>
         <el-tooltip effect="light">
           <div slot="content">
             <el-button :size="headerButtonSize" type="text" @click="previewProcessXML">预览XML</el-button>

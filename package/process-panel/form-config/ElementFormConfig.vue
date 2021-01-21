@@ -1,18 +1,18 @@
 <template>
   <div class="panel-tab__content">
-    表单配置部分
+    <div class="el-form-item">
+      <div class="el-form-item__label">表单key：</div>
+      <div class="el-form-item__content"></div>
+    </div>
   </div>
 </template>
 <script>
 export default {
   name: "ElementFormConfig",
   props: {
-    listeners: {
-      type: Array,
-      default: () => []
-    },
     bpmnModeler: Object,
-    elementId: String
+    elementId: String,
+    elementBusinessObject: Object
   },
   inject: {
     prefix: "prefix",

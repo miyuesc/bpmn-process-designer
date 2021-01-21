@@ -1,11 +1,6 @@
 <template>
   <div id="app">
-    <my-process-designer
-      :additional-model="labelEditing"
-      process-type="camunda"
-      @element-click="elementClick"
-      @init-finished="initModeler"
-    />
+    <my-process-designer :additional-model="labelEditing" process-type="camunda" @element-click="elementClick" @init-finished="initModeler" />
     <process-panel :bpmn-modeler="modeler" prefix="camunda" class="process-panel" />
   </div>
 </template>

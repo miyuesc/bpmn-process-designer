@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="element-property input-property">
-      <div class="element-property__label">流转类型</div>
+      <div class="element-property__label">流转类型：</div>
       <div class="element-property__value">
         <el-select v-model="condition.type" size="small" @change="updateFlowType">
           <el-option label="普通流转路径" value="normal" />
@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="element-property input-property" v-if="condition.type === 'condition'">
-      <div class="element-property__label">条件格式</div>
+      <div class="element-property__label">条件格式：</div>
       <div class="element-property__value">
         <el-select v-model="condition.conditionType" size="small" @change="changeFlowConditionType">
           <el-option label="表达式" value="expression" />
@@ -20,20 +20,20 @@
       </div>
     </div>
     <div class="element-property input-property" v-if="condition.conditionType === 'expression'">
-      <div class="element-property__label">表达式</div>
+      <div class="element-property__label">表达式：</div>
       <div class="element-property__value">
         <el-input v-model="condition.body" size="small" clearable @change="updateFlowCondition" />
       </div>
     </div>
     <template v-if="condition.conditionType === 'script'">
       <div class="element-property input-property">
-        <div class="element-property__label">脚本格式</div>
+        <div class="element-property__label">脚本格式：</div>
         <div class="element-property__value">
           <el-input v-model="condition.language" size="small" clearable @change="updateFlowCondition" />
         </div>
       </div>
       <div class="element-property input-property">
-        <div class="element-property__label">脚本类型</div>
+        <div class="element-property__label">脚本类型：</div>
         <div class="element-property__value">
           <el-select v-model="condition.scriptType" size="small" @change="updateFlowCondition">
             <el-option label="内联脚本" value="inlineScript" />
@@ -42,13 +42,13 @@
         </div>
       </div>
       <div class="element-property input-property" v-if="condition.scriptType === 'inlineScript'">
-        <div class="element-property__label">脚本</div>
+        <div class="element-property__label">脚本：</div>
         <div class="element-property__value">
           <el-input v-model="condition.body" size="small" type="textarea" clearable @change="updateFlowCondition" />
         </div>
       </div>
       <div class="element-property input-property" v-if="condition.scriptType === 'externalScript'">
-        <div class="element-property__label">资源地址</div>
+        <div class="element-property__label">资源地址：</div>
         <div class="element-property__value">
           <el-input v-model="condition.resource" size="small" clearable @change="updateFlowCondition" />
         </div>

@@ -4,31 +4,44 @@
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
         <div class="panel-tab__content">
-          <div class="element-property input-property">
-            <div class="element-property__label">ID</div>
-            <div class="element-property__value">
+          <el-form size="small" label-width="90px" label-suffix="：">
+            <el-form-item label="ID">
               <el-input
                 v-model="activeElementBusinessObject.id"
-                size="small"
                 :disabled="idEditDisabled"
                 clearable
                 @keyup.native="updateBaseInfo('id', activeElementBusinessObject.id)"
                 @change="updateBaseInfo('id', $event)"
               />
-            </div>
-          </div>
-          <div class="element-property input-property">
-            <div class="element-property__label">名称</div>
-            <div class="element-property__value">
+            </el-form-item>
+            <el-form-item label="名称">
               <el-input
                 v-model="activeElementBusinessObject.name"
-                size="small"
                 clearable
                 @keyup.native="updateBaseInfo('name', activeElementBusinessObject.name)"
                 @change="updateBaseInfo('name', $event)"
               />
-            </div>
-          </div>
+            </el-form-item>
+            <!--流程的基础属性-->
+            <template v-if="elementType === 'bpmn:Process'">
+              <el-form-item label="版本标签">
+                <el-input
+                  v-model="activeElementBusinessObject.versionTag"
+                  clearable
+                  @keyup.native="updateBaseInfo('versionTag', activeElementBusinessObject.versionTag)"
+                  @change="updateBaseInfo('versionTag', $event)"
+                />
+              </el-form-item>
+              <el-form-item label="可执行">
+                <el-switch
+                  v-model="activeElementBusinessObject.isExecutable"
+                  active-text="是"
+                  inactive-text="否"
+                  @change="updateBaseInfo('isExecutable', $event)"
+                />
+              </el-form-item>
+            </template>
+          </el-form>
           <!-- 人员信息配置 -->
           <template v-if="elementType === 'bpmn:UserTask'">
             <div class="element-property input-property">
@@ -74,53 +87,17 @@
               </div>
             </div>
           </template>
-          <!--流程的基础属性-->
-          <template v-if="elementType === 'bpmn:Process'">
-            <div class="element-property input-property">
-              <div class="element-property__label">版本标签</div>
-              <div class="element-property__value">
-                <el-input
-                  v-model="activeElementBusinessObject.versionTag"
-                  size="small"
-                  clearable
-                  @keyup.native="updateBaseInfo('versionTag', activeElementBusinessObject.versionTag)"
-                  @change="updateBaseInfo('versionTag', $event)"
-                />
-              </div>
-            </div>
-            <div class="element-property input-property">
-              <div class="element-property__label">可执行</div>
-              <div class="element-property__value">
-                <el-switch
-                  v-model="activeElementBusinessObject.isExecutable"
-                  active-text="是"
-                  inactive-text="否"
-                  @change="updateBaseInfo('isExecutable', $event)"
-                />
-              </div>
-            </div>
-          </template>
           <!--连接线的基础配置-->
-          <condition-config
-            v-if="flowTypeViewable"
-            v-bind="$props"
-            :conditions="sequenceFlowCondition"
-            :element-id="elementId"
-          />
+          <condition-config v-if="flowTypeViewable" v-bind="$props" :conditions="sequenceFlowCondition" :element-id="elementId" />
           <!--任务节点配置-->
-          <task-loop-characteristics
-            v-if="taskLoopViewable"
-            v-bind="$props"
-            :element-id="elementId"
-            :element-business-object="activeElementBusinessObject"
-          />
+          <task-loop-characteristics v-if="taskLoopViewable" v-bind="$props" :element-id="elementId" :element-business-object="activeElementBusinessObject" />
         </div>
       </el-collapse-item>
       <!-- 外置表单配置-->
       <template v-if="elementType === 'bpmn:UserTask' || elementType === 'bpmn:StartEvent'">
         <el-collapse-item name="form">
           <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>表单</div>
-          <div class="panel-tab__content">
+          <!--<div class="panel-tab__content">
             <div class="element-property input-property">
               <div class="element-property__label">选择表单</div>
               <div class="element-property__value">
@@ -135,26 +112,17 @@
                 </el-select>
               </div>
             </div>
-          </div>
+          </div>-->
+          <element-form-config v-bind="$props" :element-id="elementId" :element-business-object="activeElementBusinessObject" />
         </el-collapse-item>
       </template>
       <el-collapse-item name="listeners">
         <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
-        <element-listener
-          v-bind="$props"
-          :element-id="elementId"
-          :listeners="elementListeners"
-          @change="updateElementListener"
-        />
+        <element-listener v-bind="$props" :element-id="elementId" :listeners="elementListeners" @change="updateElementListener" />
       </el-collapse-item>
       <el-collapse-item name="extensions">
         <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
-        <element-attributes
-          v-bind="$props"
-          :element-id="elementId"
-          :attributes="elementAttributes"
-          @change="updateElementAttributes"
-        />
+        <element-attributes v-bind="$props" :element-id="elementId" :attributes="elementAttributes" @change="updateElementAttributes" />
       </el-collapse-item>
       <el-collapse-item name="other">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>其他</div>
@@ -179,16 +147,23 @@
   </div>
 </template>
 <script>
+/**
+ * 侧边栏
+ * @Author MiyueFE
+ * @Home https://github.com/miyuesc
+ * @Date 2021年1月21日09:36:25
+ */
 import { debounce } from "@/utils";
 import ConditionConfig from "./condition-config/ConditionConfig";
 import ElementListener from "./extensional/listeners/ElementListener";
 import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
 import TaskLoopCharacteristics from "./task-config/TaskLoopCharacteristics";
+import ElementFormConfig from "./form-config/ElementFormConfig";
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 export default {
   name: "ProcessPanel",
-  components: { TaskLoopCharacteristics, ElementAttributes, ElementListener, ConditionConfig },
+  components: { ElementFormConfig, TaskLoopCharacteristics, ElementAttributes, ElementListener, ConditionConfig },
   componentName: "ProcessPanel",
   props: {
     bpmnModeler: Object,
@@ -232,9 +207,7 @@ export default {
     },
     flowTypeViewable() {
       if (this.elementType !== "bpmn:SequenceFlow") return false;
-      return (
-        this.activeElementBusinessObject.sourceRef && this.activeElementBusinessObject.sourceRef.$type !== "bpmn:StartEvent"
-      );
+      return this.activeElementBusinessObject.sourceRef && this.activeElementBusinessObject.sourceRef.$type !== "bpmn:StartEvent";
     },
     taskLoopViewable() {
       return this.elementType && this.elementType.indexOf("Task") !== -1;
@@ -305,9 +278,7 @@ export default {
           // ex => ex.$type === "camunda:ExecutionListener"
           ex => ex.$type === `${this.prefix}:ExecutionListener`
         );
-        this.elementAttributes = element.businessObject.extensionElements.values.filter(
-          ex => ex.$type === `${this.prefix}:Properties`
-        );
+        this.elementAttributes = element.businessObject.extensionElements.values.filter(ex => ex.$type === `${this.prefix}:Properties`);
       } else {
         this.elementListeners = [];
         this.elementAttributes = [];
@@ -347,8 +318,7 @@ export default {
       const element = this.elementRegistry.get(this.elementId);
       const extensionElements = element.businessObject.get("extensionElements");
       // 截取不是监听器的属性
-      const otherExtensions =
-        extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) || [];
+      const otherExtensions = extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) || [];
       // 重建扩展属性
       const extensions = this.moddle.create("bpmn:ExtensionElements", {
         values: otherExtensions.concat(listeners)
