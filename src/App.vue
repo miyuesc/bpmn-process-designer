@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <my-process-designer :additional-model="labelEditing" process-type="camunda" @element-click="elementClick" @init-finished="initModeler" />
-    <process-panel :bpmn-modeler="modeler" prefix="camunda" class="process-panel" />
+    <my-process-panel :bpmn-modeler="modeler" prefix="camunda" class="process-panel" />
   </div>
 </template>
 
 <script>
 import translations from "@/translations";
-import ProcessPanel from "../package/process-panel/ProcessPanel";
+import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
   name: "App",
-  components: { ProcessPanel },
+  components: { MyProcessPanel },
   data() {
     return {
       xmlString: "",

@@ -151,9 +151,9 @@ import ElementFormConfig from "./form-config/ElementFormConfig";
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
 
 export default {
-  name: "ProcessPanel",
+  name: "MyProcessPanel",
   components: { ElementFormConfig, TaskLoopCharacteristics, ElementAttributes, ElementListener, ConditionConfig },
-  componentName: "ProcessPanel",
+  componentName: "MyProcessPanel",
   props: {
     bpmnModeler: Object,
     prefix: {
@@ -257,8 +257,9 @@ export default {
     // 元素更新时更新表单
     initFormOnChanged(elementId) {
       const element = this.elementRegistry.get(elementId); // 元素
-      const shapeDoc = element.businessObject.documentation; // 元素文档
+      if (!element) return;
       this.activeElementBusinessObject = { ...element.businessObject };
+      const shapeDoc = element.businessObject?.documentation; // 元素文档
       // 设置文档属性
       this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0]?.text : "";
       // 设置扩展监听

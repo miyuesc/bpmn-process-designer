@@ -5,11 +5,11 @@
       <el-button-group v-if="!$slots['control-header']">
         <el-tooltip effect="light">
           <div slot="content">
-            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsXml">下载为XML文件</el-button>
+            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsXml()">下载为XML文件</el-button>
             <br />
-            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsSvg">下载为SVG文件</el-button>
+            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsSvg()">下载为SVG文件</el-button>
             <br />
-            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsBpmn">下载为BPMN文件</el-button>
+            <el-button :size="headerButtonSize" type="text" @click="downloadProcessAsBpmn()">下载为BPMN文件</el-button>
           </div>
           <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-more">下载文件</el-button>
         </el-tooltip>
@@ -23,20 +23,20 @@
           <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-view">预览</el-button>
         </el-tooltip>
         <el-tooltip effect="light" content="缩小视图">
-          <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut" />
+          <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut()" />
         </el-tooltip>
         <el-button :size="headerButtonSize">{{ currentScale }}</el-button>
         <el-tooltip effect="light" content="放大视图">
-          <el-button :size="headerButtonSize" :disabled="defaultZoom > 5" icon="el-icon-zoom-in" @click="processZoomIn" />
+          <el-button :size="headerButtonSize" :disabled="defaultZoom > 4" icon="el-icon-zoom-in" @click="processZoomIn()" />
         </el-tooltip>
         <el-tooltip effect="light" content="重置视图并居中">
-          <el-button :size="headerButtonSize" icon="el-icon-c-scale-to-original" @click="processReZoom" />
+          <el-button :size="headerButtonSize" icon="el-icon-c-scale-to-original" @click="processReZoom()" />
         </el-tooltip>
         <el-tooltip effect="light" content="撤销">
-          <el-button :size="headerButtonSize" :disabled="!revocable" icon="el-icon-refresh-left" @click="processUndo" />
+          <el-button :size="headerButtonSize" :disabled="!revocable" icon="el-icon-refresh-left" @click="processUndo()" />
         </el-tooltip>
         <el-tooltip effect="light" content="恢复">
-          <el-button :size="headerButtonSize" :disabled="!recoverable" icon="el-icon-refresh-right" @click="processRedo" />
+          <el-button :size="headerButtonSize" :disabled="!recoverable" icon="el-icon-refresh-right" @click="processRedo()" />
         </el-tooltip>
         <el-tooltip effect="light" content="重新绘制">
           <el-button :size="headerButtonSize" icon="el-icon-refresh" @click="processRestart" />
@@ -93,7 +93,7 @@ export default {
       type: Boolean,
       default: false
     },
-    processType: {
+    prefix: {
       type: String,
       default: "camunda"
     },
@@ -148,16 +148,16 @@ export default {
       Modules.push(TranslateModule);
 
       // 根据需要的流程类型设置侧边栏构建器
-      // if (this.processType === "bpmn") {
+      // if (this.prefix === "bpmn") {
       //   Modules.push(bpmnModdleExtension);
       // }
-      if (this.processType === "camunda") {
+      if (this.prefix === "camunda") {
         Modules.push(camundaModdleExtension);
       }
-      if (this.processType === "flowable") {
+      if (this.prefix === "flowable") {
         Modules.push(flowableModdleExtension);
       }
-      if (this.processType === "activiti") {
+      if (this.prefix === "activiti") {
         Modules.push(activitiModdleExtension);
       }
 
@@ -178,13 +178,13 @@ export default {
       }
 
       // 根据需要的 "流程类型" 设置 对应的解析文件
-      if (this.processType === "activiti") {
+      if (this.prefix === "activiti") {
         Extensions.activiti = activitiModdleDescriptor;
       }
-      if (this.processType === "flowable") {
+      if (this.prefix === "flowable") {
         Extensions.flowable = flowableModdleDescriptor;
       }
-      if (this.processType === "camunda") {
+      if (this.prefix === "camunda") {
         Extensions.camunda = camundaModdleDescriptor;
       }
       return Extensions;
@@ -209,19 +209,6 @@ export default {
       });
       this.$emit("init-finished", this.bpmnModeler);
       this.initModelListeners();
-    },
-    createNewDiagram(xml) {
-      // 将字符串转换成图显示出来
-      let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程", this.processType);
-      this.bpmnModeler
-        .importXML(xmlString)
-        .then(result => {
-          const { warnings } = result;
-          if (warnings && warnings.length) console.warn(warnings);
-        })
-        .catch(e => {
-          console.error(e);
-        });
     },
     initModelListeners() {
       const EventBus = this.bpmnModeler.get("eventBus");
@@ -252,9 +239,20 @@ export default {
         this.currentScale = Math.floor(this.defaultZoom * 100) + "%";
       });
     },
+    /* 创建新的流程图 */
+    async createNewDiagram(xml) {
+      // 将字符串转换成图显示出来
+      let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程", this.prefix);
+      try {
+        let { warnings } = this.bpmnModeler.importXML(xmlString);
+        if (warnings) console.warn(warnings);
+      } catch (e) {
+        console.error(e);
+      }
+    },
 
     // 下载流程图到本地
-    async downloadProcess(type) {
+    async downloadProcess(type, name) {
       try {
         const _this = this;
         // 按需要类型创建文件并下载
@@ -264,7 +262,7 @@ export default {
           if (err) {
             return console.error(err);
           }
-          let { href, filename } = _this.setEncoded(type.toUpperCase(), xml);
+          let { href, filename } = _this.setEncoded(type.toUpperCase(), name, xml);
           downloadFunc(href, filename);
         } else {
           const { err, svg } = await this.bpmnModeler.saveSVG();
@@ -291,10 +289,10 @@ export default {
     },
 
     // 根据所需类型进行转码并返回下载地址
-    setEncoded(type, data) {
+    setEncoded(type, filename = "diagram", data) {
       const encodedData = encodeURIComponent(data);
       return {
-        filename: `diagram.${type}`,
+        filename: `${filename}.${type}`,
         href: `data:application/${type === "svg" ? "text/xml" : "bpmn20-xml"};charset=UTF-8,${encodedData}`,
         data: data
       };
@@ -327,21 +325,36 @@ export default {
     processUndo() {
       this.bpmnModeler.get("commandStack").undo();
     },
-    processZoomIn() {
-      this.defaultZoom = Math.floor(this.defaultZoom * 10 + 1) / 10;
+    processZoomIn(newZoom = 0.1) {
+      console.log(newZoom);
+      this.defaultZoom = Math.floor(this.defaultZoom * 100 + newZoom * 100) / 100;
       this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
     },
-    processZoomOut() {
-      this.defaultZoom = Math.floor(this.defaultZoom * 10 - 1) / 10;
+    processZoomOut(newZoom = 0.1) {
+      console.log(newZoom);
+      this.defaultZoom = Math.floor(this.defaultZoom * 100 - newZoom * 100) / 100;
       this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
+    },
+    processZoomTo(newZoom = 1) {
+      if (newZoom < 0.2) {
+        throw new Error("The zoom ratio cannot be less than 0.2");
+      }
+      if (newZoom > 4) {
+        throw new Error("The zoom ratio cannot be greater than 4");
+      }
+      this.defaultZoom = newZoom;
+      this.bpmnModeler.get("canvas").zoom(newZoom);
     },
     processReZoom() {
       this.defaultZoom = 1;
       this.bpmnModeler.get("canvas").zoom("fit-viewport", "auto");
     },
     processRestart() {
-      this.createNewDiagram(null);
+      this.recoverable = false;
+      this.revocable = false;
+      this.createNewDiagram(null).then(() => this.bpmnModeler.get("canvas").zoom(1, "auto"));
     },
+    /*-----------------------------    方法结束     ---------------------------------*/
     previewProcessXML() {
       this.bpmnModeler.saveXML({ format: true }).then(({ xml }) => {
         this.previewResult = xml;
