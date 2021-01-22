@@ -97,23 +97,12 @@
       <template v-if="elementType === 'bpmn:UserTask' || elementType === 'bpmn:StartEvent'">
         <el-collapse-item name="form">
           <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>表单</div>
-          <!--<div class="panel-tab__content">
-            <div class="element-property input-property">
-              <div class="element-property__label">选择表单</div>
-              <div class="element-property__value">
-                <el-select
-                  v-model="activeElementBusinessObject.formKey"
-                  size="small"
-                  @change="updateBaseInfo('formKey', activeElementBusinessObject.formKey)"
-                >
-                  <el-option label="请假单" value="leaveForm" />
-                  <el-option label="补卡申请单" value="cardReplacementApplicationForm" />
-                  <el-option label="公章申请单" value="officialSealApplicationForm" />
-                </el-select>
-              </div>
-            </div>
-          </div>-->
-          <element-form-config v-bind="$props" :element-id="elementId" :element-business-object="activeElementBusinessObject" />
+          <element-form-config
+            v-bind="$props"
+            :element-id="elementId"
+            :element-business-object="activeElementBusinessObject"
+            @change-form-key="updateBaseInfo('formKey', $event)"
+          />
         </el-collapse-item>
       </template>
       <el-collapse-item name="listeners">
