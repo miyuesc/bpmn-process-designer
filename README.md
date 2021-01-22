@@ -67,8 +67,8 @@ npm run demo
 | `downloadProcessAsSvg`  | `name: string = "diagram"` | 下载文件为 `${name}.svg` 格式的文件  |
 | `processRedo`           | -                              | 恢复上次操作 |
 | `processUndo`           | -                              | 撤销本次操作 |
-| `processZoomIn`         | `newZoom: number = 0.1`       | 按照指定倍率放大视图（小数点后两位） |
-| `processZoomOut`        | `newZoom: number = 1`         | 按照指定倍率缩小视图（小数点后两位） |
+| `processZoomIn`         | `newZoom: number = 0.1`       | 按照指定倍率缩小视图（小数点后两位） |
+| `processZoomOut`        | `newZoom: number = 1`         | 按照指定倍率放大视图（小数点后两位） |
 | `processZoomTo` | `newZoom: number = 1` | 缩放视图到指定倍率 |
 | `processReZoom`         | -                              | 重置缩放倍率并居中显示全部元素 |
 | `processRestart`        | -                              | 重置所有编辑过程并清空画布 |

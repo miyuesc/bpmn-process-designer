@@ -326,12 +326,10 @@ export default {
       this.bpmnModeler.get("commandStack").undo();
     },
     processZoomIn(newZoom = 0.1) {
-      console.log(newZoom);
       this.defaultZoom = Math.floor(this.defaultZoom * 100 + newZoom * 100) / 100;
       this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
     },
     processZoomOut(newZoom = 0.1) {
-      console.log(newZoom);
       this.defaultZoom = Math.floor(this.defaultZoom * 100 - newZoom * 100) / 100;
       this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
     },
