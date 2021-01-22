@@ -1,7 +1,7 @@
 <template>
   <div class="panel-tab__content">
     <div class="element-property list-property">
-      <el-table :data="ownerAttributes" size="mini" border fit>
+      <el-table :data="ownerAttributes" size="mini" max-height="240" border fit>
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="属性名" prop="name" min-width="100px" show-overflow-tooltip />
         <el-table-column label="属性值" prop="value" min-width="100px" show-overflow-tooltip />
@@ -14,7 +14,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="element-listener-add__button">
+    <div class="element-drawer__button">
       <el-button size="mini" type="primary" icon="el-icon-plus" @click="openAttributesForm(null, -1)">添加属性</el-button>
     </div>
 

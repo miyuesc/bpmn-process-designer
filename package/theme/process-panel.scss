@@ -72,12 +72,13 @@
     margin-right: 8px;
   }
 }
-.element-listener-add__button {
+.element-drawer__button {
+  margin-top: 16px;
   width: 100%;
   display: inline-flex;
   justify-content: space-around;
 }
-.element-listener-add__button > .el-button {
+.element-drawer__button > .el-button {
   width: 100%;
 }
 

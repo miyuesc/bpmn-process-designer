@@ -1,7 +1,7 @@
 <template>
   <div class="panel-tab__content">
     <div class="element-property list-property">
-      <el-table :data="ownerListenersList" size="mini" border fit>
+      <el-table :data="ownerListenersList" size="mini" max-height="240" border fit>
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="事件类型" min-width="100px" prop="event" />
         <el-table-column label="监听器类型" min-width="100px" show-overflow-tooltip :formatter="row => listenerTypeObject[row.listenerType]" />
@@ -14,7 +14,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="element-listener-add__button">
+    <div class="element-drawer__button">
       <el-button size="mini" type="primary" icon="el-icon-plus" @click="openListenerForm(null)">添加监听器</el-button>
     </div>
 
@@ -94,7 +94,7 @@
         <span><i class="el-icon-menu"></i>注入字段：</span>
         <el-button size="mini" type="primary" @click="openListenerFieldForm(null)">添加字段</el-button>
       </p>
-      <el-table :data="fieldsOfListener" size="mini" border fit style="flex: none">
+      <el-table :data="fieldsOfListener" size="mini" max-height="240" border fit style="flex: none">
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="字段名称" min-width="100px" prop="name" />
         <el-table-column label="字段类型" min-width="80px" show-overflow-tooltip :formatter="row => fieldTypeObject[row.fieldType]" />
@@ -108,8 +108,7 @@
         </el-table-column>
       </el-table>
 
-      <div class="listener-form-slider" style="flex: 1"></div>
-      <div class="element-listener-add__button">
+      <div class="element-drawer__button">
         <el-button size="mini" @click="handleCancel">取 消</el-button>
         <el-button size="mini" type="primary" @click="saveListenerConfig">保 存</el-button>
       </div>
