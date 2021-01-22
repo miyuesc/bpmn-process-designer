@@ -4,7 +4,7 @@
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
         <div class="panel-tab__content">
-          <el-form size="small" label-width="90px" label-suffix="：">
+          <el-form size="mini" label-width="90px" label-suffix="：">
             <el-form-item label="ID">
               <el-input
                 v-model="activeElementBusinessObject.id"
@@ -49,7 +49,7 @@
               <div class="element-property__value">
                 <el-select
                   v-model="activeElementBusinessObject.assignee"
-                  size="small"
+                  size="mini"
                   @change="updateBaseInfo('assignee', activeElementBusinessObject.assignee)"
                 >
                   <el-option label="诸葛亮" value="zgl" />
@@ -63,7 +63,7 @@
               <div class="element-property__value">
                 <el-select
                   v-model="activeElementBusinessObject.candidateUsers"
-                  size="small"
+                  size="mini"
                   @change="updateBaseInfo('candidateUsers', activeElementBusinessObject.candidateUsers)"
                 >
                   <el-option label="孙悟空" value="swk" />
@@ -77,7 +77,7 @@
               <div class="element-property__value">
                 <el-select
                   v-model="activeElementBusinessObject.candidateGroups"
-                  size="small"
+                  size="mini"
                   @change="updateBaseInfo('candidateGroups', activeElementBusinessObject.candidateGroups)"
                 >
                   <el-option label="战士" value="zs" />
@@ -122,7 +122,7 @@
               <el-input
                 type="textarea"
                 v-model="documentation"
-                size="small"
+                size="mini"
                 resize="vertical"
                 :autosize="{ minRows: 2, maxRows: 4 }"
                 @input="updateDocumentation"

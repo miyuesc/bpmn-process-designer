@@ -15,11 +15,11 @@
       </el-table>
     </div>
     <div class="element-listener-add__button">
-      <el-button size="small" type="primary" icon="el-icon-plus" @click="openAttributesForm(null, -1)">添加属性</el-button>
+      <el-button size="mini" type="primary" icon="el-icon-plus" @click="openAttributesForm(null, -1)">添加属性</el-button>
     </div>
 
     <el-dialog :visible.sync="showAttributeForm" title="属性配置" width="600px" append-to-body destroy-on-close>
-      <el-form :model="attributeForm" label-width="80px" size="small" ref="attributeFormRef">
+      <el-form :model="attributeForm" label-width="80px" size="mini" ref="attributeFormRef">
         <el-form-item label="属性名：" prop="name" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-input v-model="attributeForm.name" clearable />
         </el-form-item>

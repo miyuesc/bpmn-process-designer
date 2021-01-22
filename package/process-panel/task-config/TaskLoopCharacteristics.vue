@@ -3,7 +3,7 @@
     <div class="element-property input-property">
       <div class="element-property__label">回路特性：</div>
       <div class="element-property__value">
-        <el-select v-model="loopCharacteristics" size="small" @change="updateLoopCharacteristics">
+        <el-select v-model="loopCharacteristics" size="mini" @change="updateLoopCharacteristics">
           <!--bpmn:MultiInstanceLoopCharacteristics-->
           <el-option label="并行多重事件" value="ParallelMultiInstance" />
           <el-option label="时序多重事件" value="SequentialMultiInstance" />
@@ -15,7 +15,7 @@
     </div>
     <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
       <el-divider><i class="el-icon-coin"></i> 多实例配置</el-divider>
-      <el-form :model="loopInstanceForm" size="small" label-width="100px" label-suffix="：" ref="loopInstanceFormRef">
+      <el-form :model="loopInstanceForm" size="mini" label-width="100px" label-suffix="：" ref="loopInstanceFormRef">
         <el-form-item label="循环基数" prop="loopCardinality">
           <el-input v-model="loopInstanceForm.loopCardinality" clearable />
         </el-form-item>

@@ -67,3 +67,6 @@ span:focus {
 .el-divider:not(.el-divider--horizontal) {
   margin: 0 8px ;
 }
+.el-divider.el-divider--horizontal {
+  margin: 16px 0;
+}

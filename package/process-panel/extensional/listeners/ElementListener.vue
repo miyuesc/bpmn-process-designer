@@ -15,11 +15,11 @@
       </el-table>
     </div>
     <div class="element-listener-add__button">
-      <el-button size="small" type="primary" icon="el-icon-plus" @click="openListenerForm(null)">添加监听器</el-button>
+      <el-button size="mini" type="primary" icon="el-icon-plus" @click="openListenerForm(null)">添加监听器</el-button>
     </div>
 
     <el-drawer :visible.sync="showListenerForm" title="事件监听器" :size="`${this.width}px`" append-to-body destroy-on-close>
-      <el-form size="small" :model="listenerForm" label-width="96px" ref="listenerFormRef">
+      <el-form size="mini" :model="listenerForm" label-width="96px" ref="listenerFormRef">
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
             <el-option label="start" value="start" />
@@ -110,13 +110,13 @@
 
       <div class="listener-form-slider" style="flex: 1"></div>
       <div class="element-listener-add__button">
-        <el-button size="small" @click="handleCancel">取 消</el-button>
-        <el-button size="small" type="primary" @click="saveListenerConfig">保 存</el-button>
+        <el-button size="mini" @click="handleCancel">取 消</el-button>
+        <el-button size="mini" type="primary" @click="saveListenerConfig">保 存</el-button>
       </div>
     </el-drawer>
 
     <el-dialog title="字段配置" :visible.sync="showListenerFieldForm" width="600px" append-to-body destroy-on-close>
-      <el-form :model="listenerFieldForm" size="small" label-width="96px" ref="listenerFieldFormRef">
+      <el-form :model="listenerFieldForm" size="mini" label-width="96px" ref="listenerFieldFormRef">
         <el-form-item label="字段名称：" prop="name" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-input v-model="listenerFieldForm.name" clearable />
         </el-form-item>
