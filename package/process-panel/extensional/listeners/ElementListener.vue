@@ -5,7 +5,7 @@
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="事件类型" min-width="100px" prop="event" />
         <el-table-column label="监听器类型" min-width="100px" show-overflow-tooltip :formatter="row => listenerTypeObject[row.listenerType]" />
-        <el-table-column label="操作" width="100px">
+        <el-table-column label="操作" width="90px">
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openListenerForm(row, $index)">编辑</el-button>
             <el-divider direction="vertical" />
@@ -18,7 +18,7 @@
       <el-button size="small" type="primary" icon="el-icon-plus" @click="openListenerForm(null)">添加监听器</el-button>
     </div>
 
-    <el-drawer :visible.sync="showListenerForm" title="事件监听器" :size="`${this.width}px`" append-to-body>
+    <el-drawer :visible.sync="showListenerForm" title="事件监听器" :size="`${this.width}px`" append-to-body destroy-on-close>
       <el-form size="small" :model="listenerForm" label-width="96px" ref="listenerFormRef">
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">

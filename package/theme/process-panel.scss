@@ -3,6 +3,8 @@
   padding: 0 8px;
   border-left: 1px solid #eeeeee;
   box-shadow: 0 0 8px #cccccc;
+  max-height: 100%;
+  overflow-y: scroll;
 }
 .panel-tab__title {
   font-weight: 600;
@@ -61,8 +63,8 @@
   justify-content: space-between;
   align-items: center;
   span {
-    width: 96px;
-    text-align: right;
+    width: 200px;
+    text-align: left;
     font-size: 14px;
   }
   i {

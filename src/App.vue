@@ -1,6 +1,15 @@
 <template>
   <div id="app">
-    <my-process-designer :additional-model="labelEditing" process-type="camunda" @element-click="elementClick" @init-finished="initModeler" />
+    <div class="test-bar" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000">
+      <el-button size="mini" @click="testFunc">测试按钮</el-button>
+    </div>
+    <my-process-designer
+      :additional-model="labelEditing"
+      process-type="camunda"
+      ref="processDesigner"
+      @element-click="elementClick"
+      @init-finished="initModeler"
+    />
     <my-process-panel :bpmn-modeler="modeler" prefix="camunda" class="process-panel" />
   </div>
 </template>
@@ -36,6 +45,9 @@ export default {
     },
     ProcessChanged(xml) {
       this.xmlString = xml;
+    },
+    testFunc() {
+      this.$refs.processDesigner.processZoomIn(0.5);
     }
   }
 };
