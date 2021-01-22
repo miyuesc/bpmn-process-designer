@@ -101,7 +101,15 @@ npm run demo
 
 ![image-20210122110659649](screenshot/image-20210122110659649.png)
 
-### 4.5 预览
+### 4.5 用户任务配置
+
+![image-20210122195025850](screenshot/image-20210122195025850.png)
+
+
+
+![image-20210122195108833](screenshot/image-20210122195108833.png)
+
+### 4.6 预览
 
 ![image-20210122110726482](screenshot/image-20210122110726482.png)
 
