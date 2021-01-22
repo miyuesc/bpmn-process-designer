@@ -7,7 +7,7 @@
     </el-form>
     <div class="element-property list-property">
       <el-divider><i class="el-icon-coin"></i> 表单字段</el-divider>
-      <el-table :data="formFieldsList" size="mini" border fit>
+      <el-table :data="formFieldsList" size="mini" max-height="240" border fit>
         <el-table-column label="序号" type="index" width="50px" />
         <el-table-column label="字段名称" prop="label" min-width="80px" show-overflow-tooltip />
         <el-table-column label="字段类型" prop="type" min-width="80px" :formatter="row => fieldType[row.type] || row.type" show-overflow-tooltip />
@@ -21,7 +21,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="element-listener-add__button">
+    <div class="element-drawer__button">
       <el-button size="mini" type="primary" icon="el-icon-plus" @click="openFieldForm(null, -1)">添加字段</el-button>
     </div>
 
@@ -52,10 +52,10 @@
           <span><i class="el-icon-menu"></i>枚举值列表：</span>
           <el-button size="mini" type="primary" @click="openFieldOptionForm(null, -1, 'enum')">添加枚举值</el-button>
         </p>
-        <el-table :data="fieldEnumValues" size="mini" key="enum-table" border fit>
+        <el-table :data="fieldEnumValues" size="mini" key="enum-table" max-height="240" border fit>
           <el-table-column label="序号" width="50px" type="index" />
           <el-table-column label="枚举值编号" prop="id" min-width="100px" show-overflow-tooltip />
-          <el-table-column label="枚举值名称" prop="value" min-width="100px" show-overflow-tooltip />
+          <el-table-column label="枚举值名称" prop="name" min-width="100px" show-overflow-tooltip />
           <el-table-column label="操作" width="90px">
             <template slot-scope="{ row, $index }">
               <el-button size="mini" type="text" @click="openFieldOptionForm(row, $index, 'enum')">编辑</el-button>
@@ -72,7 +72,7 @@
         <span><i class="el-icon-menu"></i>约束条件列表：</span>
         <el-button size="mini" type="primary" @click="openFieldOptionForm(null, -1, 'constraint')">添加约束</el-button>
       </p>
-      <el-table :data="fieldConstraintsList" size="mini" key="validation-table" border fit>
+      <el-table :data="fieldConstraintsList" size="mini" key="validation-table" max-height="240" border fit>
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="约束名称" prop="name" min-width="100px" show-overflow-tooltip />
         <el-table-column label="约束配置" prop="config" min-width="100px" show-overflow-tooltip />
@@ -91,7 +91,7 @@
         <span><i class="el-icon-menu"></i>字段属性列表：</span>
         <el-button size="mini" type="primary" @click="openFieldOptionForm(null, -1, 'property')">添加属性</el-button>
       </p>
-      <el-table :data="fieldPropertiesList" size="mini" key="property-table" border fit>
+      <el-table :data="fieldPropertiesList" size="mini" key="property-table" max-height="240" border fit>
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="属性编号" prop="id" min-width="100px" show-overflow-tooltip />
         <el-table-column label="属性值" prop="value" min-width="100px" show-overflow-tooltip />
@@ -105,8 +105,7 @@
       </el-table>
 
       <!-- 底部按钮 -->
-      <div class="listener-form-slider" style="flex: 1"></div>
-      <div class="element-listener-add__button">
+      <div class="element-drawer__button">
         <el-button size="mini">取 消</el-button>
         <el-button size="mini" type="primary" @click="saveField">保 存</el-button>
       </div>
@@ -308,16 +307,16 @@ export default {
       if (this.formFieldOptionIndex === -1) {
         if (this.fieldOptionType === "property") {
           parent.values.push(option);
-          this.fieldPropertiesList.push(option);
+          this.formFieldIndex === -1 && this.fieldPropertiesList.push(option);
         }
         if (this.fieldOptionType === "constraint") {
           parent.constraints.push(option);
-          this.fieldConstraintsList.push(option);
+          this.formFieldIndex === -1 && this.fieldConstraintsList.push(option);
         }
         if (this.fieldOptionType === "enum") {
           this.editingField.values && this.editingField.values.push(option);
           !this.editingField.values && (this.editingField.values = [option]);
-          this.fieldEnumValues.push(option);
+          this.formFieldIndex === -1 && this.fieldEnumValues.push(option);
         }
       } else {
         this.fieldOptionType === "property" && parent.values.splice(this.formFieldOptionIndex, 1, option);
@@ -342,11 +341,9 @@ export default {
         id: this.formFieldForm.id,
         type: this.formFieldForm.type,
         label: this.formFieldForm.label,
-        defaultValue: this.formFieldForm.defaultValue,
-      }
+        defaultValue: this.formFieldForm.defaultValue
+      };
       const fields = this.createFormField(fieldForm);
-      console.log(this.editingField);
-      console.log(fields);
       if (this.formFieldIndex === -1) {
         this.formData.fields.push(fields);
       } else {
