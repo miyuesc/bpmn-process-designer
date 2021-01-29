@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="test-bar" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000">
-      <el-button size="mini" @click="testFunc">测试按钮</el-button>
+      <!--      <el-button size="mini" @click="testFunc">测试按钮</el-button>-->
     </div>
     <my-process-designer
       :additional-model="labelEditing"
