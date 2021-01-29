@@ -35,8 +35,7 @@ export default {
   methods: {
     initModeler(modeler) {
       this.modeler = modeler;
-      console.log(this.modeler);
-      // console.log(this.modeler.get("modeling"));
+      // console.log(this.modeler);
     },
     elementClick(element) {
       this.element = element;

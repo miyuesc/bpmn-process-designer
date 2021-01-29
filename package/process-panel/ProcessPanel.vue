@@ -142,7 +142,7 @@
  * @Home https://github.com/miyuesc
  * @Date 2021年1月21日09:36:25
  */
-import { debounce } from "@/utils";
+// import { debounce } from "@/utils";
 import ConditionConfig from "./condition-config/ConditionConfig";
 import ElementListener from "./extensional/listeners/ElementListener";
 import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
@@ -211,7 +211,8 @@ export default {
     }
   },
   created() {
-    this.initFormOnChanged = debounce(this.initFormOnChanged, 100);
+    // this.initFormOnChanged = debounce(this.initFormOnChanged, 100);
+    // this.updateBaseInfo = debounce(this.updateBaseInfo, 100);
     this.initModels();
   },
   mounted() {
