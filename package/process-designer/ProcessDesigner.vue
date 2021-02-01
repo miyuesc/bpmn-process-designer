@@ -60,6 +60,8 @@ import DefaultEmptyXML from "./plugins/defaultEmpty";
 // 翻译方法
 import customTranslate from "./plugins/translate/customTranslate";
 import translationsCN from "./plugins/translate/zh";
+// 模拟流转流程
+import tokenSimulation from "bpmn-js-token-simulation";
 // 标签解析构建器
 // import bpmnPropertiesProvider from "bpmn-js-properties-panel/lib/provider/bpmn";
 // 标签解析 Moddle
@@ -74,8 +76,8 @@ import flowableModdleExtension from "./plugins/extension-moddle/flowable";
 import convert from "xml-js";
 import hljs from "highlight.js";
 import Vue from "vue";
-Vue.use(hljs.vuePlugin);
 import "highlight.js/styles/atom-one-dark-reasonable.css";
+Vue.use(hljs.vuePlugin);
 
 export default {
   name: "MyProcessDesigner",
@@ -161,6 +163,8 @@ export default {
         Modules.push(activitiModdleExtension);
       }
 
+      Modules.push(tokenSimulation);
+
       return Modules;
     },
     moddleExtensions() {
@@ -204,6 +208,9 @@ export default {
       if (this.bpmnModeler) return;
       this.bpmnModeler = new BpmnModeler({
         container: this.$refs["bpmn-canvas"],
+        // keyboard: {
+        //   bindTo: document
+        // },
         additionalModules: this.additionalModules,
         moddleExtensions: this.moddleExtensions
       });
