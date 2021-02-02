@@ -79,10 +79,6 @@ import activitiModdleExtension from "./plugins/extension-moddle/activiti";
 import flowableModdleExtension from "./plugins/extension-moddle/flowable";
 // 引入json转换与高亮
 import convert from "xml-js";
-import hljs from "highlight.js";
-import Vue from "vue";
-import "highlight.js/styles/atom-one-dark-reasonable.css";
-Vue.use(hljs.vuePlugin);
 
 export default {
   name: "MyProcessDesigner",

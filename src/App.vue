@@ -1,16 +1,45 @@
 <template>
   <div id="app">
-    <div class="test-bar" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 2000">
-      <!--      <el-button size="mini" @click="testFunc">测试按钮</el-button>-->
-    </div>
     <my-process-designer
-      :additional-model="labelEditing"
-      process-type="camunda"
+      :key="`designer-${reloadIndex}`"
+      v-bind="controlForm"
       ref="processDesigner"
       @element-click="elementClick"
       @init-finished="initModeler"
     />
-    <my-process-panel :bpmn-modeler="modeler" prefix="camunda" class="process-panel" />
+    <my-process-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
+
+    <!-- demo config -->
+    <div class="demo-control-bar">
+      <div class="open-control-dialog" @click="controlDrawerVisible = true"><i class="el-icon-setting"></i></div>
+    </div>
+    <el-drawer :visible.sync="controlDrawerVisible" size="400px" title="偏好设置" append-to-body destroy-on-close>
+      <el-form :model="controlForm" size="small" label-suffix=":" label-width="100px" class="control-form">
+        <el-form-item label="启用模拟">
+          <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner" />
+        </el-form-item>
+        <el-form-item label="双击编辑">
+          <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="changeLabelEditingStatus" />
+        </el-form-item>
+        <el-form-item label="流程引擎">
+          <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner">
+            <el-radio label="camunda">camunda</el-radio>
+            <el-radio label="flowable">flowable</el-radio>
+            <el-radio label="activiti">activiti</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="工具栏">
+          <el-radio-group v-model="controlForm.headerButtonSize">
+            <el-radio label="mini">mini</el-radio>
+            <el-radio label="small">small</el-radio>
+            <el-radio label="medium">medium</el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-form>
+      <br />
+      <p style="color: #999999">注：activiti 好像不支持表单配置，控制台可能会报错</p>
+      <p style="color: #999999">更多配置请查看源码：<a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a></p>
+    </el-drawer>
   </div>
 </template>
 
@@ -25,8 +54,15 @@ export default {
     return {
       xmlString: "",
       modeler: null,
+      reloadIndex: 0,
+      controlDrawerVisible: false,
       translationsSelf: translations,
-      labelEditing: [{ labelEditingProvider: ["value", ""] }]
+      controlForm: {
+        simulation: true,
+        prefix: "activiti",
+        headerButtonSize: "small",
+        additionalModel: []
+      }
     };
   },
   created() {
@@ -34,18 +70,22 @@ export default {
   },
   methods: {
     initModeler(modeler) {
-      this.modeler = modeler;
+      console.log(this.modeler);
+      setTimeout(() => {
+        this.modeler = modeler;
+      }, 10);
+    },
+    reloadProcessDesigner() {
+      this.reloadIndex += 1;
+      this.modeler = null; // 避免 panel 异常
+    },
+    changeLabelEditingStatus(status) {
+      this.controlForm.additionalModel = status ? [] : [{ labelEditingProvider: ["value", ""] }];
+      this.reloadProcessDesigner();
     },
     elementClick(element) {
       this.element = element;
       console.log(element);
-      // console.log(this.modeler.getDefinitions());
-    },
-    ProcessChanged(xml) {
-      this.xmlString = xml;
-    },
-    testFunc() {
-      this.$refs.processDesigner.processZoomIn(0.5);
     }
   }
 };
@@ -67,6 +107,32 @@ body {
 }
 .my-process-designer {
   overflow: auto;
+}
+
+.demo-control-bar {
+  position: fixed;
+  right: 8px;
+  top: 50%;
+  z-index: 1;
+  transform: translateY(-50%);
+  .open-control-dialog {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 32px;
+    background: rgba(64, 158, 255, 1);
+    color: #ffffff;
+    cursor: pointer;
+  }
+}
+.control-form {
+  .el-radio {
+    width: 100%;
+    line-height: 32px;
+  }
 }
 body,
 body * {

@@ -224,6 +224,7 @@ export default {
   methods: {
     initModels() {
       // 初始化 modeler 以及其他 moddle
+      console.log(this.bpmnModeler);
       if (!this.bpmnModeler) {
         // 避免加载时 流程图 并未加载完成
         this.timer = setTimeout(() => this.initModels(), 10);
@@ -245,6 +246,7 @@ export default {
       this.activeElementBusinessObject = { ...processElement.businessObject };
       // 监听选择事件，修改当前激活的元素以及表单
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
+        console.log("selection.changed", newSelection);
         const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
         this.initFormOnChanged(shape.id);
       });

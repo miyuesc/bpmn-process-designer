@@ -3,6 +3,12 @@
 @import "~bpmn-js-token-simulation/assets/css/normalize.css";
 
 .el-tooltip__popper {
+  .el-button {
+    width: 100%;
+    text-align: left;
+    padding-left: 8px;
+    padding-right: 8px;
+  }
   .el-button:hover {
     background: rgba(64, 158, 255, 0.8);
     color: #ffffff;
@@ -12,7 +18,7 @@
 // 边框被 token-simulation 样式覆盖了
 .djs-palette {
   background: var(--palette-background-color);
-  border: solid 1px var(--palette-border-color);
+  border: solid 1px var(--palette-border-color) !important;
   border-radius: 2px;
 }
 
@@ -26,7 +32,6 @@
     width: 100%;
     height: 48px;
     .el-button {
-      min-width: 64px;
       text-align: center;
     }
   }
