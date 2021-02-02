@@ -22,6 +22,11 @@
           </div>
           <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-view">预览</el-button>
         </el-tooltip>
+        <el-tooltip v-if="simulation" effect="light" :content="this.simulationStatus ? '退出模拟' : '开启模拟'">
+          <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-cpu" @click="processSimulation">
+            模拟
+          </el-button>
+        </el-tooltip>
         <el-tooltip effect="light" content="缩小视图">
           <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut()" />
         </el-tooltip>
@@ -95,6 +100,10 @@ export default {
       type: Boolean,
       default: false
     },
+    simulation: {
+      type: Boolean,
+      default: true
+    },
     prefix: {
       type: String,
       default: "camunda"
@@ -119,6 +128,7 @@ export default {
       currentScale: "100%",
       defaultZoom: 1,
       previewModelVisible: false,
+      simulationStatus: false,
       previewResult: "",
       previewType: "xml",
       recoverable: false,
@@ -149,6 +159,11 @@ export default {
       };
       Modules.push(TranslateModule);
 
+      // 模拟流转模块
+      if (this.simulation) {
+        Modules.push(tokenSimulation);
+      }
+
       // 根据需要的流程类型设置侧边栏构建器
       // if (this.prefix === "bpmn") {
       //   Modules.push(bpmnModdleExtension);
@@ -162,8 +177,6 @@ export default {
       if (this.prefix === "activiti") {
         Modules.push(activitiModdleExtension);
       }
-
-      Modules.push(tokenSimulation);
 
       return Modules;
     },
@@ -325,6 +338,10 @@ export default {
     },
     downloadProcessAsSvg() {
       this.downloadProcess("svg");
+    },
+    processSimulation() {
+      this.simulationStatus = !this.simulationStatus;
+      this.simulation && this.bpmnModeler.get("toggleMode").toggleMode();
     },
     processRedo() {
       this.bpmnModeler.get("commandStack").redo();
