@@ -95,7 +95,7 @@ export default {
 body {
   overflow: hidden;
   margin: 0;
-  padding: 8px;
+  padding: 8px !important;
   box-sizing: border-box;
 }
 #app {
