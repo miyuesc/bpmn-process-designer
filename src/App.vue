@@ -14,8 +14,8 @@
       <div class="open-control-dialog" @click="controlDrawerVisible = true"><i class="el-icon-setting"></i></div>
     </div>
     <el-drawer :visible.sync="controlDrawerVisible" size="400px" title="偏好设置" append-to-body destroy-on-close>
-      <el-form :model="controlForm" size="small" label-suffix=":" label-width="100px" class="control-form">
-        <el-form-item label="启用模拟">
+      <el-form :model="controlForm" size="small" label-suffix="：" label-width="100px" class="control-form">
+        <el-form-item label="流转模拟">
           <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner" />
         </el-form-item>
         <el-form-item label="双击编辑">
@@ -60,7 +60,7 @@ export default {
       controlForm: {
         simulation: true,
         prefix: "activiti",
-        headerButtonSize: "small",
+        headerButtonSize: "medium",
         additionalModel: []
       }
     };
@@ -105,10 +105,6 @@ body {
   display: inline-grid;
   grid-template-columns: auto max-content;
 }
-.my-process-designer {
-  overflow: auto;
-}
-
 .demo-control-bar {
   position: fixed;
   right: 8px;

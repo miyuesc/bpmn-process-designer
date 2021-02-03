@@ -30,7 +30,7 @@
         <el-tooltip effect="light" content="缩小视图">
           <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut()" />
         </el-tooltip>
-        <el-button :size="headerButtonSize">{{ currentScale }}</el-button>
+        <el-button :size="headerButtonSize">{{ Math.floor(this.defaultZoom * 10 * 10) + "%" }}</el-button>
         <el-tooltip effect="light" content="放大视图">
           <el-button :size="headerButtonSize" :disabled="defaultZoom > 4" icon="el-icon-zoom-in" @click="processZoomIn()" />
         </el-tooltip>
@@ -121,7 +121,6 @@ export default {
   },
   data() {
     return {
-      currentScale: "100%",
       defaultZoom: 1,
       previewModelVisible: false,
       simulationStatus: false,
@@ -246,13 +245,13 @@ export default {
           this.$emit("input", xml);
           this.$emit("change", xml);
         } catch (e) {
-          console.error(e);
+          console.error(`[Process Designer Warn ]: ${e.message || e}`);
         }
       });
       // 监听视图缩放变化
       this.bpmnModeler.on("canvas.viewbox.changed", e => {
-        this.defaultZoom = Math.floor(e.viewbox.scale * 100) / 100;
-        this.currentScale = Math.floor(this.defaultZoom * 100) + "%";
+        console.log(e);
+        // this.defaultZoom = Math.floor(e.viewbox.scale * 10 * 10) / 100;
       });
     },
     /* 创建新的流程图 */
@@ -263,7 +262,7 @@ export default {
         let { warnings } = this.bpmnModeler.importXML(xmlString);
         if (warnings) console.warn(warnings);
       } catch (e) {
-        console.error(e);
+        console.error(`[Process Designer Warn ]: ${e.message || e}`);
       }
     },
 
@@ -276,7 +275,7 @@ export default {
           const { err, xml } = await this.bpmnModeler.saveXML();
           // 读取异常时抛出异常
           if (err) {
-            return console.error(err);
+            console.error(`[Process Designer Warn ]: ${err.message || err}`);
           }
           let { href, filename } = _this.setEncoded(type.toUpperCase(), name, xml);
           downloadFunc(href, filename);
@@ -290,7 +289,7 @@ export default {
           downloadFunc(href, filename);
         }
       } catch (e) {
-        console.error(e);
+        console.error(`[Process Designer Warn ]: ${e.message || e}`);
       }
       // 文件下载方法
       function downloadFunc(href, filename) {
@@ -345,20 +344,28 @@ export default {
     processUndo() {
       this.bpmnModeler.get("commandStack").undo();
     },
-    processZoomIn(newZoom = 0.1) {
-      this.defaultZoom = Math.floor(this.defaultZoom * 100 + newZoom * 100) / 100;
+    processZoomIn(zoomStep = 0.1) {
+      let newZoom = Math.floor(this.defaultZoom * 10 * 10 + zoomStep * 10 * 10) / 100;
+      if (newZoom > 4) {
+        throw new Error("[Process Designer Warn ]: The zoom ratio cannot be greater than 4");
+      }
+      this.defaultZoom = newZoom;
       this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
     },
-    processZoomOut(newZoom = 0.1) {
-      this.defaultZoom = Math.floor(this.defaultZoom * 100 - newZoom * 100) / 100;
+    processZoomOut(zoomStep = 0.1) {
+      let newZoom = Math.floor(this.defaultZoom * 10 * 10 - zoomStep * 10 * 10) / 100;
+      if (newZoom < 0.2) {
+        throw new Error("[Process Designer Warn ]: The zoom ratio cannot be less than 0.2");
+      }
+      this.defaultZoom = newZoom;
       this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
     },
     processZoomTo(newZoom = 1) {
       if (newZoom < 0.2) {
-        throw new Error("The zoom ratio cannot be less than 0.2");
+        throw new Error("[Process Designer Warn ]: The zoom ratio cannot be less than 0.2");
       }
       if (newZoom > 4) {
-        throw new Error("The zoom ratio cannot be greater than 4");
+        throw new Error("[Process Designer Warn ]: The zoom ratio cannot be greater than 4");
       }
       this.defaultZoom = newZoom;
       this.bpmnModeler.get("canvas").zoom(newZoom);
