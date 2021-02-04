@@ -19,7 +19,7 @@
           <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner" />
         </el-form-item>
         <el-form-item label="双击编辑">
-          <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="changeLabelEditingStatus" />
+          <el-switch v-model="controlForm.labelEditing" inactive-text="停用" active-text="启用" @change="changeLabelEditingStatus" />
         </el-form-item>
         <el-form-item label="流程引擎">
           <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner">
@@ -59,6 +59,7 @@ export default {
       translationsSelf: translations,
       controlForm: {
         simulation: true,
+        labelEditing: false,
         prefix: "activiti",
         headerButtonSize: "medium",
         additionalModel: []
