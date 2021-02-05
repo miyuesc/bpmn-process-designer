@@ -21,6 +21,9 @@
         <el-form-item label="双击编辑">
           <el-switch v-model="controlForm.labelEditing" inactive-text="停用" active-text="启用" @change="changeLabelEditingStatus" />
         </el-form-item>
+        <el-form-item label="隐藏label">
+          <el-switch v-model="controlForm.labelVisible" inactive-text="停用" active-text="启用" @change="changeLabelVisibleStatus" />
+        </el-form-item>
         <el-form-item label="流程引擎">
           <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner">
             <el-radio label="camunda">camunda</el-radio>
@@ -45,6 +48,7 @@
 
 <script>
 import translations from "@/translations";
+import CustomRenderer from "@/modules/custom-remderer";
 import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
@@ -60,7 +64,8 @@ export default {
       controlForm: {
         simulation: true,
         labelEditing: false,
-        prefix: "activiti",
+        labelVisible: false,
+        prefix: "camunda",
         headerButtonSize: "medium",
         additionalModel: []
       }
@@ -71,9 +76,9 @@ export default {
   },
   methods: {
     initModeler(modeler) {
-      console.log(this.modeler);
       setTimeout(() => {
         this.modeler = modeler;
+        console.log(this.modeler.get("customRenderer"));
       }, 10);
     },
     reloadProcessDesigner() {
@@ -82,6 +87,10 @@ export default {
     },
     changeLabelEditingStatus(status) {
       this.controlForm.additionalModel = status ? [] : [{ labelEditingProvider: ["value", ""] }];
+      this.reloadProcessDesigner();
+    },
+    changeLabelVisibleStatus(status) {
+      this.controlForm.additionalModel = status ? [CustomRenderer] : [];
       this.reloadProcessDesigner();
     },
     elementClick(element) {
