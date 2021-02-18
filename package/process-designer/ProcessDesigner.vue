@@ -100,6 +100,10 @@ export default {
       type: Boolean,
       default: true
     },
+    keyboard: {
+      type: Boolean,
+      default: true
+    },
     prefix: {
       type: String,
       default: "camunda"
@@ -159,7 +163,7 @@ export default {
         Modules.push(tokenSimulation);
       }
 
-      // 根据需要的流程类型设置侧边栏构建器
+      // 根据需要的流程类型设置扩展元素构建模块
       // if (this.prefix === "bpmn") {
       //   Modules.push(bpmnModdleExtension);
       // }
@@ -199,6 +203,7 @@ export default {
       if (this.prefix === "camunda") {
         Extensions.camunda = camundaModdleDescriptor;
       }
+
       return Extensions;
     }
   },
@@ -216,9 +221,7 @@ export default {
       if (this.bpmnModeler) return;
       this.bpmnModeler = new BpmnModeler({
         container: this.$refs["bpmn-canvas"],
-        // keyboard: {
-        //   bindTo: document
-        // },
+        keyboard: this.keyboard ? { bindTo: document } : null,
         additionalModules: this.additionalModules,
         moddleExtensions: this.moddleExtensions
       });

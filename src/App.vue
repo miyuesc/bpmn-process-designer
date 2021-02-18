@@ -18,7 +18,7 @@
         <el-form-item label="流转模拟">
           <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner" />
         </el-form-item>
-        <el-form-item label="双击编辑">
+        <el-form-item label="禁用双击">
           <el-switch v-model="controlForm.labelEditing" inactive-text="停用" active-text="启用" @change="changeLabelEditingStatus" />
         </el-form-item>
         <el-form-item label="隐藏label">
@@ -48,7 +48,7 @@
 
 <script>
 import translations from "@/translations";
-import CustomRenderer from "@/modules/custom-remderer";
+import CustomRenderer from "@/modules/custom-renderer";
 import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
@@ -68,7 +68,8 @@ export default {
         prefix: "camunda",
         headerButtonSize: "medium",
         additionalModel: []
-      }
+      },
+      addis: {}
     };
   },
   created() {
@@ -78,19 +79,25 @@ export default {
     initModeler(modeler) {
       setTimeout(() => {
         this.modeler = modeler;
-        console.log(this.modeler.get("customRenderer"));
+        if (this.addis.customRenderer) console.log(this.modeler.get("customRenderer"));
       }, 10);
     },
     reloadProcessDesigner() {
+      this.controlForm.additionalModel = [];
+      for (let key in this.addis) {
+        if (this.addis[key]) {
+          this.controlForm.additionalModel.push(this.addis[key]);
+        }
+      }
       this.reloadIndex += 1;
       this.modeler = null; // 避免 panel 异常
     },
     changeLabelEditingStatus(status) {
-      this.controlForm.additionalModel = status ? [] : [{ labelEditingProvider: ["value", ""] }];
+      this.addis.labelEditing = status ? { labelEditingProvider: ["value", ""] } : false;
       this.reloadProcessDesigner();
     },
     changeLabelVisibleStatus(status) {
-      this.controlForm.additionalModel = status ? [CustomRenderer] : [];
+      this.addis.customRenderer = status ? CustomRenderer : false;
       this.reloadProcessDesigner();
     },
     elementClick(element) {
