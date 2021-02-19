@@ -66,7 +66,7 @@ export default {
         labelEditing: false,
         labelVisible: false,
         prefix: "camunda",
-        headerButtonSize: "medium",
+        headerButtonSize: "mini",
         additionalModel: []
       },
       addis: {}
@@ -80,6 +80,9 @@ export default {
       setTimeout(() => {
         this.modeler = modeler;
         if (this.addis.customRenderer) console.log(this.modeler.get("customRenderer"));
+        // this.modeler.on("drag.init", () => {
+        //   this.modeler.get("dragging").cancel();
+        // });
       }, 10);
     },
     reloadProcessDesigner() {
