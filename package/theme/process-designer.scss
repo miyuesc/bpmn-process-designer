@@ -30,9 +30,46 @@
   box-sizing: border-box;
   .my-process-designer__header {
     width: 100%;
-    height: 48px;
+    min-height: 48px;
     .el-button {
       text-align: center;
+    }
+    .el-button-group {
+      margin-right: 8px;
+    }
+    .align {
+      position: relative;
+      i {
+        &:after {
+          content: "|";
+          position: absolute;
+          transform: rotate(90deg) translate(200%, 60%);
+        }
+      }
+    }
+    .align.align-left i {
+      transform: rotate(90deg);
+    }
+    .align.align-right i {
+      transform: rotate(-90deg);
+    }
+    .align.align-top i {
+      transform: rotate(180deg);
+    }
+    .align.align-bottom i {
+      transform: rotate(0deg);
+    }
+    .align.align-center i {
+      transform: rotate(90deg);
+      &:after {
+        transform: rotate(90deg) translate(0, 60%);
+      }
+    }
+    .align.align-middle i {
+      transform: rotate(0deg);
+      &:after {
+        transform: rotate(90deg) translate(0, 60%);
+      }
     }
   }
   .my-process-designer__container {
