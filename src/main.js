@@ -6,9 +6,9 @@ import ElementUI from "element-ui";
 Vue.use(ElementUI);
 import "../package/theme/element-variables.scss";
 
-import hljs from "highlight.js";
+import { vuePlugin } from "@/highlight";
 import "highlight.js/styles/atom-one-dark-reasonable.css";
-Vue.use(hljs.vuePlugin);
+Vue.use(vuePlugin);
 
 import MyPD from "../package/index.js";
 Vue.use(MyPD);
