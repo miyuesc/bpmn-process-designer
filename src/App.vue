@@ -49,6 +49,7 @@
 <script>
 import translations from "@/translations";
 import CustomRenderer from "@/modules/custom-renderer";
+import CustomProvider from "../package/process-designer/plugins/content-pad";
 import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
@@ -67,7 +68,7 @@ export default {
         labelVisible: false,
         prefix: "camunda",
         headerButtonSize: "mini",
-        additionalModel: []
+        additionalModel: [CustomProvider]
       },
       addis: {}
     };

@@ -25,11 +25,14 @@ export default function ContextPadProvider(
   popupMenu,
   canvas,
   rules,
-  translate
+  translate,
+  elementRegistry
 ) {
   config = config || {};
 
   contextPad.registerProvider(this);
+
+  console.log(elementRegistry);
 
   this._contextPad = contextPad;
 
@@ -75,7 +78,8 @@ ContextPadProvider.$inject = [
   "popupMenu",
   "canvas",
   "rules",
-  "translate"
+  "translate",
+  "elementRegistry"
 ];
 
 ContextPadProvider.prototype.getContextPadEntries = function(element) {
