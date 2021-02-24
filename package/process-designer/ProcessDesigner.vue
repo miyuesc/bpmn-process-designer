@@ -288,7 +288,7 @@ export default {
       // 将字符串转换成图显示出来
       let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程", this.prefix);
       try {
-        let { warnings } = this.bpmnModeler.importXML(xmlString);
+        let { warnings } = await this.bpmnModeler.importXML(xmlString);
         if (warnings) console.warn(warnings);
       } catch (e) {
         console.error(`[Process Designer Warn ]: ${e.message || e}`);
