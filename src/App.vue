@@ -3,6 +3,7 @@
     <my-process-designer
       :key="`designer-${reloadIndex}`"
       v-bind="controlForm"
+      keyboard
       ref="processDesigner"
       @element-click="elementClick"
       @init-finished="initModeler"
