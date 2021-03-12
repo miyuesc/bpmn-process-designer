@@ -11,14 +11,18 @@ You can view and edit `BPMN 2.0` diagrams in the browser.
 您可以使用它在浏览器上查看和编辑符合 `BPMN 2.0` 规范的流程文件。
 
 
-> 如果您对增加其他功能有建议，或者找到了原有功能的不足之处，您可以通过 issue 或者文末的公众号向我反馈，我会在第一时间对问题作出反馈或者更新。
->
-> 再次感谢您的支持！
 
 
 For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 在线demo请访问 [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
+
+
+
+
+> 如果您对增加其他功能有建议，或者找到了原有功能的不足之处，您可以通过 issue 或者文末的公众号向我反馈，我会在第一时间对问题作出反馈或者更新。
+>
+> 再次感谢您的支持！
 
 
 ## 1. 安装依赖 Installation
