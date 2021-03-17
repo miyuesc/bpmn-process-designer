@@ -10,8 +10,8 @@
                 v-model="activeElementBusinessObject.id"
                 :disabled="idEditDisabled"
                 clearable
-                @keyup.native="updateBaseInfo('id', activeElementBusinessObject.id)"
-                @change="updateBaseInfo('id', $event)"
+                @keyup.native="updateBaseId(activeElementBusinessObject.id)"
+                @change="updateBaseId($event)"
               />
             </el-form-item>
             <el-form-item label="名称">
@@ -142,13 +142,13 @@
  * @Home https://github.com/miyuesc
  * @Date 2021年1月21日09:36:25
  */
-// import { debounce } from "@/utils";
 import ConditionConfig from "./condition-config/ConditionConfig";
 import ElementListener from "./extensional/listeners/ElementListener";
 import ElementAttributes from "./extensional/attrbutes/ElementAttributes";
 import TaskLoopCharacteristics from "./task-config/TaskLoopCharacteristics";
 import ElementFormConfig from "./form-config/ElementFormConfig";
 // import { is } from 'bpmn-js/lib/util/ModelUtil';
+// import { debounce } from "@/utils";
 
 export default {
   name: "MyProcessPanel",
@@ -166,7 +166,7 @@ export default {
     },
     idEditDisabled: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
   provide() {
@@ -211,20 +211,11 @@ export default {
     }
   },
   created() {
-    // this.initFormOnChanged = debounce(this.initFormOnChanged, 100);
-    // this.updateBaseInfo = debounce(this.updateBaseInfo, 100);
     this.initModels();
-  },
-  mounted() {
-    // this.initModels();
-  },
-  beforeDestroy() {
-    // clearTimeout(this.timer);
   },
   methods: {
     initModels() {
       // 初始化 modeler 以及其他 moddle
-      console.log(this.bpmnModeler);
       if (!this.bpmnModeler) {
         // 避免加载时 流程图 并未加载完成
         this.timer = setTimeout(() => this.initModels(), 10);
@@ -246,7 +237,6 @@ export default {
       this.activeElementBusinessObject = { ...processElement.businessObject };
       // 监听选择事件，修改当前激活的元素以及表单
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
-        console.log("selection.changed", newSelection);
         const shape = newSelection[0] || this.elementRegistry.find(el => el.type === "bpmn:Process");
         this.initFormOnChanged(shape.id);
       });
@@ -290,6 +280,11 @@ export default {
         }
         this.$set(this.sequenceFlowCondition, "type", "normal");
       }
+    },
+    updateBaseId(newId) {
+      this.elementRegistry.updateId(this.elementId, newId);
+      // const newShape = this.elementRegistry.get(newId);
+      // this.bpmnModeler.get("selection").select(newShape, true);
     },
     // 更新常规信息
     updateBaseInfo(key, value) {
