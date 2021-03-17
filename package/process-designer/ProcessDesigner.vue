@@ -314,7 +314,7 @@ export default {
           if (err) {
             return console.error(err);
           }
-          let { href, filename } = _this.setEncoded("SVG", svg);
+          let { href, filename } = _this.setEncoded("SVG", name, svg);
           downloadFunc(href, filename);
         }
       } catch (e) {
