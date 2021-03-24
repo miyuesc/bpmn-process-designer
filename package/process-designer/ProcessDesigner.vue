@@ -2,8 +2,8 @@
   <div class="my-process-designer">
     <div class="my-process-designer__header">
       <slot name="control-header"></slot>
-      <div v-if="!$slots['control-header']">
-        <el-button-group>
+      <template v-if="!$slots['control-header']">
+        <el-button-group key="file-control">
           <el-button :size="headerButtonSize" :type="headerButtonType" icon="el-icon-folder-opened" @click="$refs.refFile.click()">打开文件</el-button>
           <el-tooltip effect="light">
             <div slot="content">
@@ -29,7 +29,7 @@
             </el-button>
           </el-tooltip>
         </el-button-group>
-        <el-button-group>
+        <el-button-group key="scale-control">
           <el-tooltip effect="light" content="缩小视图">
             <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut()" />
           </el-tooltip>
@@ -41,7 +41,7 @@
             <el-button :size="headerButtonSize" icon="el-icon-c-scale-to-original" @click="processReZoom()" />
           </el-tooltip>
         </el-button-group>
-        <el-button-group>
+        <el-button-group key="align-control">
           <el-tooltip effect="light" content="向左对齐">
             <el-button :size="headerButtonSize" class="align align-left" icon="el-icon-s-data" @click="elementsAlign('left')" />
           </el-tooltip>
@@ -61,7 +61,7 @@
             <el-button :size="headerButtonSize" class="align align-middle" icon="el-icon-s-data" @click="elementsAlign('middle')" />
           </el-tooltip>
         </el-button-group>
-        <el-button-group>
+        <el-button-group key="stack-control">
           <el-tooltip effect="light" content="撤销">
             <el-button :size="headerButtonSize" :disabled="!revocable" icon="el-icon-refresh-left" @click="processUndo()" />
           </el-tooltip>
@@ -72,7 +72,7 @@
             <el-button :size="headerButtonSize" icon="el-icon-refresh" @click="processRestart" />
           </el-tooltip>
         </el-button-group>
-      </div>
+      </template>
       <!-- 用于打开本地文件-->
       <input type="file" id="files" ref="refFile" style="display: none" accept=".xml, .bpmn" @change="importLocalFile" />
     </div>
