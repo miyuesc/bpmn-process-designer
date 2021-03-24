@@ -8,7 +8,11 @@ const cdn = {
     "element-ui": "ELEMENT"
   },
   css: [],
-  js: ["https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js", "https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.0/index.min.js"]
+  js: [
+    "https://unpkg.com/bpmn-js@8.2.2/dist/bpmn-modeler.development.js",
+    "https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js",
+    "https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.0/index.min.js"
+  ]
 };
 
 module.exports = {
