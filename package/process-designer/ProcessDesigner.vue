@@ -87,8 +87,8 @@
 
 <script>
 // 生产环境时优化
-const BpmnModeler = window.BpmnJS;
-// import BpmnModeler from "bpmn-js/lib/Modeler";
+// const BpmnModeler = window.BpmnJS;
+import BpmnModeler from "bpmn-js/lib/Modeler";
 import DefaultEmptyXML from "./plugins/defaultEmpty";
 // 翻译方法
 import customTranslate from "./plugins/translate/customTranslate";
