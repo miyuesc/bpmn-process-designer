@@ -309,7 +309,7 @@ export default {
       if (this.listenerForm.fields && this.listenerForm.fields.length) {
         this.fieldsOfListener = this.listenerForm.fields.map(field => {
           return {
-            ...field,
+            ...JSON.parse(JSON.stringify(field)),
             fieldType: field.string ? "string" : "expression"
           };
         });
@@ -334,14 +334,15 @@ export default {
         this.listenerFieldForm.fieldType === "string"
           ? { name: this.listenerFieldForm.name, string: this.listenerFieldForm.string }
           : { name: this.listenerFieldForm.name, expression: this.listenerFieldForm.expression };
+      const filed = this.moddle.create(`${this.prefix}:Field`, filedObj);
       if (this.listenerFiledIndex === -1) {
         if (this.listenerForm.fields) {
-          this.listenerForm.fields.push(filedObj);
+          this.listenerForm.fields.push(filed);
         } else {
-          this.$set(this.listenerForm, "fields", [filedObj]);
+          this.$set(this.listenerForm, "fields", [filed]);
         }
       } else {
-        this.listenerForm.fields.splice(this.listenerFiledIndex, 1, filedObj);
+        this.listenerForm.fields.splice(this.listenerFiledIndex, 1, filed);
       }
       this.initListenerFields();
       this.showListenerFieldForm = false;
