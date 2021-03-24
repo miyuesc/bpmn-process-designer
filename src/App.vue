@@ -16,6 +16,12 @@
     </div>
     <el-drawer :visible.sync="controlDrawerVisible" size="400px" title="偏好设置" append-to-body destroy-on-close>
       <el-form :model="controlForm" size="small" label-suffix="：" label-width="100px" class="control-form">
+        <el-form-item label="流程ID">
+          <el-input v-model="controlForm.processId" @change="reloadProcessDesigner" />
+        </el-form-item>
+        <el-form-item label="流程名称">
+          <el-input v-model="controlForm.processName" @change="reloadProcessDesigner" />
+        </el-form-item>
         <el-form-item label="流转模拟">
           <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner" />
         </el-form-item>
@@ -49,8 +55,13 @@
 
 <script>
 import translations from "@/translations";
+// 自定义渲染（隐藏了 label 标签）
 import CustomRenderer from "@/modules/custom-renderer";
-import CustomProvider from "../package/process-designer/plugins/content-pad";
+// 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）
+import CustomContentPadProvider from "../package/process-designer/plugins/content-pad";
+// 自定义左侧菜单（修改 默认任务 为 用户任务）
+import CustomPaletteProvider from "../package/process-designer/plugins/palette";
+// 自定义侧边栏
 import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
@@ -64,12 +75,14 @@ export default {
       controlDrawerVisible: false,
       translationsSelf: translations,
       controlForm: {
+        processId: "",
+        processName: "",
         simulation: true,
         labelEditing: false,
         labelVisible: false,
         prefix: "camunda",
         headerButtonSize: "mini",
-        additionalModel: [CustomProvider]
+        additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
       },
       addis: {}
     };
@@ -117,12 +130,11 @@ export default {
 body {
   overflow: hidden;
   margin: 0;
-  padding: 8px !important;
   box-sizing: border-box;
 }
 #app {
   width: 100%;
-  height: calc(100vh - 16px);
+  height: 100%;
   box-sizing: border-box;
   display: inline-grid;
   grid-template-columns: auto max-content;
