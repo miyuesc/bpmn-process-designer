@@ -27,7 +27,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="监听器类型" prop="listenerType" :rules="{ required: true, trigger: ['blur', 'change'] }">
-          <el-select v-model="listenerForm.listenerType">
+          <el-select v-model="listenerForm.listenerType" @change="changeListenerType">
             <el-option v-for="i in Object.keys(listenerTypeObject)" :key="i" :label="listenerTypeObject[i]" :value="i" />
           </el-select>
         </el-form-item>
@@ -59,10 +59,20 @@
           <el-input v-model="listenerForm.delegateExpression" clearable />
         </el-form-item>
         <template v-if="listenerForm.listenerType === 'scriptListener'">
-          <el-form-item label="脚本格式" prop="scriptFormat" key="listener-script-format" :rules="{ required: true, trigger: ['blur', 'change'] }">
+          <el-form-item
+            label="脚本格式"
+            prop="script.scriptFormat"
+            key="listener-script-format"
+            :rules="{ required: true, trigger: ['blur', 'change'], message: '请填写脚本格式' }"
+          >
             <el-input v-model="listenerForm.script.scriptFormat" clearable />
           </el-form-item>
-          <el-form-item label="脚本类型" prop="script.scriptType" key="listener-script-type" :rules="{ required: true, trigger: ['blur', 'change'] }">
+          <el-form-item
+            label="脚本类型"
+            prop="script.scriptType"
+            key="listener-script-type"
+            :rules="{ required: true, trigger: ['blur', 'change'], message: '请选择脚本类型' }"
+          >
             <el-select v-model="listenerForm.script.scriptType">
               <el-option label="内联脚本" value="inlineScript" />
               <el-option label="外部脚本" value="externalScript" />
@@ -266,8 +276,13 @@ export default {
       // 1. 创建事件监听器实例
       const listenerObj = this.initListenerObject(this.listenerForm);
       const listenerModel = this.moddle.create(`${this.prefix}:ExecutionListener`, listenerObj);
+      // 2. 判断内部监听器类型是否为脚本格式，脚本需要单独创建实例
+      if (this.listenerForm.listenerType === "scriptListener") {
+        const scriptObj = this.moddle.create(`${this.prefix}:Script`, this.listenerForm.script);
+        listenerModel.script = scriptObj;
+      }
       this.$emit("listener-save", listenerModel);
-      // 2. 更新到事件监听器列表
+      // 3. 更新到事件监听器列表
       if (this.listenerIndex === -1) {
         this.ownerListenersObjectList.push(listenerModel);
         this.ownerListenersList.push(this.listenerForm);
@@ -303,6 +318,13 @@ export default {
         });
       }
       return listenerObj;
+    },
+    changeListenerType(type) {
+      if (type === "scriptListener") {
+        this.$set(this.listenerForm, "script", {});
+      } else {
+        this.listenerForm.script && delete this.listenerForm.script;
+      }
     },
     // 对字段表格进行赋值
     initListenerFields() {
