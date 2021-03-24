@@ -111,6 +111,8 @@ export default {
   componentName: "MyProcessDesigner",
   props: {
     value: String, // xml 字符串
+    processId: String,
+    processName: String,
     translations: Object, // 自定义的翻译文件
     additionalModel: [Object, Array], // 自定义model
     moddleExtension: Object, // 自定义moddle
@@ -286,7 +288,9 @@ export default {
     /* 创建新的流程图 */
     async createNewDiagram(xml) {
       // 将字符串转换成图显示出来
-      let xmlString = xml || DefaultEmptyXML(new Date().getTime(), "测试流程", this.prefix);
+      let newId = this.processId || `Process_${new Date().getTime()}`;
+      let newName = this.processName || `业务流程_${new Date().getTime()}`;
+      let xmlString = xml || DefaultEmptyXML(newId, newName, this.prefix);
       try {
         let { warnings } = await this.bpmnModeler.importXML(xmlString);
         if (warnings) console.warn(warnings);

@@ -13,12 +13,12 @@ export default (key, name, type) => {
   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
   xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
-  id="sample-diagram"
+  id="diagram_${key}"
   targetNamespace="${TYPE_TARGET[type]}">
-  <bpmn2:process id="Process_${key}" name="${name}" isExecutable="true">
+  <bpmn2:process id="${key}" name="${name}" isExecutable="true">
   </bpmn2:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
-    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_${key}">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="${key}">
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn2:definitions>`;
