@@ -204,18 +204,7 @@ export default {
       deep: true,
       handler: function(newVal) {
         if (newVal.length) {
-          this.ownerListenersObjectList = newVal;
-          this.ownerListenersList = newVal.map(li => {
-            let listenerType;
-            if (li.class) listenerType = "classListener";
-            if (li.expression) listenerType = "expressionListener";
-            if (li.delegateExpression) listenerType = "delegateExpressionListener";
-            if (li.script) listenerType = "scriptListener";
-            return {
-              ...li,
-              listenerType: listenerType
-            };
-          });
+          this.initListenersTable(newVal);
         } else {
           this.ownerListenersObjectList = [];
           this.ownerListenersList = [];
@@ -239,29 +228,51 @@ export default {
       if (this.timer) clearTimeout(this.timer);
       this.moddle = this.bpmnModeler.get("moddle");
     },
+    // 初始化监听器实例列表
+    initListenersTable(listeners) {
+      this.ownerListenersObjectList = listeners;
+      this.ownerListenersList = listeners.map(li => {
+        let listenerType;
+        if (li.class) listenerType = "classListener";
+        if (li.expression) listenerType = "expressionListener";
+        if (li.delegateExpression) listenerType = "delegateExpressionListener";
+        if (li.script) listenerType = "scriptListener";
+        return {
+          ...JSON.parse(JSON.stringify(li)),
+          listenerType: listenerType
+        };
+      });
+    },
     // 打开事件监听器侧边栏
     openListenerForm(listener, index) {
       if (listener) {
-        let listenerFormS = JSON.parse(JSON.stringify(listener));
         if (listener.script) {
-          Object.assign(listenerFormS.script, {
+          this.listenerForm = {
+            ...listener,
             ...listener.script,
             scriptType: listener.script.resource ? "externalScript" : "inlineScript"
-          });
-        }
-        for (let key in listenerFormS) {
-          this.$set(this.listenerForm, key, listenerFormS[key]);
+          };
+        } else {
+          this.listenerForm = { ...listener };
         }
         this.listenerIndex = index;
       } else {
         this.listenerForm = {};
-        this.listenerIndex = -1;
+        this.listenerIndex = -1; // 标记为新增
       }
-      this.initListenerFields();
+      this.initListenerFields(listener?.fields);
       this.showListenerForm = true;
       this.$nextTick(() => {
         if (this.$refs["listenerFormRef"]) this.$refs["listenerFormRef"].clearValidate();
       });
+    },
+    // 对 监听器注入的 字段表格 进行赋值
+    initListenerFields(fields) {
+      if (fields && fields.length) {
+        this.fieldsOfListener = fields.map(field => ({ ...field, fieldType: field.string ? "string" : "expression" }));
+        return;
+      }
+      this.fieldsOfListener = [];
     },
     // 取消编辑
     handleCancel() {
@@ -326,19 +337,6 @@ export default {
         this.listenerForm.script && delete this.listenerForm.script;
       }
     },
-    // 对字段表格进行赋值
-    initListenerFields() {
-      if (this.listenerForm.fields && this.listenerForm.fields.length) {
-        this.fieldsOfListener = this.listenerForm.fields.map(field => {
-          return {
-            ...JSON.parse(JSON.stringify(field)),
-            fieldType: field.string ? "string" : "expression"
-          };
-        });
-        return;
-      }
-      this.fieldsOfListener = [];
-    },
     // 打开事件监听器字段编辑弹窗
     openListenerFieldForm(filed, index) {
       this.listenerFieldForm = filed ? JSON.parse(JSON.stringify(filed)) : {};
@@ -352,11 +350,7 @@ export default {
     async saveListenerFiled() {
       let validateStatus = await this.$refs["listenerFieldFormRef"].validate();
       if (!validateStatus) return; // 验证不通过直接返回
-      const filedObj =
-        this.listenerFieldForm.fieldType === "string"
-          ? { name: this.listenerFieldForm.name, string: this.listenerFieldForm.string }
-          : { name: this.listenerFieldForm.name, expression: this.listenerFieldForm.expression };
-      const filed = this.moddle.create(`${this.prefix}:Field`, filedObj);
+      const filed = { ...this.listenerForm };
       if (this.listenerFiledIndex === -1) {
         if (this.listenerForm.fields) {
           this.listenerForm.fields.push(filed);
@@ -366,7 +360,7 @@ export default {
       } else {
         this.listenerForm.fields.splice(this.listenerFiledIndex, 1, filed);
       }
-      this.initListenerFields();
+      this.initListenerFields(this.listenerForm.fields);
       this.showListenerFieldForm = false;
     },
     removeListener(listener, index) {
@@ -377,7 +371,8 @@ export default {
     removeListenerField(field, index) {
       this.listenerForm.fields.splice(index, 1);
       const removedField = this.fieldsOfListener.splice(index, 1);
-      this.$emit("remove-listener", removedField);
+      this.$emit("remove-field", removedField);
+      this.$emit("change", this.ownerListenersList);
     }
   }
 };
