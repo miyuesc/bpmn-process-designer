@@ -278,12 +278,14 @@ export default {
           this.$emit("input", xml);
           this.$emit("change", xml);
         } catch (e) {
-          console.error(`[Process Designer Warn ]: ${e.message || e}`);
+          console.error(`[Process Designer Warn]: ${e.message || e}`);
         }
       });
       // 监听视图缩放变化
-      this.bpmnModeler.on("canvas.viewbox.changed", e => {
-        console.log(e);
+      this.bpmnModeler.on("canvas.viewbox.changed", ({ viewbox }) => {
+        const { scale } = viewbox;
+        const intScale = Math.floor(scale * 10) / 10;
+        this.processZoomTo(intScale);
         // this.defaultZoom = Math.floor(e.viewbox.scale * 10 * 10) / 100;
       });
     },
@@ -297,7 +299,7 @@ export default {
         let { warnings } = await this.bpmnModeler.importXML(xmlString);
         if (warnings) console.warn(warnings);
       } catch (e) {
-        console.error(`[Process Designer Warn ]: ${e.message || e}`);
+        console.error(`[Process Designer Warn]: ${e.message || e}`);
       }
     },
 

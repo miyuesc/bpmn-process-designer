@@ -7,18 +7,17 @@
           <el-form size="mini" label-width="90px" label-suffix="：">
             <el-form-item label="ID">
               <el-input
-                v-model="activeElementBusinessObject.id"
-                :disabled="idEditDisabled"
+                v-model="elementBaseInfo.id"
+                :disabled="idEditDisabled || elementType === 'bpmn:Process'"
                 clearable
-                @keyup.native="updateBaseId(activeElementBusinessObject.id)"
-                @change="updateBaseId($event)"
+                @keyup.enter.native="updateBaseId(elementBaseInfo.id)"
               />
             </el-form-item>
             <el-form-item label="名称">
               <el-input
-                v-model="activeElementBusinessObject.name"
+                v-model="elementBaseInfo.name"
                 clearable
-                @keyup.native="updateBaseInfo('name', activeElementBusinessObject.name)"
+                @keyup.native="updateBaseInfo('name', elementBaseInfo.name)"
                 @change="updateBaseInfo('name', $event)"
               />
             </el-form-item>
@@ -26,19 +25,14 @@
             <template v-if="elementType === 'bpmn:Process'">
               <el-form-item label="版本标签">
                 <el-input
-                  v-model="activeElementBusinessObject.versionTag"
+                  v-model="elementBaseInfo.versionTag"
                   clearable
-                  @keyup.native="updateBaseInfo('versionTag', activeElementBusinessObject.versionTag)"
+                  @keyup.native="updateBaseInfo('versionTag', elementBaseInfo.versionTag)"
                   @change="updateBaseInfo('versionTag', $event)"
                 />
               </el-form-item>
               <el-form-item label="可执行">
-                <el-switch
-                  v-model="activeElementBusinessObject.isExecutable"
-                  active-text="是"
-                  inactive-text="否"
-                  @change="updateBaseInfo('isExecutable', $event)"
-                />
+                <el-switch v-model="elementBaseInfo.isExecutable" active-text="是" inactive-text="否" @change="updateBaseInfo('isExecutable', $event)" />
               </el-form-item>
             </template>
           </el-form>
@@ -179,6 +173,7 @@ export default {
     return {
       activeTab: "base",
       activeElementBusinessObject: {},
+      elementBaseInfo: {}, // 基础属性：名称、标签等
       documentation: "", // 元素文档 对应的字符串
       sequenceFlowCondition: {}, // 连线条件实例（包含需要的类型字段）
       elementListeners: [], // 扩展属性 -- 监听器实例集合
@@ -200,14 +195,6 @@ export default {
     },
     taskLoopViewable() {
       return this.elementType && this.elementType.indexOf("Task") !== -1;
-    }
-  },
-  watch: {
-    elementType(type) {
-      console.log("selectionElementType: ", type);
-    },
-    elementId(id) {
-      console.log("selectionElementId: ", id);
     }
   },
   created() {
@@ -241,6 +228,13 @@ export default {
         this.initFormOnChanged(shape.id);
       });
       this.bpmnModeler.on("element.changed", ({ element }) => {
+        console.log(`
+        ----------
+        select element changed:
+          id:  ${element.id}
+        type:  ${element.businessObject.$type}
+        ----------
+        `);
         // 保证 修改 "默认流转路径" 类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。
         if (element && element.id === this.activeElementBusinessObject.id) {
           this.initFormOnChanged(element.id);
@@ -251,7 +245,8 @@ export default {
     initFormOnChanged(elementId) {
       const element = this.elementRegistry.get(elementId); // 元素
       if (!element) return;
-      this.activeElementBusinessObject = { ...element.businessObject };
+      this.activeElementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
+      this.elementBaseInfo = JSON.parse(JSON.stringify(element.businessObject));
       const shapeDoc = element.businessObject?.documentation; // 元素文档
       // 设置文档属性
       this.documentation = shapeDoc && shapeDoc.length ? shapeDoc[0]?.text : "";
@@ -281,10 +276,13 @@ export default {
         this.$set(this.sequenceFlowCondition, "type", "normal");
       }
     },
+    // 更新 元素 ID
     updateBaseId(newId) {
-      this.elementRegistry.updateId(this.elementId, newId);
-      // const newShape = this.elementRegistry.get(newId);
-      // this.bpmnModeler.get("selection").select(newShape, true);
+      if (!newId || !newId.length) return this.$message.error("ID 不能为空");
+      console.log("update id");
+      const newShape = this.elementRegistry.get(this.elementId);
+      this.modeling.updateProperties(newShape, { id: newId, di: { id: `${newId}_di` } }); // 同时更新 图形id
+      this.initFormOnChanged(newId); // 重新更新表单
     },
     // 更新常规信息
     updateBaseInfo(key, value) {
@@ -301,9 +299,10 @@ export default {
         documentation: [documentation]
       });
     },
-    // 更新事件监听器
+    // 更新事件监听器（这里返回的监听器都是实例，不需要再次实例化）
     updateElementListener(listeners) {
       const element = this.elementRegistry.get(this.elementId);
+      // 获取当前元素的所有扩展配置实例数组
       const extensionElements = element.businessObject.get("extensionElements");
       // 截取不是监听器的属性
       const otherExtensions = extensionElements?.get("values")?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) || [];
@@ -313,9 +312,8 @@ export default {
       });
       this.updateElementExtensions(element, extensions);
     },
-    // 更新扩展属性
+    // 更新扩展属性（attributes 是普通数组，需要重新创建实例）
     updateElementAttributes(attributes) {
-      // attributes 是普通数组，需要重新创建实例
       const properties = this.moddle.create(`${this.prefix}:Properties`, {
         values: attributes.map(attr => {
           return this.moddle.create(`${this.prefix}:Property`, { name: attr.name, value: attr.value });
