@@ -245,7 +245,12 @@ export default {
     initFormOnChanged(elementId) {
       const element = this.elementRegistry.get(elementId); // 元素
       if (!element) return;
-      this.activeElementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
+      this.activeElementBusinessObject = {
+        ...JSON.parse(JSON.stringify(element.businessObject)),
+        parent: element.businessObject?.$parent ? JSON.parse(JSON.stringify(element.businessObject?.$parent)) : null,
+        sourceRef: element.businessObject.sourceRef ? JSON.parse(JSON.stringify(element.businessObject.sourceRef)) : null,
+        targetRef: element.businessObject?.targetRef ? JSON.parse(JSON.stringify(element.businessObject?.targetRef)) : null
+      };
       this.elementBaseInfo = JSON.parse(JSON.stringify(element.businessObject));
       const shapeDoc = element.businessObject?.documentation; // 元素文档
       // 设置文档属性

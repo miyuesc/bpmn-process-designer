@@ -297,7 +297,9 @@ export default {
       let xmlString = xml || DefaultEmptyXML(newId, newName, this.prefix);
       try {
         let { warnings } = await this.bpmnModeler.importXML(xmlString);
-        if (warnings) console.warn(warnings);
+        if (warnings && warnings.length) {
+          warnings.forEach(warn => console.warn(warn));
+        }
       } catch (e) {
         console.error(`[Process Designer Warn]: ${e.message || e}`);
       }
