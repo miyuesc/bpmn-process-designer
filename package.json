@@ -64,6 +64,8 @@
       "parser": "babel-eslint"
     },
     "rules": {
+      "no-use-before-define": "off",
+      "no-unused-vars": "off",
       "prettier/prettier": [
         "warn",
         {

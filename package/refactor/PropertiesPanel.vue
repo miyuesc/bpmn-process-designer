@@ -1,0 +1,137 @@
+<template>
+  <div class="process-panel__container" :style="{ width: `${this.width}px` }">
+    <el-collapse v-model="activeTab">
+      <el-collapse-item name="base">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
+        <div class="panel-tab__content">
+          <element-base-info :base-info="baseInfo" :id-edit-disabled="idEditDisabled" :id="elementId" @update="updateElementBaseInfo" />
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="listeners">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
+        <div class="panel-tab__content"></div>
+      </el-collapse-item>
+      <el-collapse-item name="extensions">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
+        <div class="panel-tab__content"></div>
+      </el-collapse-item>
+      <el-collapse-item name="other">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>其他</div>
+        <div class="panel-tab__content">
+          <element-other-config :id="elementId" />
+        </div>
+      </el-collapse-item>
+    </el-collapse>
+  </div>
+</template>
+<script>
+import ElementBaseInfo from "./base/ElementBaseInfo";
+import ElementOtherConfig from "./other/ElementOtherConfig";
+/**
+ * 侧边栏
+ * @Author MiyueFE
+ * @Home https://github.com/miyuesc
+ * @Date 2021年3月31日18:57:51
+ */
+export default {
+  name: "MyPropertiesPanel",
+  components: { ElementOtherConfig, ElementBaseInfo },
+  componentName: "MyPropertiesPanel",
+  props: {
+    bpmnModeler: Object,
+    prefix: {
+      type: String,
+      default: "camunda"
+    },
+    width: {
+      type: Number,
+      default: 480
+    },
+    idEditDisabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  provide() {
+    return {
+      prefix: this.prefix,
+      width: this.width
+    };
+  },
+  data() {
+    return {
+      activeTab: "base",
+      baseInfo: {}, // 基础信息，包括名称，id，流程版本等
+      elementId: "",
+      elementType: ""
+    };
+  },
+  created() {
+    this.initModels();
+  },
+  methods: {
+    initModels() {
+      // 初始化 modeler 以及其他 moddle
+      if (!this.bpmnModeler) {
+        // 避免加载时 流程图 并未加载完成
+        this.timer = setTimeout(() => this.initModels(), 10);
+        return;
+      }
+      if (this.timer) clearTimeout(this.timer);
+      window.bpmnInstances = {
+        modeling: this.bpmnModeler.get("modeling"),
+        moddle: this.bpmnModeler.get("moddle"),
+        eventBus: this.bpmnModeler.get("eventBus"),
+        bpmnFactory: this.bpmnModeler.get("bpmnFactory"),
+        elementRegistry: this.bpmnModeler.get("elementRegistry"),
+        replace: this.bpmnModeler.get("replace"),
+        selection: this.bpmnModeler.get("selection")
+      };
+      this.$nextTick(() => this.getActiveElement());
+    },
+    getActiveElement() {
+      // 初始第一个选中元素 bpmn:Process
+      const processElement = window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
+      this.initFormOnChanged(processElement);
+      // 监听选择事件，修改当前激活的元素以及表单
+      this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
+        const element = newSelection[0] || window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
+        console.log(`
+        ----------
+        select element changed:
+          id:  ${element.id}
+        type:  ${element.businessObject.$type}
+        ----------
+        `);
+        this.initFormOnChanged(element);
+      });
+      this.bpmnModeler.on("element.changed", ({ element }) => {
+        // 保证 修改 "默认流转路径" 类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。
+        if (element && element.id === this.elementId) {
+          this.initFormOnChanged(element);
+        }
+      });
+    },
+    // 初始化数据
+    initFormOnChanged(element) {
+      this.bpmnElement = element;
+      this.elementId = element.id;
+      this.elementType = element.type.split(":")[1];
+      this.baseInfo = JSON.parse(JSON.stringify(element.businessObject));
+      console.log(element);
+    },
+    updateElementBaseInfo(key, value) {
+      const attrObj = {};
+      attrObj[key] = value;
+      if (key === "id") {
+        this.modeling.updateProperties(this.bpmnElement, {
+          id: value,
+          di: { id: value }
+        });
+      } else {
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, attrObj);
+      }
+    }
+  }
+};
+</script>

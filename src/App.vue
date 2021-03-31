@@ -8,7 +8,7 @@
       @element-click="elementClick"
       @init-finished="initModeler"
     />
-    <my-process-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
+    <my-properties-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
 
     <!-- demo config -->
     <div class="demo-control-bar">
@@ -62,11 +62,11 @@ import CustomContentPadProvider from "../package/process-designer/plugins/conten
 // 自定义左侧菜单（修改 默认任务 为 用户任务）
 import CustomPaletteProvider from "../package/process-designer/plugins/palette";
 // 自定义侧边栏
-import MyProcessPanel from "../package/process-panel/ProcessPanel";
+// import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
   name: "App",
-  components: { MyProcessPanel },
+  components: {},
   data() {
     return {
       xmlString: "",

@@ -32,8 +32,6 @@ export default function ContextPadProvider(
 
   contextPad.registerProvider(this);
 
-  console.log(elementRegistry);
-
   this._contextPad = contextPad;
 
   this._modeling = modeling;
