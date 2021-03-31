@@ -270,11 +270,12 @@ export default {
         });
       });
       // 监听图形改变返回xml
-      EventBus.on("commandStack.changed", async () => {
+      EventBus.on("commandStack.changed", async event => {
         try {
           this.recoverable = this.bpmnModeler.get("commandStack").canRedo();
           this.revocable = this.bpmnModeler.get("commandStack").canUndo();
           let { xml } = await this.bpmnModeler.saveXML({ format: true });
+          this.$emit("commandStack-changed", event);
           this.$emit("input", xml);
           this.$emit("change", xml);
         } catch (e) {
@@ -283,10 +284,9 @@ export default {
       });
       // 监听视图缩放变化
       this.bpmnModeler.on("canvas.viewbox.changed", ({ viewbox }) => {
+        this.$emit("canvas-viewbox-changed", { viewbox });
         const { scale } = viewbox;
-        const intScale = Math.floor(scale * 10) / 10;
-        this.processZoomTo(intScale);
-        // this.defaultZoom = Math.floor(e.viewbox.scale * 10 * 10) / 100;
+        this.defaultZoom = Math.floor(scale * 100) / 100;
       });
     },
     /* 创建新的流程图 */
@@ -384,7 +384,7 @@ export default {
       this.bpmnModeler.get("commandStack").undo();
     },
     processZoomIn(zoomStep = 0.1) {
-      let newZoom = Math.floor(this.defaultZoom * 10 * 10 + zoomStep * 10 * 10) / 100;
+      let newZoom = Math.floor(this.defaultZoom * 100 + zoomStep * 100) / 100;
       if (newZoom > 4) {
         throw new Error("[Process Designer Warn ]: The zoom ratio cannot be greater than 4");
       }
@@ -392,7 +392,7 @@ export default {
       this.bpmnModeler.get("canvas").zoom(this.defaultZoom);
     },
     processZoomOut(zoomStep = 0.1) {
-      let newZoom = Math.floor(this.defaultZoom * 10 * 10 - zoomStep * 10 * 10) / 100;
+      let newZoom = Math.floor(this.defaultZoom * 100 - zoomStep * 100) / 100;
       if (newZoom < 0.2) {
         throw new Error("[Process Designer Warn ]: The zoom ratio cannot be less than 0.2");
       }
