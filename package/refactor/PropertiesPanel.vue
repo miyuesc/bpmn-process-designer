@@ -89,6 +89,7 @@ export default {
       }
       if (this.timer) clearTimeout(this.timer);
       window.bpmnInstances = {
+        modeler: this.bpmnModeler,
         modeling: this.bpmnModeler.get("modeling"),
         moddle: this.bpmnModeler.get("moddle"),
         eventBus: this.bpmnModeler.get("eventBus"),

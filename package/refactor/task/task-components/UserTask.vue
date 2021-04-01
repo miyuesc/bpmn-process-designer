@@ -72,9 +72,9 @@ export default {
     updateElementTask(key) {
       let taskAttr = Object.create(null);
       if (key === "candidateUsers" || key === "candidateGroups") {
-        taskAttr[key] = this.userTaskForm[key].join();
+        taskAttr[key] = this.userTaskForm[key] && this.userTaskForm[key].length ? this.userTaskForm[key].join() : null;
       } else {
-        taskAttr[key] = this.userTaskForm[key];
+        taskAttr[key] = this.userTaskForm[key] || null;
       }
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, taskAttr);
     }
