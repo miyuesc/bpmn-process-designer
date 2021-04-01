@@ -19,7 +19,7 @@
       <el-input v-model="userTaskForm.dueDate" clearable @change="updateElementTask('dueDate')" />
     </el-form-item>
     <el-form-item label="跟踪时间">
-      <el-input v-model="userTaskForm.followUpDate" clearable @change="updateElementTask('flowUpDate')" />
+      <el-input v-model="userTaskForm.followUpDate" clearable @change="updateElementTask('followUpDate')" />
     </el-form-item>
     <el-form-item label="优先级">
       <el-input v-model="userTaskForm.priority" clearable @change="updateElementTask('priority')" />

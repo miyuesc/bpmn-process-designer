@@ -21,14 +21,11 @@
 export default {
   name: "ElementBaseInfo",
   props: {
-    baseInfo: {
-      type: Object,
-      default: () => ({})
-    },
     id: {
       type: String,
       default: ""
     },
+    type: String,
     idEditDisabled: {
       type: Boolean,
       default: true
@@ -40,16 +37,21 @@ export default {
     };
   },
   watch: {
-    baseInfo: {
+    id: {
       immediate: true,
-      handler: function(newVal) {
-        this.elementBaseInfo = JSON.parse(JSON.stringify(newVal));
+      handler: function(val) {
+        if (val && val.length) {
+          this.bpmnElement = window.bpmnInstances.bpmnElement;
+          this.$nextTick(() => this.resetBaseInfo());
+        }
       }
     }
   },
   methods: {
+    resetBaseInfo() {
+      this.elementBaseInfo = JSON.parse(JSON.stringify(this.bpmnElement.businessObject));
+    },
     updateBaseInfo(key) {
-      !this.bpmnElement && (this.element = window.bpmnInstances.elementRegistry.get(this.id));
       const attrObj = Object.create(null);
       attrObj[key] = this.elementBaseInfo[key];
       if (key === "id") {

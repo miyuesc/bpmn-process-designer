@@ -4,7 +4,7 @@
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
         <div class="panel-tab__content">
-          <element-base-info :base-info="baseInfo" :id-edit-disabled="idEditDisabled" :id="elementId" />
+          <element-base-info :id-edit-disabled="idEditDisabled" :id="elementId" :type="elementType" />
         </div>
       </el-collapse-item>
       <el-collapse-item name="task" v-if="elementType.indexOf('Task') !== -1" key="task">
@@ -72,7 +72,6 @@ export default {
   data() {
     return {
       activeTab: "base",
-      baseInfo: {}, // 基础信息，包括名称，id，流程版本等
       elementId: "",
       elementType: ""
     };
@@ -98,7 +97,7 @@ export default {
         replace: this.bpmnModeler.get("replace"),
         selection: this.bpmnModeler.get("selection")
       };
-      this.$nextTick(() => this.getActiveElement());
+      this.getActiveElement();
     },
     getActiveElement() {
       // 初始第一个选中元素 bpmn:Process
@@ -109,11 +108,12 @@ export default {
         const element = newSelection[0] || window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
         console.log(`
         ----------
-        select element changed:
+select element changed:
           id:  ${element.id}
         type:  ${element.businessObject.$type}
         ----------
         `);
+        console.log("businessObject: ", element.businessObject);
         this.initFormOnChanged(element);
       });
       this.bpmnModeler.on("element.changed", ({ element }) => {
@@ -129,7 +129,6 @@ export default {
       this.bpmnElement = element;
       this.elementId = element.id;
       this.elementType = element.type.split(":")[1];
-      this.baseInfo = JSON.parse(JSON.stringify(element.businessObject));
     },
     beforeDestroy() {
       window.bpmnInstances = null;
