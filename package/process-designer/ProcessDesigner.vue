@@ -29,18 +29,6 @@
             </el-button>
           </el-tooltip>
         </el-button-group>
-        <el-button-group key="scale-control">
-          <el-tooltip effect="light" content="缩小视图">
-            <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut()" />
-          </el-tooltip>
-          <el-button :size="headerButtonSize">{{ Math.floor(this.defaultZoom * 10 * 10) + "%" }}</el-button>
-          <el-tooltip effect="light" content="放大视图">
-            <el-button :size="headerButtonSize" :disabled="defaultZoom > 4" icon="el-icon-zoom-in" @click="processZoomIn()" />
-          </el-tooltip>
-          <el-tooltip effect="light" content="重置视图并居中">
-            <el-button :size="headerButtonSize" icon="el-icon-c-scale-to-original" @click="processReZoom()" />
-          </el-tooltip>
-        </el-button-group>
         <el-button-group key="align-control">
           <el-tooltip effect="light" content="向左对齐">
             <el-button :size="headerButtonSize" class="align align-left" icon="el-icon-s-data" @click="elementsAlign('left')" />
@@ -59,6 +47,18 @@
           </el-tooltip>
           <el-tooltip effect="light" content="垂直居中">
             <el-button :size="headerButtonSize" class="align align-middle" icon="el-icon-s-data" @click="elementsAlign('middle')" />
+          </el-tooltip>
+        </el-button-group>
+        <el-button-group key="scale-control">
+          <el-tooltip effect="light" content="缩小视图">
+            <el-button :size="headerButtonSize" :disabled="defaultZoom < 0.2" icon="el-icon-zoom-out" @click="processZoomOut()" />
+          </el-tooltip>
+          <el-button :size="headerButtonSize">{{ Math.floor(this.defaultZoom * 10 * 10) + "%" }}</el-button>
+          <el-tooltip effect="light" content="放大视图">
+            <el-button :size="headerButtonSize" :disabled="defaultZoom > 4" icon="el-icon-zoom-in" @click="processZoomIn()" />
+          </el-tooltip>
+          <el-tooltip effect="light" content="重置视图并居中">
+            <el-button :size="headerButtonSize" icon="el-icon-c-scale-to-original" @click="processReZoom()" />
           </el-tooltip>
         </el-button-group>
         <el-button-group key="stack-control">

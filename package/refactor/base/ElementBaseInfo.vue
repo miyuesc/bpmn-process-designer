@@ -21,10 +21,7 @@
 export default {
   name: "ElementBaseInfo",
   props: {
-    id: {
-      type: String,
-      default: ""
-    },
+    businessObject: Object,
     type: String,
     idEditDisabled: {
       type: Boolean,
@@ -37,10 +34,10 @@ export default {
     };
   },
   watch: {
-    id: {
+    businessObject: {
       immediate: true,
       handler: function(val) {
-        if (val && val.length) {
+        if (val) {
           this.bpmnElement = window.bpmnInstances.bpmnElement;
           this.$nextTick(() => this.resetBaseInfo());
         }
