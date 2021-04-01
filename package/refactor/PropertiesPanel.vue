@@ -7,6 +7,12 @@
           <element-base-info :id-edit-disabled="idEditDisabled" :business-object="elementBusinessObject" :type="elementType" />
         </div>
       </el-collapse-item>
+      <el-collapse-item name="condition" v-if="conditionFormVisible" key="condition">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>流转条件</div>
+        <div class="panel-tab__content">
+          <flow-condition :business-object="elementBusinessObject" :type="elementType" />
+        </div>
+      </el-collapse-item>
       <el-collapse-item name="task" v-if="elementType.indexOf('Task') !== -1" key="task">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>任务</div>
         <div class="panel-tab__content">
@@ -41,6 +47,7 @@ import ElementBaseInfo from "./base/ElementBaseInfo";
 import ElementOtherConfig from "./other/ElementOtherConfig";
 import ElementTaskConfig from "./task/ElementTaskConfig";
 import ElementMultiInstance from "./multi-instance/ElementMultiInstance";
+import FlowCondition from "./flow-condition/FlowCondition";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -49,7 +56,7 @@ import ElementMultiInstance from "./multi-instance/ElementMultiInstance";
  */
 export default {
   name: "MyPropertiesPanel",
-  components: { ElementMultiInstance, ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
+  components: { FlowCondition, ElementMultiInstance, ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
   componentName: "MyPropertiesPanel",
   props: {
     bpmnModeler: Object,
@@ -77,7 +84,8 @@ export default {
       activeTab: "base",
       elementId: "",
       elementType: "",
-      elementBusinessObject: {} // 元素 businessObject 镜像，提供给需要做判断的组件使用
+      elementBusinessObject: {}, // 元素 businessObject 镜像，提供给需要做判断的组件使用
+      conditionFormVisible: false // 流转条件设置
     };
   },
   created() {
@@ -139,6 +147,11 @@ select element changed:
       this.elementId = element.id;
       this.elementType = element.type.split(":")[1];
       this.elementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
+      if (this.elementType === "SequenceFlow" && element.source && element.source.type.indexOf("StartEvent") === -1) {
+        this.conditionFormVisible = true;
+      } else {
+        this.conditionFormVisible = false;
+      }
     },
     beforeDestroy() {
       window.bpmnInstances = null;

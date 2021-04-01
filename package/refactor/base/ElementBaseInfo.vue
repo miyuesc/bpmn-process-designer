@@ -15,7 +15,6 @@
         <el-switch v-model="elementBaseInfo.isExecutable" active-text="是" inactive-text="否" @change="updateBaseInfo('isExecutable')" />
       </el-form-item>
     </template>
-    <template v-if="flowConditionVisible"></template>
   </el-form>
 </template>
 <script>
@@ -31,7 +30,6 @@ export default {
   },
   data() {
     return {
-      flowConditionVisible: false,
       elementBaseInfo: {}
     };
   },
