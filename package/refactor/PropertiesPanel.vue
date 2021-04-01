@@ -15,7 +15,9 @@
       </el-collapse-item>
       <el-collapse-item name="multiInstance" v-if="elementType.indexOf('Task') !== -1" key="multiInstance">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-help"></i>多实例</div>
-        <div class="panel-tab__content"></div>
+        <div class="panel-tab__content">
+          <element-multi-instance :id="elementId" :type="elementType" />
+        </div>
       </el-collapse-item>
       <el-collapse-item name="listeners" key="listeners">
         <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
@@ -38,6 +40,7 @@
 import ElementBaseInfo from "./base/ElementBaseInfo";
 import ElementOtherConfig from "./other/ElementOtherConfig";
 import ElementTaskConfig from "./task/ElementTaskConfig";
+import ElementMultiInstance from "./multi-instance/ElementMultiInstance";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -46,7 +49,7 @@ import ElementTaskConfig from "./task/ElementTaskConfig";
  */
 export default {
   name: "MyPropertiesPanel",
-  components: { ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
+  components: { ElementMultiInstance, ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
   componentName: "MyPropertiesPanel",
   props: {
     bpmnModeler: Object,
