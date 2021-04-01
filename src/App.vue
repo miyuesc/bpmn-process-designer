@@ -120,6 +120,7 @@ export default {
     },
     elementClick(element) {
       this.element = element;
+      console.log(element.businessObject);
     }
   }
 };

@@ -49,7 +49,17 @@ export default {
   },
   methods: {
     updateBaseInfo(key) {
-      this.$emit("update", key, this.elementBaseInfo[key]);
+      !this.bpmnElement && (this.element = window.bpmnInstances.elementRegistry.get(this.id));
+      const attrObj = Object.create(null);
+      attrObj[key] = this.elementBaseInfo[key];
+      if (key === "id") {
+        this.modeling.updateProperties(this.bpmnElement, {
+          id: this.elementBaseInfo[key],
+          di: { id: this.elementBaseInfo[key] }
+        });
+      } else {
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, attrObj);
+      }
     }
   }
 };

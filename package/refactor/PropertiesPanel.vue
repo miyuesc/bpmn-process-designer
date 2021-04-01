@@ -4,18 +4,28 @@
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
         <div class="panel-tab__content">
-          <element-base-info :base-info="baseInfo" :id-edit-disabled="idEditDisabled" :id="elementId" @update="updateElementBaseInfo" />
+          <element-base-info :base-info="baseInfo" :id-edit-disabled="idEditDisabled" :id="elementId" />
         </div>
       </el-collapse-item>
-      <el-collapse-item name="listeners">
+      <el-collapse-item name="task" v-if="elementType.indexOf('Task') !== -1" key="task">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>任务</div>
+        <div class="panel-tab__content">
+          <element-task-config :id="elementId" :type="elementType" />
+        </div>
+      </el-collapse-item>
+      <el-collapse-item name="multiInstance" v-if="elementType.indexOf('Task') !== -1" key="multiInstance">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-help"></i>多实例</div>
+        <div class="panel-tab__content"></div>
+      </el-collapse-item>
+      <el-collapse-item name="listeners" key="listeners">
         <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
         <div class="panel-tab__content"></div>
       </el-collapse-item>
-      <el-collapse-item name="extensions">
+      <el-collapse-item name="extensions" key="extensions">
         <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
         <div class="panel-tab__content"></div>
       </el-collapse-item>
-      <el-collapse-item name="other">
+      <el-collapse-item name="other" key="other">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>其他</div>
         <div class="panel-tab__content">
           <element-other-config :id="elementId" />
@@ -27,6 +37,7 @@
 <script>
 import ElementBaseInfo from "./base/ElementBaseInfo";
 import ElementOtherConfig from "./other/ElementOtherConfig";
+import ElementTaskConfig from "./task/ElementTaskConfig";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -35,7 +46,7 @@ import ElementOtherConfig from "./other/ElementOtherConfig";
  */
 export default {
   name: "MyPropertiesPanel",
-  components: { ElementOtherConfig, ElementBaseInfo },
+  components: { ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
   componentName: "MyPropertiesPanel",
   props: {
     bpmnModeler: Object,
@@ -114,23 +125,14 @@ export default {
     },
     // 初始化数据
     initFormOnChanged(element) {
+      window.bpmnInstances.bpmnElement = element;
       this.bpmnElement = element;
       this.elementId = element.id;
       this.elementType = element.type.split(":")[1];
       this.baseInfo = JSON.parse(JSON.stringify(element.businessObject));
-      console.log(element);
     },
-    updateElementBaseInfo(key, value) {
-      const attrObj = {};
-      attrObj[key] = value;
-      if (key === "id") {
-        this.modeling.updateProperties(this.bpmnElement, {
-          id: value,
-          di: { id: value }
-        });
-      } else {
-        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, attrObj);
-      }
+    beforeDestroy() {
+      window.bpmnInstances = null;
     }
   }
 };
