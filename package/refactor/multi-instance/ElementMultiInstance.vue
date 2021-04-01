@@ -10,6 +10,28 @@
         <el-option label="无" value="Null" />
       </el-select>
     </el-form-item>
+    <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
+      <el-form-item label="循环基数" key="loopCardinality">
+        <el-input v-model="loopInstanceForm.loopCardinality" clearable />
+      </el-form-item>
+      <el-form-item label="集合" key="collection">
+        <el-input v-model="loopInstanceForm.collection" clearable />
+      </el-form-item>
+      <el-form-item label="元素变量" key="elementVariable">
+        <el-input v-model="loopInstanceForm.elementVariable" clearable />
+      </el-form-item>
+      <el-form-item label="完成条件" key="completionCondition">
+        <el-input v-model="loopInstanceForm.completionCondition" clearable />
+      </el-form-item>
+      <el-form-item label="异步状态" key="async">
+        <el-checkbox v-model="loopInstanceForm.asyncBefore" label="异步前" />
+        <el-checkbox v-model="loopInstanceForm.asyncAfter" label="异步后" />
+        <el-checkbox v-model="loopInstanceForm.exclusive" v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore" label="排除" />
+      </el-form-item>
+      <el-form-item label="重试周期" prop="failedJobRetryTimeCycle" v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore" key="cycle">
+        <el-input v-model="loopInstanceForm.failedJobRetryTimeCycle" clearable />
+      </el-form-item>
+    </template>
   </el-form>
 </template>
 
@@ -17,7 +39,7 @@
 export default {
   name: "ElementMultiInstance",
   props: {
-    id: String,
+    businessObject: Object,
     type: String
   },
   data() {
@@ -27,16 +49,33 @@ export default {
     };
   },
   watch: {
-    id: {
+    businessObject: {
       immediate: true,
-      handler() {
+      handler(val) {
+        console.log("watch", val);
         this.bpmnElement = window.bpmnInstances.bpmnElement;
-        this.getElementLoop();
+        this.getElementLoop(val);
       }
     }
   },
   methods: {
-    getElementLoop() {},
+    getElementLoop(businessObject) {
+      if (!businessObject.loopCharacteristics) {
+        this.loopCharacteristics = "Null";
+        this.loopInstanceForm = {};
+        return;
+      }
+      if (businessObject.loopCharacteristics.$type === "bpmn:StandardLoopCharacteristics") {
+        this.loopCharacteristics = "StandardLoop";
+        this.loopInstanceForm = {};
+        return;
+      }
+      if (businessObject.loopCharacteristics.isSequential) {
+        this.loopCharacteristics = "SequentialMultiInstance";
+      } else {
+        this.loopCharacteristics = "ParallelMultiInstance";
+      }
+    },
     updateLoopCharacteristics(type) {
       this.loopInstanceForm = {}; // 切换类型取消原表单配置
       // 取消多实例配置

@@ -16,7 +16,7 @@
       <el-collapse-item name="multiInstance" v-if="elementType.indexOf('Task') !== -1" key="multiInstance">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-help"></i>多实例</div>
         <div class="panel-tab__content">
-          <element-multi-instance :id="elementId" :type="elementType" />
+          <element-multi-instance :business-object="elementBusinessObject" :type="elementType" />
         </div>
       </el-collapse-item>
       <el-collapse-item name="listeners" key="listeners">
@@ -76,7 +76,8 @@ export default {
     return {
       activeTab: "base",
       elementId: "",
-      elementType: ""
+      elementType: "",
+      elementBusinessObject: {} // 元素 businessObject 镜像，提供给需要做判断的组件使用
     };
   },
   created() {
@@ -133,6 +134,7 @@ select element changed:
       this.bpmnElement = element;
       this.elementId = element.id;
       this.elementType = element.type.split(":")[1];
+      this.elementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
     },
     beforeDestroy() {
       window.bpmnInstances = null;
