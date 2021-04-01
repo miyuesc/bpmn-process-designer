@@ -106,20 +106,24 @@ export default {
     },
     getActiveElement() {
       // 初始第一个选中元素 bpmn:Process
-      const processElement = window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
-      this.initFormOnChanged(processElement);
+      this.processElement = window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
+      this.initFormOnChanged(this.processElement);
       // 监听选择事件，修改当前激活的元素以及表单
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
-        const element = newSelection[0] || window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
-        console.log(`
+        if (newSelection && newSelection.length) {
+          const element = newSelection[0] || window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
+          console.log(`
         ----------
 select element changed:
           id:  ${element.id}
         type:  ${element.businessObject.$type}
         ----------
         `);
-        console.log("businessObject: ", element.businessObject);
-        this.initFormOnChanged(element);
+          console.log("businessObject: ", element.businessObject);
+          this.initFormOnChanged(element);
+        } else {
+          this.initFormOnChanged(this.processElement);
+        }
       });
       this.bpmnModeler.on("element.changed", ({ element }) => {
         // 保证 修改 "默认流转路径" 类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。

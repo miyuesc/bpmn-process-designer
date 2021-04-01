@@ -31,8 +31,10 @@ export default {
       immediate: true,
       handler: function(id) {
         if (id && id.length) {
-          const documentations = window.bpmnInstances.elementRegistry.get(id).businessObject?.documentation;
-          this.documentation = documentations ? documentations[0].text : "";
+          this.$nextTick(() => {
+            const documentations = window.bpmnInstances.bpmnElement.businessObject?.documentation;
+            this.documentation = documentations && documentations.length ? documentations[0].text : "";
+          });
         } else {
           this.documentation = "";
         }
