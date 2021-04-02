@@ -69,7 +69,6 @@ export default {
     businessObject: {
       immediate: true,
       handler(val) {
-        console.log("multi instance watch", val);
         this.bpmnElement = window.bpmnInstances.bpmnElement;
         this.getElementLoop(val);
       }
