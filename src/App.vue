@@ -137,9 +137,8 @@ body {
 .demo-control-bar {
   position: fixed;
   right: 8px;
-  top: 50%;
+  bottom: 8px;
   z-index: 1;
-  transform: translateY(-50%);
   .open-control-dialog {
     width: 48px;
     height: 48px;

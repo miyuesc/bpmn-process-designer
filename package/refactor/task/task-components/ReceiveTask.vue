@@ -50,7 +50,6 @@ export default {
   created() {
     this.bpmnMessageRefsMap = Object.create(null);
     this.bpmnRootElements = window.bpmnInstances.modeler.getDefinitions().rootElements;
-    // this.bpmnMessageRefs = this.bpmnRootElements.filter(el => el.$type === "bpmn:Message");
     this.bpmnRootElements
       .filter(el => el.$type === "bpmn:Message")
       .forEach(m => {

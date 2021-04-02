@@ -7,6 +7,10 @@
           <element-base-info :id-edit-disabled="idEditDisabled" :business-object="elementBusinessObject" :type="elementType" />
         </div>
       </el-collapse-item>
+      <el-collapse-item name="condition" v-if="elementType === 'Process'" key="message">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-comment"></i>消息与信号</div>
+        <signal-and-massage />
+      </el-collapse-item>
       <el-collapse-item name="condition" v-if="conditionFormVisible" key="condition">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>流转条件</div>
         <div class="panel-tab__content">
@@ -48,6 +52,7 @@ import ElementOtherConfig from "./other/ElementOtherConfig";
 import ElementTaskConfig from "./task/ElementTaskConfig";
 import ElementMultiInstance from "./multi-instance/ElementMultiInstance";
 import FlowCondition from "./flow-condition/FlowCondition";
+import SignalAndMassage from "./signal-message/SignalAndMessage";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -56,7 +61,7 @@ import FlowCondition from "./flow-condition/FlowCondition";
  */
 export default {
   name: "MyPropertiesPanel",
-  components: { FlowCondition, ElementMultiInstance, ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
+  components: { SignalAndMassage, FlowCondition, ElementMultiInstance, ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
   componentName: "MyPropertiesPanel",
   props: {
     bpmnModeler: Object,

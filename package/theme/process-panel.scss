@@ -19,6 +19,15 @@
   box-sizing: border-box;
   border-top: 1px solid #eeeeee;
   padding: 8px 16px;
+  .panel-tab__content--title {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+    span {
+      flex: 1;
+      text-align: left;
+    }
+  }
 }
 .element-property {
   width: 100%;
