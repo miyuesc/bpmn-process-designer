@@ -43,12 +43,15 @@ export default {
   },
   methods: {
     updateDocumentation() {
-      !this.element && (this.element = window.bpmnInstances.elementRegistry.get(this.id));
+      !this.bpmnElement && (this.bpmnElement = window.bpmnInstances.elementRegistry.get(this.id));
       const documentation = window.bpmnInstances.bpmnFactory.create("bpmn:Documentation", { text: this.documentation });
-      window.bpmnInstances.modeling.updateProperties(this.element, {
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
         documentation: [documentation]
       });
     }
+  },
+  beforeDestroy() {
+    this.bpmnElement = null;
   }
 };
 </script>

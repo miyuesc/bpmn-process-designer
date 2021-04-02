@@ -43,7 +43,6 @@ export default {
     id: {
       immediate: true,
       handler() {
-        this.bpmnElement = window.bpmnInstances.bpmnElement;
         this.$nextTick(() => this.getBindMessage());
       }
     }
@@ -62,6 +61,7 @@ export default {
   },
   methods: {
     getBindMessage() {
+      this.bpmnElement = window.bpmnInstances.bpmnElement;
       this.bindMessageId = this.bpmnElement.businessObject?.messageRef?.id || "-1";
     },
     openMessageModel() {
@@ -80,7 +80,6 @@ export default {
       this.messageModelVisible = false;
     },
     updateTaskMessage(messageId) {
-      console.log(messageId);
       if (messageId === "-1") {
         window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
           messageRef: null
@@ -91,6 +90,9 @@ export default {
         });
       }
     }
+  },
+  beforeDestroy() {
+    this.bpmnElement = null;
   }
 };
 </script>

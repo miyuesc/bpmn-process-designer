@@ -77,6 +77,9 @@ export default {
       }
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, taskAttr);
     }
+  },
+  beforeDestroy() {
+    this.bpmnElement = null;
   }
 };
 </script>

@@ -52,7 +52,6 @@ export default {
     businessObject: {
       immediate: true,
       handler() {
-        console.log("condition watch");
         this.$nextTick(() => this.resetFlowCondition());
       }
     }
@@ -62,7 +61,6 @@ export default {
       this.bpmnElement = window.bpmnInstances.bpmnElement;
       this.bpmnElementSource = this.bpmnElement.source;
       this.bpmnElementSourceRef = this.bpmnElement.businessObject.sourceRef;
-      console.log(this.bpmnElement.businessObject);
       if (this.bpmnElementSourceRef && this.bpmnElementSourceRef.default && this.bpmnElementSourceRef.default.id === this.bpmnElement.id) {
         // 默认
         this.flowConditionForm = { type: "default" };
@@ -132,6 +130,11 @@ export default {
       }
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { conditionExpression: condition });
     }
+  },
+  beforeDestroy() {
+    this.bpmnElement = null;
+    this.bpmnElementSource = null;
+    this.bpmnElementSourceRef = null;
   }
 };
 </script>

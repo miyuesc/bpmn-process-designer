@@ -38,7 +38,6 @@ export default {
       immediate: false,
       handler: function(val) {
         if (val) {
-          console.log(val, window.bpmnInstances);
           this.$nextTick(() => this.resetBaseInfo());
         }
       }
@@ -61,6 +60,9 @@ export default {
         window.bpmnInstances.modeling.updateProperties(this.bpmnElement, attrObj);
       }
     }
+  },
+  beforeDestroy() {
+    this.bpmnElement = null;
   }
 };
 </script>

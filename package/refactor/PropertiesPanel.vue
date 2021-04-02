@@ -147,11 +147,7 @@ select element changed:
       this.elementId = element.id;
       this.elementType = element.type.split(":")[1];
       this.elementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
-      if (this.elementType === "SequenceFlow" && element.source && element.source.type.indexOf("StartEvent") === -1) {
-        this.conditionFormVisible = true;
-      } else {
-        this.conditionFormVisible = false;
-      }
+      this.conditionFormVisible = !!(this.elementType === "SequenceFlow" && element.source && element.source.type.indexOf("StartEvent") === -1);
     },
     beforeDestroy() {
       window.bpmnInstances = null;

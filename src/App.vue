@@ -94,7 +94,7 @@ export default {
     initModeler(modeler) {
       setTimeout(() => {
         this.modeler = modeler;
-        if (this.addis.customRenderer) console.log(this.modeler.get("customRenderer"));
+        // if (this.addis.customRenderer) console.log(this.modeler.get("customRenderer"));
         // this.modeler.on("drag.init", () => {
         //   this.modeler.get("dragging").cancel();
         // });
