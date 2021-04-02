@@ -52,7 +52,7 @@ export default {
       const attrObj = Object.create(null);
       attrObj[key] = this.elementBaseInfo[key];
       if (key === "id") {
-        this.modeling.updateProperties(this.bpmnElement, {
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
           id: this.elementBaseInfo[key],
           di: { id: this.elementBaseInfo[key] }
         });
