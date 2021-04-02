@@ -5,7 +5,8 @@ const IS_PROD = process.env.NODE_ENV === "production";
 const cdn = {
   externals: {
     vue: "Vue",
-    "element-ui": "ELEMENT"
+    "element-ui": "ELEMENT",
+    "bpmn-js/lib/Modeler": "BpmnJS"
   },
   css: [],
   js: [

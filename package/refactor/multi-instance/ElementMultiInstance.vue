@@ -1,7 +1,7 @@
 <template>
   <el-form size="mini" label-width="90px" label-suffix="：">
     <el-form-item label="回路特性">
-      <el-select v-model="loopCharacteristics" @change="updateLoopCharacteristics">
+      <el-select v-model="loopCharacteristics" @change="changeLoopCharacteristicsType">
         <!--bpmn:MultiInstanceLoopCharacteristics-->
         <el-option label="并行多重事件" value="ParallelMultiInstance" />
         <el-option label="时序多重事件" value="SequentialMultiInstance" />
@@ -12,7 +12,7 @@
     </el-form-item>
     <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
       <el-form-item label="循环基数" key="loopCardinality">
-        <el-input v-model="loopInstanceForm.loopCardinality.body" clearable @change="updateLoopCardinality" />
+        <el-input v-model="loopInstanceForm.loopCardinality" clearable @change="updateLoopCardinality" />
       </el-form-item>
       <el-form-item label="集合" key="collection">
         <el-input v-model="loopInstanceForm.collection" clearable @change="updateLoopBase" />
@@ -21,7 +21,7 @@
         <el-input v-model="loopInstanceForm.elementVariable" clearable @change="updateLoopBase" />
       </el-form-item>
       <el-form-item label="完成条件" key="completionCondition">
-        <el-input v-model="loopInstanceForm.completionCondition.body" clearable @change="updateLoopCondition" />
+        <el-input v-model="loopInstanceForm.completionCondition" clearable @change="updateLoopCondition" />
       </el-form-item>
       <el-form-item label="异步状态" key="async">
         <el-checkbox v-model="loopInstanceForm.asyncBefore" label="异步前" @change="updateLoopAsync('asyncBefore')" />
@@ -55,9 +55,12 @@ export default {
       loopCharacteristics: "",
       //默认配置，用来覆盖原始不存在的选项，避免报错
       defaultLoopInstanceForm: {
-        completionCondition: { body: "" },
-        loopCardinality: { body: "" },
-        extensionElements: []
+        completionCondition: "",
+        loopCardinality: "",
+        extensionElements: [],
+        asyncAfter: false,
+        asyncBefore: false,
+        exclusive: false
       },
       loopInstanceForm: {}
     };
@@ -92,11 +95,13 @@ export default {
       // 合并配置
       this.loopInstanceForm = {
         ...this.defaultLoopInstanceForm,
-        ...businessObject.loopCharacteristics
+        ...businessObject.loopCharacteristics,
+        completionCondition: businessObject.loopCharacteristics?.completionCondition?.body ?? "",
+        loopCardinality: businessObject.loopCharacteristics?.loopCardinality?.body ?? ""
       };
-      console.log("form", this.loopInstanceForm, businessObject.loopCharacteristics);
       // 保留当前元素 businessObject 上的 loopCharacteristics 实例
       this.multiLoopInstance = window.bpmnInstances.bpmnElement.businessObject.loopCharacteristics;
+      // 更新表单
       if (
         businessObject.loopCharacteristics.extensionElements &&
         businessObject.loopCharacteristics.extensionElements.values &&
@@ -105,7 +110,7 @@ export default {
         this.$set(this.loopInstanceForm, "timeCycle", businessObject.loopCharacteristics.extensionElements.values[0].body);
       }
     },
-    updateLoopCharacteristics(type) {
+    changeLoopCharacteristicsType(type) {
       // this.loopInstanceForm = { ...this.defaultLoopInstanceForm }; // 切换类型取消原表单配置
       // 取消多实例配置
       if (type === "Null") {
