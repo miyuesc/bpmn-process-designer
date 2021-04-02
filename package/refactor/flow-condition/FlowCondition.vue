@@ -8,7 +8,7 @@
       </el-select>
     </el-form-item>
     <el-form-item label="条件格式" v-if="flowConditionForm.type === 'condition'" key="condition">
-      <el-select v-model="flowConditionForm.conditionType" @change="changeFlowConditionType">
+      <el-select v-model="flowConditionForm.conditionType">
         <el-option label="表达式" value="expression" />
         <el-option label="脚本" value="script" />
       </el-select>
@@ -21,7 +21,7 @@
         <el-input v-model="flowConditionForm.language" clearable @change="updateFlowCondition" />
       </el-form-item>
       <el-form-item label="脚本类型" key="scriptType">
-        <el-select v-model="flowConditionForm.scriptType" @change="updateFlowCondition">
+        <el-select v-model="flowConditionForm.scriptType">
           <el-option label="内联脚本" value="inlineScript" />
           <el-option label="外部脚本" value="externalScript" />
         </el-select>
@@ -59,11 +59,79 @@ export default {
   },
   methods: {
     resetFlowCondition() {
-      console.log(this.businessObject);
+      this.bpmnElement = window.bpmnInstances.bpmnElement;
+      this.bpmnElementSource = this.bpmnElement.source;
+      this.bpmnElementSourceRef = this.bpmnElement.businessObject.sourceRef;
+      console.log(this.bpmnElement.businessObject);
+      if (this.bpmnElementSourceRef && this.bpmnElementSourceRef.default && this.bpmnElementSourceRef.default.id === this.bpmnElement.id) {
+        // 默认
+        this.flowConditionForm = { type: "default" };
+      } else if (!this.bpmnElement.businessObject.conditionExpression) {
+        // 普通
+        this.flowConditionForm = { type: "normal" };
+      } else {
+        // 带条件
+        const conditionExpression = this.bpmnElement.businessObject.conditionExpression;
+        this.flowConditionForm = { ...conditionExpression, type: "condition" };
+        // resource 可直接标识 是否是外部资源脚本
+        if (this.flowConditionForm.resource) {
+          this.$set(this.flowConditionForm, "conditionType", "script");
+          this.$set(this.flowConditionForm, "scriptType", "externalScript");
+          return;
+        }
+        if (conditionExpression.language) {
+          this.$set(this.flowConditionForm, "conditionType", "script");
+          this.$set(this.flowConditionForm, "scriptType", "inlineScript");
+          return;
+        }
+        this.$set(this.flowConditionForm, "conditionType", "expression");
+      }
     },
-    updateFlowType() {},
-    changeFlowConditionType() {},
-    updateFlowCondition() {}
+    updateFlowType(flowType) {
+      // 正常条件类
+      if (flowType === "condition") {
+        this.flowConditionRef = window.bpmnInstances.moddle.create("bpmn:FormalExpression");
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
+          conditionExpression: this.flowConditionRef
+        });
+        return;
+      }
+      // 默认路径
+      if (flowType === "default") {
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
+          conditionExpression: null
+        });
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElementSource, {
+          default: this.bpmnElement
+        });
+        return;
+      }
+      // 正常路径，如果来源节点的默认路径是当前连线时，清除父元素的默认路径配置
+      if (this.bpmnElementSourceRef.default && this.bpmnElementSourceRef.default.id === this.bpmnElement.id) {
+        window.bpmnInstances.modeling.updateProperties(this.bpmnElementSource, {
+          default: null
+        });
+      }
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
+        conditionExpression: null
+      });
+    },
+    updateFlowCondition() {
+      let { conditionType, scriptType, body, resource, language } = this.flowConditionForm;
+      let condition;
+      if (conditionType === "expression") {
+        condition = window.bpmnInstances.moddle.create("bpmn:FormalExpression", { body });
+      } else {
+        if (scriptType === "inlineScript") {
+          condition = window.bpmnInstances.moddle.create("bpmn:FormalExpression", { body, language });
+          this.$set(this.flowConditionForm, "resource", "");
+        } else {
+          this.$set(this.flowConditionForm, "body", "");
+          condition = window.bpmnInstances.moddle.create("bpmn:FormalExpression", { resource, language });
+        }
+      }
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { conditionExpression: condition });
+    }
   }
 };
 </script>
