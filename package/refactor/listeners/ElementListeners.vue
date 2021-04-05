@@ -163,7 +163,7 @@
 export default {
   name: "ElementListeners",
   props: {
-    businessObject: Object,
+    id: String,
     type: String
   },
   inject: {
@@ -192,13 +192,8 @@ export default {
       }
     };
   },
-  computed: {
-    elementId() {
-      return this.businessObject?.id ?? null;
-    }
-  },
   watch: {
-    elementId: {
+    id: {
       immediate: true,
       handler(val) {
         val && val.length && this.$nextTick(() => this.resetListenersList());
@@ -283,7 +278,6 @@ export default {
     },
     // 移除监听器字段
     removeListenerField(field, index) {
-      // this.fieldsListOfListener
       this.$confirm("确认移除该字段吗？", "提示", {
         confirmButtonText: "确 认",
         cancelButtonText: "取 消"

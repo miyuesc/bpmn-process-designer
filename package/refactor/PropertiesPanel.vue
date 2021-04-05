@@ -23,11 +23,11 @@
       </el-collapse-item>
       <el-collapse-item name="listeners" key="listeners">
         <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
-        <element-listeners :business-object="elementBusinessObject" :type="elementType" />
+        <element-listeners :id="elementId" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="extensions" key="extensions">
         <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
-        <div class="panel-tab__content"></div>
+        <element-properties :id="elementId" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="other" key="other">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>其他</div>
@@ -44,6 +44,7 @@ import ElementMultiInstance from "./multi-instance/ElementMultiInstance";
 import FlowCondition from "./flow-condition/FlowCondition";
 import SignalAndMassage from "./signal-message/SignalAndMessage";
 import ElementListeners from "./listeners/ElementListeners";
+import ElementProperties from "./properties/ElementProperties";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -52,7 +53,7 @@ import ElementListeners from "./listeners/ElementListeners";
  */
 export default {
   name: "MyPropertiesPanel",
-  components: { ElementListeners, SignalAndMassage, FlowCondition, ElementMultiInstance, ElementTask, ElementOtherConfig, ElementBaseInfo },
+  components: { ElementProperties, ElementListeners, SignalAndMassage, FlowCondition, ElementMultiInstance, ElementTask, ElementOtherConfig, ElementBaseInfo },
   componentName: "MyPropertiesPanel",
   props: {
     bpmnModeler: Object,
@@ -122,15 +123,7 @@ export default {
       // 监听选择事件，修改当前激活的元素以及表单
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
         if (newSelection && newSelection.length) {
-          const element = newSelection[0] || window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
-          console.log(`
-        ----------
-select element changed:
-          id:  ${element.id}
-        type:  ${element.businessObject.$type}
-        ----------
-        `);
-          console.log("businessObject: ", element.businessObject);
+          const element = newSelection[0];
           this.initFormOnChanged(element);
         } else {
           this.initFormOnChanged(this.processElement);
@@ -145,6 +138,14 @@ select element changed:
     },
     // 初始化数据
     initFormOnChanged(element) {
+      console.log(`
+        ----------
+select element changed:
+          id:  ${element.id}
+        type:  ${element.businessObject.$type}
+        ----------
+        `);
+      console.log("businessObject: ", element.businessObject);
       window.bpmnInstances.bpmnElement = element;
       this.bpmnElement = element;
       this.elementId = element.id;
