@@ -84,6 +84,13 @@ export default {
       conditionFormVisible: false // 流转条件设置
     };
   },
+  watch: {
+    elementId: {
+      handler() {
+        this.activeTab = "base";
+      }
+    }
+  },
   created() {
     this.initModels();
   },
