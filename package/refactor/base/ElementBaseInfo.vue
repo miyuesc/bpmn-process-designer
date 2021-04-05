@@ -1,21 +1,28 @@
 <template>
-  <el-form size="mini" label-width="90px" label-suffix="：">
-    <el-form-item label="ID">
-      <el-input v-model="elementBaseInfo.id" :disabled="idEditDisabled || elementBaseInfo.$type === 'bpmn:Process'" clearable @change="updateBaseInfo('id')" />
-    </el-form-item>
-    <el-form-item label="名称">
-      <el-input v-model="elementBaseInfo.name" clearable @change="updateBaseInfo('name')" />
-    </el-form-item>
-    <!--流程的基础属性-->
-    <template v-if="elementBaseInfo.$type === 'bpmn:Process'">
-      <el-form-item label="版本标签">
-        <el-input v-model="elementBaseInfo.versionTag" clearable @change="updateBaseInfo('versionTag')" />
+  <div class="panel-tab__content">
+    <el-form size="mini" label-width="90px" label-suffix="：">
+      <el-form-item label="ID">
+        <el-input
+          v-model="elementBaseInfo.id"
+          :disabled="idEditDisabled || elementBaseInfo.$type === 'bpmn:Process'"
+          clearable
+          @change="updateBaseInfo('id')"
+        />
       </el-form-item>
-      <el-form-item label="可执行">
-        <el-switch v-model="elementBaseInfo.isExecutable" active-text="是" inactive-text="否" @change="updateBaseInfo('isExecutable')" />
+      <el-form-item label="名称">
+        <el-input v-model="elementBaseInfo.name" clearable @change="updateBaseInfo('name')" />
       </el-form-item>
-    </template>
-  </el-form>
+      <!--流程的基础属性-->
+      <template v-if="elementBaseInfo.$type === 'bpmn:Process'">
+        <el-form-item label="版本标签">
+          <el-input v-model="elementBaseInfo.versionTag" clearable @change="updateBaseInfo('versionTag')" />
+        </el-form-item>
+        <el-form-item label="可执行">
+          <el-switch v-model="elementBaseInfo.isExecutable" active-text="是" inactive-text="否" @change="updateBaseInfo('isExecutable')" />
+        </el-form-item>
+      </template>
+    </el-form>
+  </div>
 </template>
 <script>
 export default {

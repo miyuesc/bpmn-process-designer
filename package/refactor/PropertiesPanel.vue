@@ -3,9 +3,7 @@
     <el-collapse v-model="activeTab">
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
-        <div class="panel-tab__content">
-          <element-base-info :id-edit-disabled="idEditDisabled" :business-object="elementBusinessObject" :type="elementType" />
-        </div>
+        <element-base-info :id-edit-disabled="idEditDisabled" :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="condition" v-if="elementType === 'Process'" key="message">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-comment"></i>消息与信号</div>
@@ -13,25 +11,19 @@
       </el-collapse-item>
       <el-collapse-item name="condition" v-if="conditionFormVisible" key="condition">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>流转条件</div>
-        <div class="panel-tab__content">
-          <flow-condition :business-object="elementBusinessObject" :type="elementType" />
-        </div>
+        <flow-condition :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="task" v-if="elementType.indexOf('Task') !== -1" key="task">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>任务</div>
-        <div class="panel-tab__content">
-          <element-task-config :id="elementId" :type="elementType" />
-        </div>
+        <element-task :id="elementId" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="multiInstance" v-if="elementType.indexOf('Task') !== -1" key="multiInstance">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-help"></i>多实例</div>
-        <div class="panel-tab__content">
-          <element-multi-instance :business-object="elementBusinessObject" :type="elementType" />
-        </div>
+        <element-multi-instance :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="listeners" key="listeners">
         <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
-        <div class="panel-tab__content"></div>
+        <element-listeners :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="extensions" key="extensions">
         <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
@@ -39,9 +31,7 @@
       </el-collapse-item>
       <el-collapse-item name="other" key="other">
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>其他</div>
-        <div class="panel-tab__content">
-          <element-other-config :id="elementId" />
-        </div>
+        <element-other-config :id="elementId" />
       </el-collapse-item>
     </el-collapse>
   </div>
@@ -49,10 +39,11 @@
 <script>
 import ElementBaseInfo from "./base/ElementBaseInfo";
 import ElementOtherConfig from "./other/ElementOtherConfig";
-import ElementTaskConfig from "./task/ElementTaskConfig";
+import ElementTask from "./task/ElementTask";
 import ElementMultiInstance from "./multi-instance/ElementMultiInstance";
 import FlowCondition from "./flow-condition/FlowCondition";
 import SignalAndMassage from "./signal-message/SignalAndMessage";
+import ElementListeners from "./listeners/ElementListeners";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -61,7 +52,7 @@ import SignalAndMassage from "./signal-message/SignalAndMessage";
  */
 export default {
   name: "MyPropertiesPanel",
-  components: { SignalAndMassage, FlowCondition, ElementMultiInstance, ElementTaskConfig, ElementOtherConfig, ElementBaseInfo },
+  components: { ElementListeners, SignalAndMassage, FlowCondition, ElementMultiInstance, ElementTask, ElementOtherConfig, ElementBaseInfo },
   componentName: "MyPropertiesPanel",
   props: {
     bpmnModeler: Object,

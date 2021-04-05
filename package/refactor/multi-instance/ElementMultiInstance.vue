@@ -1,43 +1,45 @@
 <template>
-  <el-form size="mini" label-width="90px" label-suffix="：">
-    <el-form-item label="回路特性">
-      <el-select v-model="loopCharacteristics" @change="changeLoopCharacteristicsType">
-        <!--bpmn:MultiInstanceLoopCharacteristics-->
-        <el-option label="并行多重事件" value="ParallelMultiInstance" />
-        <el-option label="时序多重事件" value="SequentialMultiInstance" />
-        <!--bpmn:StandardLoopCharacteristics-->
-        <el-option label="循环事件" value="StandardLoop" />
-        <el-option label="无" value="Null" />
-      </el-select>
-    </el-form-item>
-    <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
-      <el-form-item label="循环基数" key="loopCardinality">
-        <el-input v-model="loopInstanceForm.loopCardinality" clearable @change="updateLoopCardinality" />
+  <div class="panel-tab__content">
+    <el-form size="mini" label-width="90px" label-suffix="：">
+      <el-form-item label="回路特性">
+        <el-select v-model="loopCharacteristics" @change="changeLoopCharacteristicsType">
+          <!--bpmn:MultiInstanceLoopCharacteristics-->
+          <el-option label="并行多重事件" value="ParallelMultiInstance" />
+          <el-option label="时序多重事件" value="SequentialMultiInstance" />
+          <!--bpmn:StandardLoopCharacteristics-->
+          <el-option label="循环事件" value="StandardLoop" />
+          <el-option label="无" value="Null" />
+        </el-select>
       </el-form-item>
-      <el-form-item label="集合" key="collection">
-        <el-input v-model="loopInstanceForm.collection" clearable @change="updateLoopBase" />
-      </el-form-item>
-      <el-form-item label="元素变量" key="elementVariable">
-        <el-input v-model="loopInstanceForm.elementVariable" clearable @change="updateLoopBase" />
-      </el-form-item>
-      <el-form-item label="完成条件" key="completionCondition">
-        <el-input v-model="loopInstanceForm.completionCondition" clearable @change="updateLoopCondition" />
-      </el-form-item>
-      <el-form-item label="异步状态" key="async">
-        <el-checkbox v-model="loopInstanceForm.asyncBefore" label="异步前" @change="updateLoopAsync('asyncBefore')" />
-        <el-checkbox v-model="loopInstanceForm.asyncAfter" label="异步后" @change="updateLoopAsync('asyncAfter')" />
-        <el-checkbox
-          v-model="loopInstanceForm.exclusive"
-          v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore"
-          label="排除"
-          @change="updateLoopAsync('exclusive')"
-        />
-      </el-form-item>
-      <el-form-item label="重试周期" prop="timeCycle" v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore" key="timeCycle">
-        <el-input v-model="loopInstanceForm.timeCycle" clearable @change="updateLoopTimeCycle" />
-      </el-form-item>
-    </template>
-  </el-form>
+      <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
+        <el-form-item label="循环基数" key="loopCardinality">
+          <el-input v-model="loopInstanceForm.loopCardinality" clearable @change="updateLoopCardinality" />
+        </el-form-item>
+        <el-form-item label="集合" key="collection">
+          <el-input v-model="loopInstanceForm.collection" clearable @change="updateLoopBase" />
+        </el-form-item>
+        <el-form-item label="元素变量" key="elementVariable">
+          <el-input v-model="loopInstanceForm.elementVariable" clearable @change="updateLoopBase" />
+        </el-form-item>
+        <el-form-item label="完成条件" key="completionCondition">
+          <el-input v-model="loopInstanceForm.completionCondition" clearable @change="updateLoopCondition" />
+        </el-form-item>
+        <el-form-item label="异步状态" key="async">
+          <el-checkbox v-model="loopInstanceForm.asyncBefore" label="异步前" @change="updateLoopAsync('asyncBefore')" />
+          <el-checkbox v-model="loopInstanceForm.asyncAfter" label="异步后" @change="updateLoopAsync('asyncAfter')" />
+          <el-checkbox
+            v-model="loopInstanceForm.exclusive"
+            v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore"
+            label="排除"
+            @change="updateLoopAsync('exclusive')"
+          />
+        </el-form-item>
+        <el-form-item label="重试周期" prop="timeCycle" v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore" key="timeCycle">
+          <el-input v-model="loopInstanceForm.timeCycle" clearable @change="updateLoopTimeCycle" />
+        </el-form-item>
+      </template>
+    </el-form>
+  </div>
 </template>
 
 <script>
