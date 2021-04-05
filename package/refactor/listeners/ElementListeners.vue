@@ -250,6 +250,7 @@ export default {
         this.fieldsListOfListener = listener.fields.map(field => ({ ...field, fieldType: field.string ? "string" : "expression" }));
       } else {
         this.fieldsListOfListener = [];
+        this.$set(this.listenerForm, "fields", []);
       }
       // 打开侧边栏并清楚验证状态
       this.listenerFormModelVisible = true;
@@ -257,17 +258,59 @@ export default {
         if (this.$refs["listenerFormRef"]) this.$refs["listenerFormRef"].clearValidate();
       });
     },
-    // 保存监听器注入字段
-    saveListenerFiled() {},
     // 打开监听器字段编辑弹窗
-    openListenerFieldForm(field, index) {},
+    openListenerFieldForm(field, index) {
+      this.listenerFieldForm = field ? JSON.parse(JSON.stringify(field)) : {};
+      this.editingListenerFieldIndex = field ? index : -1;
+      this.listenerFieldFormModelVisible = true;
+      this.$nextTick(() => {
+        if (this.$refs["listenerFieldFormRef"]) this.$refs["listenerFieldFormRef"].clearValidate();
+      });
+    },
+    // 保存监听器注入字段
+    async saveListenerFiled() {
+      let validateStatus = await this.$refs["listenerFieldFormRef"].validate();
+      if (!validateStatus) return; // 验证不通过直接返回
+      if (this.editingListenerFieldIndex === -1) {
+        this.fieldsListOfListener.push(this.listenerFieldForm);
+        this.listenerForm.fields.push(this.listenerFieldForm);
+      } else {
+        this.fieldsListOfListener.splice(this.editingListenerFieldIndex, 1, this.listenerFieldForm);
+        this.listenerForm.fields.splice(this.editingListenerFieldIndex, 1, this.listenerFieldForm);
+      }
+      this.listenerFieldFormModelVisible = false;
+      this.$nextTick(() => (this.listenerFieldForm = {}));
+    },
     // 移除监听器字段
-    removeListenerField(field, index) {},
+    removeListenerField(field, index) {
+      // this.fieldsListOfListener
+      this.$confirm("确认移除该字段吗？", "提示", {
+        confirmButtonText: "确 认",
+        cancelButtonText: "取 消"
+      })
+        .then(() => {
+          this.fieldsListOfListener.splice(index, 1);
+          this.listenerForm.fields.splice(index, 1);
+        })
+        .catch(() => console.info("操作取消"));
+    },
     // 移除监听器
-    removeListener(listener, index) {},
+    removeListener(listener, index) {
+      this.$confirm("确认移除该监听器吗？", "提示", {
+        confirmButtonText: "确 认",
+        cancelButtonText: "取 消"
+      })
+        .then(() => {
+          this.bpmnElementListeners.splice(index, 1);
+          this.elementListenersList.splice(index, 1);
+          this.updateElementExtensions();
+        })
+        .catch(() => console.info("操作取消"));
+    },
     // 保存监听器配置
-    saveListenerConfig() {
-      console.log(this.listenerForm);
+    async saveListenerConfig() {
+      let validateStatus = await this.$refs["listenerFormRef"].validate();
+      if (!validateStatus) return; // 验证不通过直接返回
       const listenerObject = window.bpmnInstances.moddle.create(`${this.prefix}:ExecutionListener`, this.initListenerObject(this.listenerForm));
       if (this.editingListenerIndex === -1) {
         this.bpmnElementListeners.push(listenerObject);
@@ -325,7 +368,6 @@ export default {
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
         extensionElements: extensions
       });
-      console.log(extensions);
     }
   }
 };
