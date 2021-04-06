@@ -13,8 +13,12 @@
         <div slot="title" class="panel-tab__title"><i class="el-icon-s-promotion"></i>流转条件</div>
         <flow-condition :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
+      <el-collapse-item name="condition" v-if="formVisible" key="form">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>表单</div>
+        <element-form :id="elementId" :type="elementType" />
+      </el-collapse-item>
       <el-collapse-item name="task" v-if="elementType.indexOf('Task') !== -1" key="task">
-        <div slot="title" class="panel-tab__title"><i class="el-icon-s-order"></i>任务</div>
+        <div slot="title" class="panel-tab__title"><i class="el-icon-s-claim"></i>任务</div>
         <element-task :id="elementId" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="multiInstance" v-if="elementType.indexOf('Task') !== -1" key="multiInstance">
@@ -45,6 +49,7 @@ import FlowCondition from "./flow-condition/FlowCondition";
 import SignalAndMassage from "./signal-message/SignalAndMessage";
 import ElementListeners from "./listeners/ElementListeners";
 import ElementProperties from "./properties/ElementProperties";
+import ElementForm from "./form/ElementForm";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -53,7 +58,17 @@ import ElementProperties from "./properties/ElementProperties";
  */
 export default {
   name: "MyPropertiesPanel",
-  components: { ElementProperties, ElementListeners, SignalAndMassage, FlowCondition, ElementMultiInstance, ElementTask, ElementOtherConfig, ElementBaseInfo },
+  components: {
+    ElementForm,
+    ElementProperties,
+    ElementListeners,
+    SignalAndMassage,
+    FlowCondition,
+    ElementMultiInstance,
+    ElementTask,
+    ElementOtherConfig,
+    ElementBaseInfo
+  },
   componentName: "MyPropertiesPanel",
   props: {
     bpmnModeler: Object,
@@ -82,7 +97,8 @@ export default {
       elementId: "",
       elementType: "",
       elementBusinessObject: {}, // 元素 businessObject 镜像，提供给需要做判断的组件使用
-      conditionFormVisible: false // 流转条件设置
+      conditionFormVisible: false, // 流转条件设置
+      formVisible: false // 表单配置
     };
   },
   watch: {
@@ -152,6 +168,7 @@ select element changed:
       this.elementType = element.type.split(":")[1];
       this.elementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
       this.conditionFormVisible = !!(this.elementType === "SequenceFlow" && element.source && element.source.type.indexOf("StartEvent") === -1);
+      this.formVisible = this.elementType === "UserTask" || this.elementType === "StartEvent";
     },
     beforeDestroy() {
       window.bpmnInstances = null;
