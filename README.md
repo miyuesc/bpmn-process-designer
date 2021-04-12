@@ -1,5 +1,16 @@
 # Bpmn Process Designer
 
+---
+
+> 针对之前的版本存在的问题，第二版采用了在 window 对象下添加新的命名空间来保存对应的实例对象。
+>
+> 原因是因为 通过 Props 传参会被 vue 进行响应式处理，会更改原对象的原型链指向。
+
+更新后的流程设计器暂时还没有实现表单项的配置，后面会迭代上来。在原来的基础上增加了全局信号与全局消息事件，至于有新的需求的话，欢迎提 issue，或者关注公众号在后台提给我。
+
+---
+
+
 A process designer that depends on [bpmn.js](https://github.com/bpmn-io/bpmn-js)  ,  [Vue 2.x](https://github.com/vuejs/vue) and [ElementUI](https://github.com/ElemeFE/element). 
 
 一个基于 `bpmn.js`，`Vue 2.x` 和 `ElementUI` 开发的流程设计器。
@@ -16,6 +27,8 @@ You can view and edit `BPMN 2.0` diagrams in the browser.
 For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 在线demo请访问 [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
+
+码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
 
 
@@ -95,36 +108,27 @@ npm run demo
 
 ### 4.1 初始界面
 
-![image-20210122110458541](screenshot/image-20210122110458541.png)
+![image-20210122110458541](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fb56eb5865e50da620f4fe206c558f8906bb5b4c.png)
 
 ### 4.2 事件监听器
 
-![image-20210122110520746](screenshot/image-20210122110520746.png)
+![image-20210122110520746](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/7c8ee35cd2f8e28f12cdab5af2c877ff2a35929d.png)
 
 ### 4.3 扩展属性
 
-![image-20210122110601001](screenshot/image-20210122110601001.png)
+![image-20210122110601001](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/0bbae785af176870ba9edd805f8d3f924e14ed98.png)
 
 ### 4.4 流转路径配置
 
-![image-20210122110659649](screenshot/image-20210122110659649.png)
+![image-20210122110659649](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8da968652210673ebbc066cc6b1beed1a91635fc.png)
 
-### 4.5 用户任务配置
+### 4.5 预览
 
-![image-20210122195025850](screenshot/image-20210122195025850.png)
-
-
-![image-20210122195108833](screenshot/image-20210122195108833.png)
-
-### 4.6 预览
-
-![image-20210122110726482](screenshot/image-20210122110726482.png)
+![image-20210122110726482](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/0787b3c6115954a071165be18dbf0a4729e1fd9b.png)
 
 ### 学习交流
 
 如果您觉得这些文章对您有帮助，想和我一起学习，欢迎您关注我的微信订阅号。
 
 订阅号名称：前端小白MiyueFE
-
-![公众号二维码](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fdef0d8f1731ed03b4123d22b7d82acacb6ca10c.jpg)
 
