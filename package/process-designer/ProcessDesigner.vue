@@ -447,13 +447,6 @@ export default {
         this.previewModelVisible = true;
       });
     }
-  },
-  watch: {
-    value: {
-      handler: function(val) {
-        this.createNewDiagram(val);
-      }
-    }
   }
 };
 </script>

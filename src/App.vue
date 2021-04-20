@@ -2,6 +2,7 @@
   <div id="app">
     <my-process-designer
       :key="`designer-${reloadIndex}`"
+      v-model="xmlString"
       v-bind="controlForm"
       keyboard
       ref="processDesigner"
