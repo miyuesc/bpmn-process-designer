@@ -2,19 +2,6 @@
 @import "~bpmn-js-token-simulation/assets/css/font-awesome.min.css";
 @import "~bpmn-js-token-simulation/assets/css/normalize.css";
 
-.el-tooltip__popper {
-  .el-button {
-    width: 100%;
-    text-align: left;
-    padding-left: 8px;
-    padding-right: 8px;
-  }
-  .el-button:hover {
-    background: rgba(64, 158, 255, 0.8);
-    color: #ffffff;
-  }
-}
-
 // 边框被 token-simulation 样式覆盖了
 .djs-palette {
   background: var(--palette-background-color);
@@ -36,6 +23,18 @@
     }
     .el-button-group {
       margin: 4px;
+    }
+    .el-tooltip__popper {
+      .el-button {
+        width: 100%;
+        text-align: left;
+        padding-left: 8px;
+        padding-right: 8px;
+      }
+      .el-button:hover {
+        background: rgba(64, 158, 255, 0.8);
+        color: #ffffff;
+      }
     }
     .align {
       position: relative;
