@@ -26,8 +26,12 @@
         <element-multi-instance :business-object="elementBusinessObject" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="listeners" key="listeners">
-        <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>监听器</div>
+        <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>执行监听器</div>
         <element-listeners :id="elementId" :type="elementType" />
+      </el-collapse-item>
+      <el-collapse-item name="taskListeners" v-if="elementType === 'UserTask'" key="taskListeners">
+        <div slot="title" class="panel-tab__title"><i class="el-icon-message-solid"></i>任务监听器</div>
+        <user-task-listeners :id="elementId" :type="elementType" />
       </el-collapse-item>
       <el-collapse-item name="extensions" key="extensions">
         <div slot="title" class="panel-tab__title"><i class="el-icon-circle-plus"></i>扩展属性</div>
@@ -50,6 +54,7 @@ import SignalAndMassage from "./signal-message/SignalAndMessage";
 import ElementListeners from "./listeners/ElementListeners";
 import ElementProperties from "./properties/ElementProperties";
 import ElementForm from "./form/ElementForm";
+import UserTaskListeners from "./listeners/UserTaskListeners";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -59,6 +64,7 @@ import ElementForm from "./form/ElementForm";
 export default {
   name: "MyPropertiesPanel",
   components: {
+    UserTaskListeners,
     ElementForm,
     ElementProperties,
     ElementListeners,
@@ -151,31 +157,32 @@ export default {
     },
     // 初始化数据
     initFormOnChanged(element) {
-      console.log(element);
       let activatedElement = element;
       if (!activatedElement) {
-        activatedElement = window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
+        activatedElement =
+          window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process") ??
+          window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Collaboration");
       }
-      console.log(
-        "window",
-        activatedElement,
-        window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process")
+      if (!activatedElement) return;
+      console.log(`
+              ----------
+      select element changed:
+                id:  ${activatedElement.id}
+              type:  ${activatedElement.businessObject.$type}
+              ----------
+              `);
+      console.log("businessObject: ", activatedElement.businessObject);
+      window.bpmnInstances.bpmnElement = activatedElement;
+      this.bpmnElement = activatedElement;
+      this.elementId = activatedElement.id;
+      this.elementType = activatedElement.type.split(":")[1];
+      this.elementBusinessObject = JSON.parse(JSON.stringify(activatedElement.businessObject));
+      this.conditionFormVisible = !!(
+        this.elementType === "SequenceFlow" &&
+        activatedElement.source &&
+        activatedElement.source.type.indexOf("StartEvent") === -1
       );
-      //       console.log(`
-      //         ----------
-      // select element changed:
-      //           id:  ${element.id}
-      //         type:  ${element.businessObject.$type}
-      //         ----------
-      //         `);
-      //       console.log("businessObject: ", element.businessObject);
-      //       window.bpmnInstances.bpmnElement = element;
-      //       this.bpmnElement = element;
-      //       this.elementId = element.id;
-      //       this.elementType = element.type.split(":")[1];
-      //       this.elementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
-      //       this.conditionFormVisible = !!(this.elementType === "SequenceFlow" && element.source && element.source.type.indexOf("StartEvent") === -1);
-      //       this.formVisible = this.elementType === "UserTask" || this.elementType === "StartEvent";
+      this.formVisible = this.elementType === "UserTask" || this.elementType === "StartEvent";
     },
     beforeDestroy() {
       window.bpmnInstances = null;
