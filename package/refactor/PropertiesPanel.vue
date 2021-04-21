@@ -134,16 +134,13 @@ export default {
     },
     getActiveElement() {
       // 初始第一个选中元素 bpmn:Process
-      this.processElement = window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
-      this.initFormOnChanged(this.processElement);
+      this.initFormOnChanged(null);
+      this.bpmnModeler.on("import.done", e => {
+        this.initFormOnChanged(null);
+      });
       // 监听选择事件，修改当前激活的元素以及表单
       this.bpmnModeler.on("selection.changed", ({ newSelection }) => {
-        if (newSelection && newSelection.length) {
-          const element = newSelection[0];
-          this.initFormOnChanged(element);
-        } else {
-          this.initFormOnChanged(this.processElement);
-        }
+        this.initFormOnChanged(newSelection[0] || null);
       });
       this.bpmnModeler.on("element.changed", ({ element }) => {
         // 保证 修改 "默认流转路径" 类似需要修改多个元素的事件发生的时候，更新表单的元素与原选中元素不一致。
@@ -154,21 +151,31 @@ export default {
     },
     // 初始化数据
     initFormOnChanged(element) {
-      console.log(`
-        ----------
-select element changed:
-          id:  ${element.id}
-        type:  ${element.businessObject.$type}
-        ----------
-        `);
-      console.log("businessObject: ", element.businessObject);
-      window.bpmnInstances.bpmnElement = element;
-      this.bpmnElement = element;
-      this.elementId = element.id;
-      this.elementType = element.type.split(":")[1];
-      this.elementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
-      this.conditionFormVisible = !!(this.elementType === "SequenceFlow" && element.source && element.source.type.indexOf("StartEvent") === -1);
-      this.formVisible = this.elementType === "UserTask" || this.elementType === "StartEvent";
+      console.log(element);
+      let activatedElement = element;
+      if (!activatedElement) {
+        activatedElement = window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process");
+      }
+      console.log(
+        "window",
+        activatedElement,
+        window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Process")
+      );
+      //       console.log(`
+      //         ----------
+      // select element changed:
+      //           id:  ${element.id}
+      //         type:  ${element.businessObject.$type}
+      //         ----------
+      //         `);
+      //       console.log("businessObject: ", element.businessObject);
+      //       window.bpmnInstances.bpmnElement = element;
+      //       this.bpmnElement = element;
+      //       this.elementId = element.id;
+      //       this.elementType = element.type.split(":")[1];
+      //       this.elementBusinessObject = JSON.parse(JSON.stringify(element.businessObject));
+      //       this.conditionFormVisible = !!(this.elementType === "SequenceFlow" && element.source && element.source.type.indexOf("StartEvent") === -1);
+      //       this.formVisible = this.elementType === "UserTask" || this.elementType === "StartEvent";
     },
     beforeDestroy() {
       window.bpmnInstances = null;
