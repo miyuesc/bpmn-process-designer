@@ -1,4 +1,5 @@
-<template>
+export const template = isTaskListener => {
+  return `
   <div class="panel-tab__content">
     <el-table :data="elementListenersList" size="mini" border>
       <el-table-column label="序号" width="50px" type="index" />
@@ -17,7 +18,7 @@
     </div>
 
     <!-- 监听器 编辑/创建 部分 -->
-    <el-drawer :visible.sync="listenerFormModelVisible" title="执行监听器" :size="`${this.width}px`" append-to-body destroy-on-close>
+    <el-drawer :visible.sync="listenerFormModelVisible" title="执行监听器" :size="width + 'px'" append-to-body destroy-on-close>
       <el-form size="mini" :model="listenerForm" label-width="96px" ref="listenerFormRef">
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
@@ -96,6 +97,21 @@
             <el-input v-model="listenerForm.resource" clearable />
           </el-form-item>
         </template>
+        ${
+          isTaskListener
+            ? "<el-form-item label='定时器类型' prop='eventDefinitionType' key='eventDefinitionType'>" +
+              "<el-select v-model='listenerForm.eventDefinitionType'>" +
+              "<el-option label='日期' value='date' />" +
+              "<el-option label='持续时长' value='duration' />" +
+              "<el-option label='循环' value='cycle' />" +
+              "<el-option label='无' value='' />" +
+              "</el-select>" +
+              "</el-form-item>" +
+              "<el-form-item v-if='!!listenerForm.eventDefinitionType' label='定时器' prop='eventDefinitions' key='eventDefinitions'>" +
+              "<el-input v-model='listenerForm.eventDefinitions' clearable />" +
+              "</el-form-item>"
+            : ""
+        }
       </el-form>
       <el-divider />
       <p class="listener-filed__title">
@@ -158,142 +174,5 @@
       </template>
     </el-dialog>
   </div>
-</template>
-<script>
-import { createListenerObject, updateElementExtensions } from "../../utils";
-import { initListenerType, initListenerForm, listenerType, fieldType } from "./utilSelf";
-
-export default {
-  name: "ElementListeners",
-  props: {
-    id: String,
-    type: String
-  },
-  inject: {
-    prefix: "prefix",
-    width: "width"
-  },
-  data() {
-    return {
-      elementListenersList: [], // 监听器列表
-      listenerForm: {}, // 监听器详情表单
-      listenerFormModelVisible: false, // 监听器 编辑 侧边栏显示状态
-      fieldsListOfListener: [],
-      listenerFieldForm: {}, // 监听器 注入字段 详情表单
-      listenerFieldFormModelVisible: false, // 监听器 注入字段表单弹窗 显示状态
-      editingListenerIndex: -1, // 监听器所在下标，-1 为新增
-      editingListenerFieldIndex: -1, // 字段所在下标，-1 为新增
-      listenerTypeObject: listenerType,
-      fieldTypeObject: fieldType
-    };
-  },
-  watch: {
-    id: {
-      immediate: true,
-      handler(val) {
-        val && val.length && this.$nextTick(() => this.resetListenersList());
-      }
-    }
-  },
-  methods: {
-    resetListenersList() {
-      this.bpmnElement = window.bpmnInstances.bpmnElement;
-      this.otherExtensionList = [];
-      this.bpmnElementListeners =
-        this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => {
-          if (ex.$type !== `${this.prefix}:ExecutionListener`) {
-            this.otherExtensionList.push(ex);
-          }
-          return ex.$type === `${this.prefix}:ExecutionListener`;
-        }) ?? [];
-      this.elementListenersList = this.bpmnElementListeners.map(listener => initListenerType(listener));
-    },
-    // 打开 监听器详情 侧边栏
-    openListenerForm(listener, index) {
-      if (listener) {
-        this.listenerForm = initListenerForm(listener);
-        this.editingListenerIndex = index;
-      } else {
-        this.listenerForm = {};
-        this.editingListenerIndex = -1; // 标记为新增
-      }
-      if (listener && listener.fields) {
-        this.fieldsListOfListener = listener.fields.map(field => ({ ...field, fieldType: field.string ? "string" : "expression" }));
-      } else {
-        this.fieldsListOfListener = [];
-        this.$set(this.listenerForm, "fields", []);
-      }
-      // 打开侧边栏并清楚验证状态
-      this.listenerFormModelVisible = true;
-      this.$nextTick(() => {
-        if (this.$refs["listenerFormRef"]) this.$refs["listenerFormRef"].clearValidate();
-      });
-    },
-    // 打开监听器字段编辑弹窗
-    openListenerFieldForm(field, index) {
-      this.listenerFieldForm = field ? JSON.parse(JSON.stringify(field)) : {};
-      this.editingListenerFieldIndex = field ? index : -1;
-      this.listenerFieldFormModelVisible = true;
-      this.$nextTick(() => {
-        if (this.$refs["listenerFieldFormRef"]) this.$refs["listenerFieldFormRef"].clearValidate();
-      });
-    },
-    // 保存监听器注入字段
-    async saveListenerFiled() {
-      let validateStatus = await this.$refs["listenerFieldFormRef"].validate();
-      if (!validateStatus) return; // 验证不通过直接返回
-      if (this.editingListenerFieldIndex === -1) {
-        this.fieldsListOfListener.push(this.listenerFieldForm);
-        this.listenerForm.fields.push(this.listenerFieldForm);
-      } else {
-        this.fieldsListOfListener.splice(this.editingListenerFieldIndex, 1, this.listenerFieldForm);
-        this.listenerForm.fields.splice(this.editingListenerFieldIndex, 1, this.listenerFieldForm);
-      }
-      this.listenerFieldFormModelVisible = false;
-      this.$nextTick(() => (this.listenerFieldForm = {}));
-    },
-    // 移除监听器字段
-    removeListenerField(field, index) {
-      this.$confirm("确认移除该字段吗？", "提示", {
-        confirmButtonText: "确 认",
-        cancelButtonText: "取 消"
-      })
-        .then(() => {
-          this.fieldsListOfListener.splice(index, 1);
-          this.listenerForm.fields.splice(index, 1);
-        })
-        .catch(() => console.info("操作取消"));
-    },
-    // 移除监听器
-    removeListener(listener, index) {
-      this.$confirm("确认移除该监听器吗？", "提示", {
-        confirmButtonText: "确 认",
-        cancelButtonText: "取 消"
-      })
-        .then(() => {
-          this.bpmnElementListeners.splice(index, 1);
-          this.elementListenersList.splice(index, 1);
-          updateElementExtensions(this.bpmnElement, this.otherExtensionList.concat(this.bpmnElementListeners));
-        })
-        .catch(() => console.info("操作取消"));
-    },
-    // 保存监听器配置
-    async saveListenerConfig() {
-      let validateStatus = await this.$refs["listenerFormRef"].validate();
-      if (!validateStatus) return; // 验证不通过直接返回
-      const listenerObject = createListenerObject(this.listenerForm, false, this.prefix);
-      if (this.editingListenerIndex === -1) {
-        this.bpmnElementListeners.push(listenerObject);
-        this.elementListenersList.push(this.listenerForm);
-      } else {
-        this.bpmnElementListeners.splice(this.editingListenerIndex, 1, listenerObject);
-        this.elementListenersList.splice(this.editingListenerIndex, 1, this.listenerForm);
-      }
-      updateElementExtensions(this.bpmnElement, this.otherExtensionList.concat(this.bpmnElementListeners));
-      // 4. 隐藏侧边栏
-      this.listenerFormModelVisible = false;
-      this.listenerForm = {};
-    }
-  }
+  `;
 };
-</script>
