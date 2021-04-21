@@ -112,11 +112,11 @@
           <el-form-item
             v-if="!!listenerForm.eventDefinitionType && listenerForm.eventDefinitionType !== 'null'"
             label="定时器"
-            prop="eventDefinitions"
-            key="eventDefinitions"
+            prop="eventTimeDefinitions"
+            key="eventTimeDefinitions"
             :rules="{ required: true, trigger: ['blur', 'change'], message: '请填写定时器配置' }"
           >
-            <el-input v-model="listenerForm.eventDefinitions" clearable />
+            <el-input v-model="listenerForm.eventTimeDefinitions" clearable />
           </el-form-item>
         </template>
       </el-form>
