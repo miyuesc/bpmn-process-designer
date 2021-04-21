@@ -18,7 +18,7 @@
     </div>
 
     <!-- 监听器 编辑/创建 部分 -->
-    <el-drawer :visible.sync="listenerFormModelVisible" title="任务监听器" :size="`${this.width}px`" append-to-body destroy-on-close>
+    <el-drawer :visible.sync="listenerFormModelVisible" title="任务监听器" :size="`${width}px`" append-to-body destroy-on-close>
       <el-form size="mini" :model="listenerForm" label-width="96px" ref="listenerFormRef">
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
