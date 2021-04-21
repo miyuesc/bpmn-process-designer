@@ -126,9 +126,19 @@ npm run demo
 
 ![image-20210122110726482](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/0787b3c6115954a071165be18dbf0a4729e1fd9b.png)
 
+### 友情赞助
+
+偷偷丢个赞赏码吧~~~~
+
+微信：[如果对您有帮助，您可以请我喝杯咖啡~~](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg)
+
+支付宝：[如果对您有帮助，您可以请我喝杯咖啡~~](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg)
+
+
 ### 学习交流
 
 如果您觉得这些文章对您有帮助，想和我一起学习，欢迎您关注我的微信订阅号。
 
 订阅号名称：前端小白MiyueFE
 
+订阅号：[前端小白MiyueFE](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fdef0d8f1731ed03b4123d22b7d82acacb6ca10c.jpg)
