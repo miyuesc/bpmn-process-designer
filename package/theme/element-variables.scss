@@ -28,6 +28,7 @@ span:focus {
   box-sizing: border-box;
   padding: 16px;
   width: 100%;
+  overflow-y: auto;
 }
 
 .el-dialog {
