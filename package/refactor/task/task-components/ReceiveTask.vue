@@ -9,7 +9,7 @@
       </div>
     </el-form-item>
     <el-dialog :visible.sync="messageModelVisible" :close-on-click-modal="false" title="创建新消息" width="400px" append-to-body destroy-on-close>
-      <el-form :model="newMessageForm" size="mini" label-suffix="：" label-width="90px">
+      <el-form :model="newMessageForm" size="mini" label-width="90px" @submit.native.prevent>
         <el-form-item label="消息ID">
           <el-input v-model="newMessageForm.id" clearable />
         </el-form-item>

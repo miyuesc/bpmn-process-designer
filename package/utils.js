@@ -58,6 +58,7 @@ export function updateElementExtensions(element, extensionList) {
   });
 }
 
+// 创建一个id
 export function uuid(length = 8, chars) {
   let result = "";
   let charsString = chars || "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";

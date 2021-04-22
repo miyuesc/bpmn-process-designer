@@ -1,6 +1,6 @@
 <template>
   <div class="panel-tab__content">
-    <el-form size="mini" label-width="90px" label-suffix="：">
+    <el-form size="mini" label-width="90px" @submit.native.prevent>
       <el-form-item label="表单key">
         <el-input v-model="formKey" size="mini" clearable @change="$emit('change-form-key', formKey)" @keyup.native="$emit('change-form-key', formKey)" />
       </el-form-item>
@@ -26,7 +26,7 @@
     </div>
 
     <el-drawer :visible.sync="fieldModelVisible" :title="drawerTitle" :size="`${this.width}px`" append-to-body destroy-on-close>
-      <el-form :model="formFieldForm" label-width="90px" label-suffix="：" size="mini">
+      <el-form :model="formFieldForm" label-width="90px" size="mini" @submit.native.prevent>
         <el-form-item label="字段ID">
           <el-input v-model="formFieldForm.id" clearable />
         </el-form-item>
@@ -112,7 +112,7 @@
     </el-drawer>
 
     <el-dialog :visible.sync="fieldOptionModelVisible" :title="optionModelTitle" width="600px" append-to-body destroy-on-close>
-      <el-form :model="fieldOptionForm" size="mini" label-width="96px" label-suffix="：">
+      <el-form :model="fieldOptionForm" size="mini" label-width="96px" @submit.native.prevent>
         <el-form-item label="编号/ID" v-if="fieldOptionType !== 'constraint'" key="option-id">
           <el-input v-model="fieldOptionForm.id" clearable />
         </el-form-item>

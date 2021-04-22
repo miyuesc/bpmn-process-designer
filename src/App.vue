@@ -16,7 +16,7 @@
       <div class="open-control-dialog" @click="controlDrawerVisible = true"><i class="el-icon-setting"></i></div>
     </div>
     <el-drawer :visible.sync="controlDrawerVisible" size="400px" title="偏好设置" append-to-body destroy-on-close>
-      <el-form :model="controlForm" size="small" label-suffix="：" label-width="100px" class="control-form">
+      <el-form :model="controlForm" size="small" label-width="100px" class="control-form" @submit.native.prevent>
         <el-form-item label="流程ID">
           <el-input v-model="controlForm.processId" @change="reloadProcessDesigner" />
         </el-form-item>

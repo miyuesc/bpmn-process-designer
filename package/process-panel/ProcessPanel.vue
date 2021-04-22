@@ -4,7 +4,7 @@
       <el-collapse-item name="base">
         <div slot="title" class="panel-tab__title"><i class="el-icon-info"></i>常规</div>
         <div class="panel-tab__content">
-          <el-form size="mini" label-width="90px" label-suffix="：">
+          <el-form size="mini" label-width="90px">
             <el-form-item label="ID">
               <el-input
                 v-model="elementBaseInfo.id"

@@ -15,7 +15,7 @@
     </div>
     <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
       <el-divider><i class="el-icon-coin"></i> 多实例配置</el-divider>
-      <el-form :model="loopInstanceForm" size="mini" label-width="100px" label-suffix="：" ref="loopInstanceFormRef">
+      <el-form :model="loopInstanceForm" size="mini" label-width="100px" ref="loopInstanceFormRef" @submit.native.prevent>
         <el-form-item label="循环基数" prop="loopCardinality">
           <el-input v-model="loopInstanceForm.loopCardinality" clearable />
         </el-form-item>

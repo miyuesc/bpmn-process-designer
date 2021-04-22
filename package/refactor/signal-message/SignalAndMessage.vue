@@ -20,7 +20,7 @@
     </el-table>
 
     <el-dialog :visible.sync="modelVisible" :title="modelConfig.title" :close-on-click-modal="false" width="400px" append-to-body destroy-on-close>
-      <el-form :model="modelObjectForm" size="mini" label-suffix="：" label-width="90px">
+      <el-form :model="modelObjectForm" size="mini" label-width="90px" @submit.native.prevent>
         <el-form-item :label="modelConfig.idLabel">
           <el-input v-model="modelObjectForm.id" clearable />
         </el-form-item>

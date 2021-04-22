@@ -1,6 +1,6 @@
 <template>
   <div class="panel-tab__content">
-    <el-form size="mini" label-width="90px" label-suffix="：">
+    <el-form size="mini" label-width="90px" @submit.native.prevent>
       <el-form-item label="ID">
         <el-input
           v-model="elementBaseInfo.id"

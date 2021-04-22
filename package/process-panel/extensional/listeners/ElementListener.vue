@@ -19,7 +19,7 @@
     </div>
 
     <el-drawer :visible.sync="showListenerForm" title="事件监听器" :size="`${this.width}px`" append-to-body destroy-on-close>
-      <el-form size="mini" :model="listenerForm" label-width="96px" ref="listenerFormRef">
+      <el-form size="mini" :model="listenerForm" label-width="96px" ref="listenerFormRef" @submit.native.prevent>
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
             <el-option label="start" value="start" />
@@ -125,7 +125,7 @@
     </el-drawer>
 
     <el-dialog title="字段配置" :visible.sync="showListenerFieldForm" width="600px" append-to-body destroy-on-close>
-      <el-form :model="listenerFieldForm" size="mini" label-width="96px" ref="listenerFieldFormRef">
+      <el-form :model="listenerFieldForm" size="mini" label-width="96px" ref="listenerFieldFormRef" @submit.native.prevent>
         <el-form-item label="字段名称：" prop="name" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-input v-model="listenerFieldForm.name" clearable />
         </el-form-item>

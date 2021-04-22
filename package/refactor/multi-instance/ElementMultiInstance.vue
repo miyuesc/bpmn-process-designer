@@ -1,6 +1,6 @@
 <template>
   <div class="panel-tab__content">
-    <el-form size="mini" label-width="90px" label-suffix="：">
+    <el-form size="mini" label-width="90px" @submit.native.prevent>
       <el-form-item label="回路特性">
         <el-select v-model="loopCharacteristics" @change="changeLoopCharacteristicsType">
           <!--bpmn:MultiInstanceLoopCharacteristics-->

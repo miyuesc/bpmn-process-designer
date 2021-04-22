@@ -19,7 +19,7 @@
     </div>
 
     <el-dialog :visible.sync="showAttributeForm" title="属性配置" width="600px" append-to-body destroy-on-close>
-      <el-form :model="attributeForm" label-width="80px" size="mini" ref="attributeFormRef">
+      <el-form :model="attributeForm" label-width="80px" size="mini" ref="attributeFormRef" @submit.native.prevent>
         <el-form-item label="属性名：" prop="name" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-input v-model="attributeForm.name" clearable />
         </el-form-item>
