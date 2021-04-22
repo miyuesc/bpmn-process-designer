@@ -93,40 +93,81 @@ npm run demo
 | `processZoomTo` | `newZoom: number = 1` | 缩放视图到指定倍率 |
 | `processReZoom`         | -                              | 重置缩放倍率并居中显示全部元素 |
 | `processRestart`        | -                              | 重置所有编辑过程并清空画布 |
+| `createNewDiagram` | `xml: string` | 重新导入新的xml字符串 |
 
 ### 3.2 MyProcessPenal
 
 #### 3.2.1 Attributes
 
-| Attribute      | Description                 | Type   | Accepted Values                   | Default   |
-| -------------- | --------------------------- | ------ | --------------------------------- | --------- |
-| `bpmn-modeler` | 初始化生成的 `modeler` 实例 | Object | -                                 | -         |
-| `prefix`       | 流程引擎对应扩展属性前缀    | String | `camunda`, `activiti`, `flowable` | `camunda` |
-| `width`        | 侧边栏宽度                  | Number | -                                 | 480       |
+| Attribute      | Description                       | Type   | Accepted Values                   | Default   |
+| -------------- | --------------------------------- | ------ | --------------------------------- | --------- |
+| `bpmn-modeler` | 初始化生成的 `modeler` 实例，必须 | Object | -                                 | -         |
+| `prefix`       | 流程引擎对应扩展属性前缀          | String | `camunda`, `activiti`, `flowable` | `camunda` |
+| `width`        | 侧边栏宽度                        | Number | -                                 | 480       |
 
 ## 4. 运行截图
 
 ### 4.1 初始界面
 
-![image-20210122110458541](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fb56eb5865e50da620f4fe206c558f8906bb5b4c.png)
+![image-20210422140659561](screenshot/image-20210422140659561.png)
 
-### 4.2 事件监听器
+### 4.2 监听器
 
-![image-20210122110520746](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/7c8ee35cd2f8e28f12cdab5af2c877ff2a35929d.png)
+![image-20210422140728176](screenshot/image-20210422140728176.png)
+
+
+
+![image-20210422140805725](screenshot/image-20210422140805725.png)
 
 ### 4.3 扩展属性
 
-![image-20210122110601001](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/0bbae785af176870ba9edd805f8d3f924e14ed98.png)
+![image-20210422140906725](screenshot/image-20210422140906725.png)
 
 ### 4.4 流转路径配置
 
-![image-20210122110659649](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8da968652210673ebbc066cc6b1beed1a91635fc.png)
+![image-20210422140924114](screenshot/image-20210422140924114.png)
 
-### 4.5 预览
 
-![image-20210122110726482](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/0787b3c6115954a071165be18dbf0a4729e1fd9b.png)
 
-### 友情赞助
+### 4.5 任务配置
+
+![image-20210422141009316](screenshot/image-20210422141009316.png)
+
+### 4.6 多实例任务
+
+![image-20210422141035638](screenshot/image-20210422141035638.png)
+
+### 4.8 表单配置
+
+![image-20210422141220571](screenshot/image-20210422141220571.png)
+
+![image-20210422141354311](screenshot/image-20210422141354311.png)
+
+### 4.9 预览
+
+![image-20210422140939414](screenshot/image-20210422140939414.png)
+
+
+
+## 5. 功能说明
+
+1. 工具栏：包含常见操作，比如打开文件、下载文件、预览、对齐方式、缩放管理、撤销删除等
+2. 常规信息：id、名称、扩展属性、元素文档
+3. 特殊节点属性：
+   1. 流程全局消息与信号
+   2. 执行监听器
+   3. 用户任务节点 任务监听器
+   4. 表单配置
+   5. 任务配置
+   6. 多实例任务
+   7. 流转条件
+4. 内置常用 `camunda` ，`flowable`，`activiti` 解析文件
+5. 自定义左侧元素栏 `platte` 与弹出菜单 `contentPad` 示例模块
+6. 自定义渲染方法 `renderer` 模块实例
+
+
+
+## 友情赞助
 
 偷偷丢个赞赏码吧~~~~
 
@@ -135,7 +176,9 @@ npm run demo
 支付宝：[如果对您有帮助，您可以请我喝杯咖啡~~](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg)
 
 
-### 学习交流
+
+
+## 学习交流
 
 如果您觉得这些文章对您有帮助，想和我一起学习，欢迎您关注我的微信订阅号。
 
