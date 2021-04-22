@@ -273,13 +273,13 @@ export default {
     saveFieldOption() {
       if (this.formFieldOptionIndex === -1) {
         if (this.fieldOptionType === "property") {
-          this.formFieldIndex === -1 && this.fieldPropertiesList.push(this.fieldOptionForm);
+          this.fieldPropertiesList.push(this.fieldOptionForm);
         }
         if (this.fieldOptionType === "constraint") {
-          this.formFieldIndex === -1 && this.fieldConstraintsList.push(this.fieldOptionForm);
+          this.fieldConstraintsList.push(this.fieldOptionForm);
         }
         if (this.fieldOptionType === "enum") {
-          this.formFieldIndex === -1 && this.fieldEnumList.push(this.fieldOptionForm);
+          this.fieldEnumList.push(this.fieldOptionForm);
         }
       } else {
         this.fieldOptionType === "property" && this.fieldPropertiesList.splice(this.formFieldOptionIndex, 1, this.fieldOptionForm);
@@ -312,7 +312,7 @@ export default {
       // 构建枚举值
       if (this.fieldEnumList && this.fieldEnumList.length) {
         Field.values = this.fieldEnumList.map(fe => {
-          return window.bpmnInstances.moddle.create(`${this.prefix}:Constraint`, { name: fe.name, id: fe.id });
+          return window.bpmnInstances.moddle.create(`${this.prefix}:Value`, { name: fe.name, id: fe.id });
         });
       }
       // 更新数组 与 表单配置实例
