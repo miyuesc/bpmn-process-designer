@@ -6,7 +6,7 @@
 >
 > 原因是因为 通过 Props 传参会被 vue 进行响应式处理，会更改原对象的原型链指向。
 
-更新后的流程设计器暂时还没有实现表单项的配置，后面会迭代上来。在原来的基础上增加了全局信号与全局消息事件，至于有新的需求的话，欢迎提 issue，或者关注公众号在后台提给我。
+**由于个人精力有限，除bug之外，该项目不再维护新功能**
 
 ---
 
@@ -33,9 +33,9 @@ For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-
 
 
 
-> 如果您对增加其他功能有建议，或者找到了原有功能的不足之处，您可以通过 issue 或者文末的公众号向我反馈，我会在第一时间对问题作出反馈或者更新。
->
-> 再次感谢您的支持！
+> 
+> **友情链接：大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎**
+> 
 
 
 ## 1. 安装依赖 Installation
