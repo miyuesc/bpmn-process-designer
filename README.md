@@ -31,11 +31,9 @@ For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
 
+#### 友情链接
 
-
-> 
-> **友情链接：大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎**
-> 
+**大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎**
 
 
 ## 1. 安装依赖 Installation
