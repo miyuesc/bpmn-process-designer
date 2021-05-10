@@ -180,7 +180,14 @@ npm run demo
 
 支付宝：[如果对您有帮助，您可以请我喝杯咖啡~~](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg)
 
+## 鸣谢/赞助列表
 
+> 排名不分先后
+
+1. [稚屿](https://gitee.com/linzhihai)
+2. 阳
+3. Promising
+4. 向阳
 
 ## 学习交流
 
