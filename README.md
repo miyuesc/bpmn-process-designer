@@ -1,22 +1,10 @@
 # Bpmn Process Designer
 
-
 <a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a>
 <a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a>
 
 <a href='https://gitee.com/miyuesc/bpmn-process-designer'><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' /></a>
 <a href='https://gitee.com/miyuesc/bpmn-process-designer'><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' /></a>
-
----
-
-> 针对之前的版本存在的问题，第二版采用了在 window 对象下添加新的命名空间来保存对应的实例对象。
->
-> 原因是因为 通过 Props 传参会被 vue 进行响应式处理，会更改原对象的原型链指向。
-
-**由于个人精力有限，除bug之外，该项目不再维护新功能**
-
----
-
 
 A process designer that depends on [bpmn.js](https://github.com/bpmn-io/bpmn-js)  ,  [Vue 2.x](https://github.com/vuejs/vue) and [ElementUI](https://github.com/ElemeFE/element). 
 
@@ -30,17 +18,25 @@ You can view and edit `BPMN 2.0` diagrams in the browser.
 
 
 
-
 For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 在线demo请访问 [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
+---
 
-#### 友情链接
+> 针对之前的版本存在的问题，第二版采用了在 window 对象下添加新的命名空间来保存对应的实例对象。
+>
+> 原因是因为 通过 Props 传参会被 vue 进行响应式处理，会更改原对象的原型链指向。
 
-**大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎**
+**由于个人精力有限，除bug之外，该项目不再维护新功能**
+
+---
+
+### 友情链接
+
+**大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎后端部分**
 
 
 ## 1. 安装依赖 Installation
