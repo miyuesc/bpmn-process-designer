@@ -11,8 +11,17 @@
     />
     <my-properties-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
 
+    <div class="demo-control-bar">
+      <div class="cebian">
+        <el-button style="margin: 20px" >t<br>e<br>st</el-button>
+        <el-button style="margin: 20px">holt2312dsaf</el-button>
+        <el-button style="margin: 20px">holt</el-button>
+      </div>
+    </div>
+
     <!-- demo config -->
     <div class="demo-control-bar">
+
       <div class="open-control-dialog" @click="controlDrawerVisible = true"><i class="el-icon-setting"></i></div>
     </div>
     <el-drawer :visible.sync="controlDrawerVisible" size="400px" title="偏好设置" append-to-body destroy-on-close>
@@ -135,10 +144,16 @@ body {
   display: inline-grid;
   grid-template-columns: auto max-content;
 }
+.cebian {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 .demo-control-bar {
   position: fixed;
+  flex-direction: column;
   right: 8px;
-  bottom: 8px;
+  top: 8px;
   z-index: 1;
   .open-control-dialog {
     width: 48px;
@@ -147,7 +162,7 @@ body {
     align-items: center;
     justify-content: center;
     border-radius: 4px;
-    font-size: 32px;
+    font-size: 16px;
     background: rgba(64, 158, 255, 1);
     color: #ffffff;
     cursor: pointer;

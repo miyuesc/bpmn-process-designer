@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     updateDocumentation() {
-      !this.bpmnElement && (this.bpmnElement = window.bpmnInstances.elementRegistry.get(this.id));
+      this.bpmnElement && this.bpmnElement.id === this.id || (this.bpmnElement = window.bpmnInstances.elementRegistry.get(this.id));
       const documentation = window.bpmnInstances.bpmnFactory.create("bpmn:Documentation", { text: this.documentation });
       window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
         documentation: [documentation]
