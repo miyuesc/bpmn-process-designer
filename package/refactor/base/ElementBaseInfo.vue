@@ -61,7 +61,7 @@ export default {
       if (key === "id") {
         window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
           id: this.elementBaseInfo[key],
-          di: { id: this.elementBaseInfo[key] }
+          di: { id: `${this.elementBaseInfo[key]}_di` }
         });
       } else {
         window.bpmnInstances.modeling.updateProperties(this.bpmnElement, attrObj);

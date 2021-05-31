@@ -136,9 +136,6 @@ export default {
         replace: this.bpmnModeler.get("replace"),
         selection: this.bpmnModeler.get("selection")
       };
-      this.bpmnModeler.on("self.event", (e, el) => {
-        console.log("self event", e, el);
-      });
       this.getActiveElement();
     },
     getActiveElement() {

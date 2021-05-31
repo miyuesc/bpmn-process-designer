@@ -1,15 +1,10 @@
 # Bpmn Process Designer
 
----
+<a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a>
+<a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a>
 
-> 针对之前的版本存在的问题，第二版采用了在 window 对象下添加新的命名空间来保存对应的实例对象。
->
-> 原因是因为 通过 Props 传参会被 vue 进行响应式处理，会更改原对象的原型链指向。
-
-更新后的流程设计器暂时还没有实现表单项的配置，后面会迭代上来。在原来的基础上增加了全局信号与全局消息事件，至于有新的需求的话，欢迎提 issue，或者关注公众号在后台提给我。
-
----
-
+<a href='https://gitee.com/miyuesc/bpmn-process-designer'><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' /></a>
+<a href='https://gitee.com/miyuesc/bpmn-process-designer'><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' /></a>
 
 A process designer that depends on [bpmn.js](https://github.com/bpmn-io/bpmn-js)  ,  [Vue 2.x](https://github.com/vuejs/vue) and [ElementUI](https://github.com/ElemeFE/element). 
 
@@ -23,19 +18,25 @@ You can view and edit `BPMN 2.0` diagrams in the browser.
 
 
 
-
 For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 在线demo请访问 [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
+---
 
-
-
-> 如果您对增加其他功能有建议，或者找到了原有功能的不足之处，您可以通过 issue 或者文末的公众号向我反馈，我会在第一时间对问题作出反馈或者更新。
+> 针对之前的版本存在的问题，第二版采用了在 window 对象下添加新的命名空间来保存对应的实例对象。
 >
-> 再次感谢您的支持！
+> 原因是因为 通过 Props 传参会被 vue 进行响应式处理，会更改原对象的原型链指向。
+
+**由于个人精力有限，除bug之外，该项目不再维护新功能**
+
+---
+
+### 友情链接
+
+**大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎后端部分**
 
 
 ## 1. 安装依赖 Installation
@@ -175,8 +176,14 @@ npm run demo
 
 支付宝：[如果对您有帮助，您可以请我喝杯咖啡~~](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg)
 
+## 鸣谢/赞助列表
 
+> 排名不分先后
 
+1. [稚屿](https://gitee.com/linzhihai)
+2. 阳
+3. Promising
+4. 向阳
 
 ## 学习交流
 
