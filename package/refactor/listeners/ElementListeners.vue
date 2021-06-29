@@ -200,12 +200,7 @@ export default {
       this.bpmnElement = window.bpmnInstances.bpmnElement;
       this.otherExtensionList = [];
       this.bpmnElementListeners =
-        this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => {
-          if (ex.$type !== `${this.prefix}:ExecutionListener`) {
-            this.otherExtensionList.push(ex);
-          }
-          return ex.$type === `${this.prefix}:ExecutionListener`;
-        }) ?? [];
+        this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => ex.$type === `${this.prefix}:ExecutionListener`) ?? [];
       this.elementListenersList = this.bpmnElementListeners.map(listener => initListenerType(listener));
     },
     // 打开 监听器详情 侧边栏
@@ -289,6 +284,8 @@ export default {
         this.bpmnElementListeners.splice(this.editingListenerIndex, 1, listenerObject);
         this.elementListenersList.splice(this.editingListenerIndex, 1, this.listenerForm);
       }
+      // 保存其他配置
+      this.otherExtensionList = this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) ?? [];
       updateElementExtensions(this.bpmnElement, this.otherExtensionList.concat(this.bpmnElementListeners));
       // 4. 隐藏侧边栏
       this.listenerFormModelVisible = false;
