@@ -84,8 +84,8 @@ export default {
         labelVisible: false,
         prefix: "camunda",
         headerButtonSize: "mini",
-        additionalModel: []
-        // additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
+        // additionalModel: []
+        additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
       },
       addis: {}
     };

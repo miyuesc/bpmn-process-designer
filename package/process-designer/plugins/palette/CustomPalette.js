@@ -150,5 +150,7 @@ F.prototype.getPaletteEntries = function() {
   return actions;
 };
 
+CustomPalette.$inject = ["palette", "create", "elementFactory", "spaceTool", "lassoTool", "handTool", "globalConnect", "translate"];
+
 CustomPalette.prototype = new F(); // 核心，将 F的实例赋值给子类；
 CustomPalette.prototype.constructor = CustomPalette; // 修复子类CustomPalette的构造器指向，防止原型链的混乱；
