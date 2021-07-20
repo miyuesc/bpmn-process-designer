@@ -15,7 +15,7 @@ const CDN = {
   },
   css: [],
   js: [
-    "https://unpkg.com/bpmn-js@8.2.2/dist/bpmn-modeler.development.js",
+    "https://unpkg.com/bpmn-js@^7.4.0/dist/bpmn-modeler.development.js",
     "https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js",
     "https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.0/index.min.js"
   ]
@@ -41,16 +41,6 @@ module.exports = {
       .when(process.env.NODE_ENV === "development", config => config.devtool("source-map"));
 
     config.when(process.env.NODE_ENV !== "development", config => {
-      config
-        .plugin("ScriptExtHtmlWebpackPlugin")
-        .after("html")
-        .use("script-ext-html-webpack-plugin", [
-          {
-            // `runtime` must same as runtimeChunk name. default is `runtime`
-            inline: /runtime\..*\.js$/
-          }
-        ])
-        .end();
       config.optimization.splitChunks({
         chunks: "all",
         cacheGroups: {
