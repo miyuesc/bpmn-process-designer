@@ -175,7 +175,7 @@ export default {
       window.bpmnInstances.bpmnElement = activatedElement;
       this.bpmnElement = activatedElement;
       this.elementId = activatedElement.id;
-      this.elementType = activatedElement.type.split(":")[1];
+      this.elementType = activatedElement.type.split(":")[1] || "";
       this.elementBusinessObject = JSON.parse(JSON.stringify(activatedElement.businessObject));
       this.conditionFormVisible = !!(
         this.elementType === "SequenceFlow" &&
