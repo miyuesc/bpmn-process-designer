@@ -25,7 +25,16 @@ module.exports = {
   publicPath: IS_PROD ? "././" : "/", // 打包相对路径
   productionSourceMap: false,
   devServer: {
-    port: 8100
+    port: 8100,
+    proxy: {
+      "^/user/": {
+        target: "http://localhost:3000/user",
+        changeOrigin: true, //是否允许跨域
+        pathRewrite: {
+          "^/user": "/"
+        }
+      }
+    }
   },
   chainWebpack: config => {
     // ============注入cdn start============

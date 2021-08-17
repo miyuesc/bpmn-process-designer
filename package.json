@@ -34,6 +34,7 @@
     "@vue/cli-service": "~4.5.0",
     "@vue/compiler-sfc": "^3.0.1",
     "@vue/eslint-config-prettier": "^5.0.0",
+    "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "bpmn-js": "^7.4.0",
     "bpmn-js-properties-panel": "^0.37.2",

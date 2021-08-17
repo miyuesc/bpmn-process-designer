@@ -82,7 +82,7 @@ export default {
         simulation: true,
         labelEditing: false,
         labelVisible: false,
-        prefix: "flowable",
+        prefix: "activiti",
         headerButtonSize: "mini",
         // additionalModel: []
         additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
@@ -92,6 +92,7 @@ export default {
   },
   created() {
     // console.log(this.translationsSelf);
+    this.requestUserInfo();
   },
   methods: {
     initModeler(modeler) {
@@ -121,32 +122,37 @@ export default {
     elementClick(element) {
       this.element = element;
       // console.log(xmlObj2json(this.xmlString));
-      console.log(this.modeler);
-      if (element.type === "bpmn:UserTask") {
-        const moddle = window.bpmnInstances.moddle;
-        const modeling = window.bpmnInstances.modeling;
-        const child1 = moddle.create("flowable:ChildField", {
-          id: "child1",
-          name: "1",
-          readable: true
-        });
-        const child2 = moddle.create("flowable:ChildField", {
-          id: "child2",
-          name: "2",
-          type: "string",
-          required: true
-        });
-        const formProperty = moddle.create("flowable:FormProperty", {
-          children: [child1, child2]
-          // children: []
-        });
-        const extensionElements = moddle.create("bpmn:ExtensionElements", {
-          values: [formProperty]
-        });
-        modeling.updateProperties(element, {
-          extensionElements
-        });
-      }
+      // console.log(this.modeler);
+      // if (element.type === "bpmn:UserTask") {
+      //   const moddle = window.bpmnInstances.moddle;
+      //   const modeling = window.bpmnInstances.modeling;
+      //   const child1 = moddle.create("flowable:ChildField", {
+      //     id: "child1",
+      //     name: "1",
+      //     readable: true
+      //   });
+      //   const child2 = moddle.create("flowable:ChildField", {
+      //     id: "child2",
+      //     name: "2",
+      //     type: "string",
+      //     required: true
+      //   });
+      //   const formProperty = moddle.create("flowable:FormProperty", {
+      //     children: [child1, child2]
+      //     // children: []
+      //   });
+      //   const extensionElements = moddle.create("bpmn:ExtensionElements", {
+      //     values: [formProperty]
+      //   });
+      //   modeling.updateProperties(element, {
+      //     extensionElements
+      //   });
+      // }
+    },
+    requestUserInfo() {
+      this.$axios.get("/user/userInfo").then(res => {
+        console.log(res);
+      });
     }
   }
 };

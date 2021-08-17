@@ -1,6 +1,9 @@
 import Vue from "vue";
 import App from "./App.vue";
 
+import axios from "axios";
+Vue.prototype.$axios = axios;
+
 // 加载基础ElementUI
 import ElementUI from "element-ui";
 Vue.use(ElementUI);

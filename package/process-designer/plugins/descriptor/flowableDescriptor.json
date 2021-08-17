@@ -292,8 +292,8 @@
       "properties": [
         {
           "name": "assignee",
-          "isAttr": true,
-          "type": "String"
+          "type": "Assignee",
+          "isMany": true
         },
         {
           "name": "candidateUsers",
@@ -319,6 +319,25 @@
           "name": "priority",
           "isAttr": true,
           "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "Assignee",
+      "supperClass": "Element",
+      "meta": {
+        "allowedIn": ["*"]
+      },
+      "properties": [
+        {
+          "name": "label",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "viewId",
+          "type": "Number",
+          "isAttr": true
         }
       ]
     },
@@ -1031,6 +1050,11 @@
         {
           "name": "children",
           "type": "ChildField",
+          "isMany": true
+        },
+        {
+          "name": "extensionElements",
+          "type": "bpmn:ExtensionElements",
           "isMany": true
         }
       ]
