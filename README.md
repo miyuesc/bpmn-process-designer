@@ -35,9 +35,9 @@ For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-
 
 ### 友情链接
 
-1. **大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎后端部分**
-2. 霖呆呆 [《全网最详bpmn.js教材目录》](https://juejin.cn/post/6844904017567416328)
-3. PL-FE [Bpmn Document](https://github.com/PL-FE/bpmn-doc)
+1. yiuman： 低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎后端部分
+2. [霖呆呆（掘金五级大佬）](https://juejin.cn/user/360295513463912): [《全网最详bpmn.js教材目录》](https://juejin.cn/post/6844904017567416328)，[关于bpmn.js交流群的说明](https://juejin.cn/post/6844904041026158599)
+3. PL-FE：[Bpmn Document](https://github.com/PL-FE/bpmn-doc)
 4. 运维咖啡吧 [《BPMN系列原创文章》](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU5MDY1MzcyOQ==&action=getalbum&album_id=1576254888626454529&scene=173&from_msgid=2247484449&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
 
 
