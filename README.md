@@ -6,6 +6,8 @@
 <a href='https://gitee.com/miyuesc/bpmn-process-designer'><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' /></a>
 <a href='https://gitee.com/miyuesc/bpmn-process-designer'><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' /></a>
 
+> **由于个人精力有限，除bug之外，该项目不再维护新功能**
+
 A process designer that depends on [bpmn.js](https://github.com/bpmn-io/bpmn-js)  ,  [Vue 2.x](https://github.com/vuejs/vue) and [ElementUI](https://github.com/ElemeFE/element). 
 
 一个基于 `bpmn.js`，`Vue 2.x` 和 `ElementUI` 开发的流程设计器。
@@ -24,19 +26,21 @@ For on line demo, please visit [MiyueFE Blog](https://miyuesc.github.io/process-
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
----
 
 > 针对之前的版本存在的问题，第二版采用了在 window 对象下添加新的命名空间来保存对应的实例对象。
 >
 > 原因是因为 通过 Props 传参会被 vue 进行响应式处理，会更改原对象的原型链指向。
 
-**由于个人精力有限，除bug之外，该项目不再维护新功能**
 
----
 
 ### 友情链接
 
-**大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎后端部分**
+1. **大佬 yiuman 的低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎后端部分**
+2. 霖呆呆 [《全网最详bpmn.js教材目录》](https://juejin.cn/post/6844904017567416328)
+3. PL-FE [Bpmn Document](https://github.com/PL-FE/bpmn-doc)
+4. 运维咖啡吧 [《BPMN系列原创文章》](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU5MDY1MzcyOQ==&action=getalbum&album_id=1576254888626454529&scene=173&from_msgid=2247484449&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
+
+
 
 
 ## 1. 安装依赖 Installation
@@ -175,15 +179,6 @@ npm run demo
 微信：[如果对您有帮助，您可以请我喝杯咖啡~~](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg)
 
 支付宝：[如果对您有帮助，您可以请我喝杯咖啡~~](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg)
-
-## 鸣谢/赞助列表
-
-> 排名不分先后
-
-1. [稚屿](https://gitee.com/linzhihai)
-2. 阳
-3. Promising
-4. 向阳
 
 ## 学习交流
 
