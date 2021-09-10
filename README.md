@@ -110,51 +110,8 @@ npm run demo
 | `prefix`       | 流程引擎对应扩展属性前缀          | String | `camunda`, `activiti`, `flowable` | `camunda` |
 | `width`        | 侧边栏宽度                        | Number | -                                 | 480       |
 
-## 4. 运行截图
 
-### 4.1 初始界面
-
-![image-20210422140659561](screenshot/image-20210422140659561.png)
-
-### 4.2 监听器
-
-![image-20210422140728176](screenshot/image-20210422140728176.png)
-
-
-
-![image-20210422140805725](screenshot/image-20210422140805725.png)
-
-### 4.3 扩展属性
-
-![image-20210422140906725](screenshot/image-20210422140906725.png)
-
-### 4.4 流转路径配置
-
-![image-20210422140924114](screenshot/image-20210422140924114.png)
-
-
-
-### 4.5 任务配置
-
-![image-20210422141009316](screenshot/image-20210422141009316.png)
-
-### 4.6 多实例任务
-
-![image-20210422141035638](screenshot/image-20210422141035638.png)
-
-### 4.8 表单配置
-
-![image-20210422141220571](screenshot/image-20210422141220571.png)
-
-![image-20210422141354311](screenshot/image-20210422141354311.png)
-
-### 4.9 预览
-
-![image-20210422140939414](screenshot/image-20210422140939414.png)
-
-
-
-## 5. 功能说明
+## 4. 功能说明
 
 1. 工具栏：包含常见操作，比如打开文件、下载文件、预览、对齐方式、缩放管理、撤销删除等
 2. 常规信息：id、名称、扩展属性、元素文档
@@ -169,6 +126,48 @@ npm run demo
 4. 内置常用 `camunda` ，`flowable`，`activiti` 解析文件
 5. 自定义左侧元素栏 `platte` 与弹出菜单 `contentPad` 示例模块
 6. 自定义渲染方法 `renderer` 模块实例
+
+
+## 5. 运行截图
+
+### 5.1 初始界面
+
+![image-20210422140659561](screenshot/image-20210422140659561.png)
+
+### 5.2 监听器
+
+![image-20210422140728176](screenshot/image-20210422140728176.png)
+
+
+
+![image-20210422140805725](screenshot/image-20210422140805725.png)
+
+### 5.3 扩展属性
+
+![image-20210422140906725](screenshot/image-20210422140906725.png)
+
+### 5.4 流转路径配置
+
+![image-20210422140924114](screenshot/image-20210422140924114.png)
+
+
+### 5.5 任务配置
+
+![image-20210422141009316](screenshot/image-20210422141009316.png)
+
+### 5.6 多实例任务
+
+![image-20210422141035638](screenshot/image-20210422141035638.png)
+
+### 5.8 表单配置
+
+![image-20210422141220571](screenshot/image-20210422141220571.png)
+
+![image-20210422141354311](screenshot/image-20210422141354311.png)
+
+### 5.9 预览
+
+![image-20210422140939414](screenshot/image-20210422140939414.png)
 
 
 
