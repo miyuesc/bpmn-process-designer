@@ -21,3 +21,6 @@ COPY --from=Builder \
  /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
+
+
+# 可直接配置 nginx, 在项目外部打包
