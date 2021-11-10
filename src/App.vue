@@ -33,7 +33,7 @@
           <el-switch v-model="controlForm.labelVisible" inactive-text="停用" active-text="启用" @change="changeLabelVisibleStatus" />
         </el-form-item>
         <el-form-item label="流程引擎">
-          <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner">
+          <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner(true)">
             <el-radio label="camunda">camunda</el-radio>
             <el-radio label="flowable">flowable</el-radio>
             <el-radio label="activiti">activiti</el-radio>
@@ -47,10 +47,13 @@
           </el-radio-group>
         </el-form-item>
       </el-form>
-      <br />
-      <p style="color: #999999">注：activiti 好像不支持表单配置，控制台可能会报错</p>
-      <p style="color: #999999">更多配置请查看源码：<a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a></p>
     </el-drawer>
+
+    <div class="info-tip">
+      <p>注：activiti 好像不支持表单配置，控制台可能会报错</p>
+      <p>更多配置请查看源码：<a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a></p>
+      <p>疑问请在此留言：<a href="https://github.com/miyuesc/bpmn-process-designer/issues/16">MiyueSC/bpmn-process-designer/issues</a></p>
+    </div>
   </div>
 </template>
 
@@ -82,18 +85,18 @@ export default {
         simulation: true,
         labelEditing: false,
         labelVisible: false,
-        prefix: "activiti",
+        prefix: "camunda",
         headerButtonSize: "mini",
         // additionalModel: []
         additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
       },
-      addis: {}
+      addis: {
+        CustomContentPadProvider,
+        CustomPaletteProvider
+      }
     };
   },
-  created() {
-    // console.log(this.translationsSelf);
-    this.requestUserInfo();
-  },
+  created() {},
   methods: {
     initModeler(modeler) {
       setTimeout(() => {
@@ -101,7 +104,7 @@ export default {
         console.log(modeler);
       }, 10);
     },
-    reloadProcessDesigner() {
+    reloadProcessDesigner(deep) {
       this.controlForm.additionalModel = [];
       for (let key in this.addis) {
         if (this.addis[key]) {
@@ -110,6 +113,10 @@ export default {
       }
       this.reloadIndex += 1;
       this.modeler = null; // 避免 panel 异常
+      if (deep) {
+        this.xmlString = undefined;
+        this.$refs.processDesigner.processRestart();
+      }
     },
     changeLabelEditingStatus(status) {
       this.addis.labelEditing = status ? { labelEditingProvider: ["value", ""] } : false;
@@ -148,11 +155,6 @@ export default {
       //     extensionElements
       //   });
       // }
-    },
-    requestUserInfo() {
-      this.$axios.get("/user/userInfo").then(res => {
-        console.log(res);
-      });
     }
   }
 };
@@ -188,6 +190,13 @@ body {
     color: #ffffff;
     cursor: pointer;
   }
+}
+.info-tip {
+  position: fixed;
+  top: 40px;
+  right: 500px;
+  z-index: 10;
+  color: #999999;
 }
 .control-form {
   .el-radio {

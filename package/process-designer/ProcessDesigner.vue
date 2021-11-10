@@ -416,7 +416,7 @@ export default {
     processRestart() {
       this.recoverable = false;
       this.revocable = false;
-      this.createNewDiagram(null).then(() => this.bpmnModeler.get("canvas").zoom(1, "auto"));
+      this.createNewDiagram(null);
     },
     elementsAlign(align) {
       const Align = this.bpmnModeler.get("alignElements");
