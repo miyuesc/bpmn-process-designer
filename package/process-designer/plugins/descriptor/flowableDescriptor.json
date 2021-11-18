@@ -292,8 +292,8 @@
       "properties": [
         {
           "name": "assignee",
-          "type": "Assignee",
-          "isMany": true
+          "isAttr": true,
+          "type": "String"
         },
         {
           "name": "candidateUsers",

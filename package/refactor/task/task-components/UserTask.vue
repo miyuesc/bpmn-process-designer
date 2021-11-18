@@ -70,7 +70,7 @@ export default {
       }
     },
     updateElementTask(key) {
-      let taskAttr = Object.create(null);
+      const taskAttr = Object.create(null);
       if (key === "candidateUsers" || key === "candidateGroups") {
         taskAttr[key] = this.userTaskForm[key] && this.userTaskForm[key].length ? this.userTaskForm[key].join() : null;
       } else {

@@ -85,7 +85,7 @@ export default {
         simulation: true,
         labelEditing: false,
         labelVisible: false,
-        prefix: "camunda",
+        prefix: "flowable",
         headerButtonSize: "mini",
         // additionalModel: []
         additionalModel: [CustomContentPadProvider, CustomPaletteProvider]
