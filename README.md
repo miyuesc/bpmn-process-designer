@@ -66,7 +66,7 @@ npm run demo
 | Attribute             | Description                                               | Type        | Accepted Values                        | Default                                                      |
 | --------------------- | --------------------------------------------------------- | ----------- | -------------------------------------- | ------------------------------------------------------------ |
 | `value/v-model`       | 初始化流程对应的 `xml` 字符串                             | String      | -                                      | -                                                            |
-| `translations`        | 翻译文件                                                  | Object      | -                                      | [zh.js](https://github.com/miyuesc/bpmn-process-designer/blob/main/package/process-designer/plugins/translate/zh.js) |
+| `translations`        | 翻译文件                                                  | Object      | -                                      | [zh.js](https://github.com/miyuesc/bpmn-process-designer/blob/main/package/designer/plugins/translate/zh.js) |
 | `additionalModel`     | 自定义的附加模块                                          | Object[] / Object | -                                      | -                                                            |
 | `moddleExtension`     | 自定义的扩展模块                                          | Object      | -                                      | -                                                            |
 | `onlyCustomizeAddi`   | 仅使用开发时的自定义附加模块 | Boolean     | -                                      | `false`                                                      |

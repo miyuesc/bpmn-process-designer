@@ -132,6 +132,7 @@ export default {
         moddle: this.bpmnModeler.get("moddle"),
         eventBus: this.bpmnModeler.get("eventBus"),
         bpmnFactory: this.bpmnModeler.get("bpmnFactory"),
+        elementFactory: this.bpmnModeler.get("elementFactory"),
         elementRegistry: this.bpmnModeler.get("elementRegistry"),
         replace: this.bpmnModeler.get("replace"),
         selection: this.bpmnModeler.get("selection")

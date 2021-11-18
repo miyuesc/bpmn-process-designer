@@ -1,5 +1,5 @@
-import MyProcessDesigner from "./process-designer";
-import MyProcessPenal from "./refactor";
+import MyProcessDesigner from "./designer";
+import MyProcessPenal from "./penal";
 
 const components = [MyProcessDesigner, MyProcessPenal];
 

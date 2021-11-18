@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <process-palette />
     <my-process-designer
       :key="`designer-${reloadIndex}`"
       v-model="xmlString"
@@ -62,16 +63,17 @@ import translations from "@/translations";
 // 自定义渲染（隐藏了 label 标签）
 import CustomRenderer from "@/modules/custom-renderer";
 // 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）
-import CustomContentPadProvider from "../package/process-designer/plugins/content-pad";
+import CustomContentPadProvider from "../package/designer/plugins/content-pad";
 // 自定义左侧菜单（修改 默认任务 为 用户任务）
-import CustomPaletteProvider from "../package/process-designer/plugins/palette";
+import CustomPaletteProvider from "../package/designer/plugins/palette";
 import xmlObj2json from "./utils/xml2json";
+import ProcessPalette from "../package/palette/ProcessPalette";
 // 自定义侧边栏
 // import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
   name: "App",
-  components: {},
+  components: { ProcessPalette },
   data() {
     return {
       xmlString: "",
@@ -171,7 +173,7 @@ body {
   height: 100%;
   box-sizing: border-box;
   display: inline-grid;
-  grid-template-columns: auto max-content;
+  grid-template-columns: 100px auto max-content;
 }
 .demo-control-bar {
   position: fixed;
