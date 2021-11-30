@@ -12,7 +12,6 @@ export default (key, name, type) => {
   xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
   xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
   xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
-  xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd"
   id="diagram_${key}"
   targetNamespace="${TYPE_TARGET[type]}">
   <bpmn2:process id="${key}" name="${name}" isExecutable="true">

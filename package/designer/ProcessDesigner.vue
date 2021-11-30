@@ -294,12 +294,13 @@ export default {
       let newName = this.processName || `业务流程_${new Date().getTime()}`;
       let xmlString = xml || DefaultEmptyXML(newId, newName, this.prefix);
       try {
+        console.log(this.bpmnModeler.importXML);
         let { warnings } = await this.bpmnModeler.importXML(xmlString);
         if (warnings && warnings.length) {
           warnings.forEach(warn => console.warn(warn));
         }
       } catch (e) {
-        console.error(`[Process Designer Warn]: ${e.message || e}`);
+        console.error(`[Process Designer Warn]: ${e?.message || e}`);
       }
     },
 

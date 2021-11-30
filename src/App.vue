@@ -113,12 +113,13 @@ export default {
           this.controlForm.additionalModel.push(this.addis[key]);
         }
       }
+      deep && (this.xmlString = undefined);
       this.reloadIndex += 1;
       this.modeler = null; // 避免 panel 异常
-      if (deep) {
-        this.xmlString = undefined;
-        this.$refs.processDesigner.processRestart();
-      }
+      // if (deep) {
+      //   this.xmlString = undefined;
+      //   this.$refs.processDesigner.processRestart();
+      // }
     },
     changeLabelEditingStatus(status) {
       this.addis.labelEditing = status ? { labelEditingProvider: ["value", ""] } : false;
