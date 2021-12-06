@@ -1,6 +1,7 @@
 <template>
-  <div class="process-palette">
+  <div class="my-process-palette">
     <div class="test-button" @click="addTask" @mousedown="addTask">测试任务</div>
+    <div class="test-container" id="palette-container">1</div>
   </div>
 </template>
 
@@ -8,7 +9,7 @@
 import { assign } from "min-dash";
 
 export default {
-  name: "ProcessPalette",
+  name: "MyProcessPalette",
   data() {
     return {};
   },
@@ -33,7 +34,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.process-palette {
+.my-process-palette {
   box-sizing: border-box;
   padding: 80px 20px 20px 20px;
   .test-button {

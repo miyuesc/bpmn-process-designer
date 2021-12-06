@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <process-palette />
+    <my-process-palette />
     <my-process-designer
       :key="`designer-${reloadIndex}`"
       v-model="xmlString"
@@ -67,13 +67,13 @@ import CustomContentPadProvider from "../package/designer/plugins/content-pad";
 // 自定义左侧菜单（修改 默认任务 为 用户任务）
 import CustomPaletteProvider from "../package/designer/plugins/palette";
 import xmlObj2json from "./utils/xml2json";
-import ProcessPalette from "../package/palette/ProcessPalette";
+import MyProcessPalette from "../package/palette/ProcessPalette";
 // 自定义侧边栏
 // import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
 export default {
   name: "App",
-  components: { ProcessPalette },
+  components: { MyProcessPalette },
   data() {
     return {
       xmlString: "",
@@ -131,33 +131,30 @@ export default {
     },
     elementClick(element) {
       this.element = element;
-      // console.log(xmlObj2json(this.xmlString));
-      // console.log(this.modeler);
-      // if (element.type === "bpmn:UserTask") {
-      //   const moddle = window.bpmnInstances.moddle;
-      //   const modeling = window.bpmnInstances.modeling;
-      //   const child1 = moddle.create("flowable:ChildField", {
-      //     id: "child1",
-      //     name: "1",
-      //     readable: true
-      //   });
-      //   const child2 = moddle.create("flowable:ChildField", {
-      //     id: "child2",
-      //     name: "2",
-      //     type: "string",
-      //     required: true
-      //   });
-      //   const formProperty = moddle.create("flowable:FormProperty", {
-      //     children: [child1, child2]
-      //     // children: []
-      //   });
-      //   const extensionElements = moddle.create("bpmn:ExtensionElements", {
-      //     values: [formProperty]
-      //   });
-      //   modeling.updateProperties(element, {
-      //     extensionElements
-      //   });
-      // }
+
+      !this.elementOverlayIds && (this.elementOverlayIds = {});
+
+      !this.overlays && (this.overlays = this.modeler.get("overlays"));
+      !this.contextPad && (this.contextPad = this.modeler.get("contextPad"));
+
+      this.modeler.on("element.hover", ({ element }) => {
+        if (!this.elementOverlayIds[element.id] && element.type !== "bpmn:Process") {
+          this.elementOverlayIds[element.id] = this.overlays.add(element, {
+            position: { left: 0, bottom: 0 },
+            html: `<div class="element-overlays">
+            <p>Elemet id: ${element.id}</p>
+            <p>Elemet type: ${element.type}</p>
+          </div>`
+          });
+        }
+      });
+
+      this.modeler.on("element.out", ({ element }) => {
+        if (element) {
+          this.overlays.remove({ element });
+          this.elementOverlayIds[element.id] = null;
+        }
+      });
     }
   }
 };
@@ -207,6 +204,14 @@ body {
     line-height: 32px;
   }
 }
+.element-overlays {
+  box-sizing: border-box;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 4px;
+  color: #fafafa;
+}
+
 body,
 body * {
   /* 滚动条 */
