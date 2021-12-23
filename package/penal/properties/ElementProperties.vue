@@ -103,14 +103,22 @@ export default {
         .catch(() => console.info("操作取消"));
     },
     saveAttribute() {
-      // 新建属性字段
-      const newPropertyObject = window.bpmnInstances.moddle.create(`${this.prefix}:Property`, this.propertyForm);
-      // 新建一个属性字段的保存列表
-      const propertiesObject = window.bpmnInstances.moddle.create(`${this.prefix}:Properties`, {
-        values: this.bpmnElementPropertyList.concat([newPropertyObject])
-      });
-
-      this.updateElementExtensions(propertiesObject);
+      const { name, value } = this.propertyForm;
+      console.log(this.bpmnElementPropertyList);
+      if (this.editingPropertyIndex !== -1) {
+        window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.bpmnElementPropertyList[this.editingPropertyIndex], {
+          name,
+          value
+        });
+      } else {
+        // 新建属性字段
+        const newPropertyObject = window.bpmnInstances.moddle.create(`${this.prefix}:Property`, { name, value });
+        // 新建一个属性字段的保存列表
+        const propertiesObject = window.bpmnInstances.moddle.create(`${this.prefix}:Properties`, {
+          values: this.bpmnElementPropertyList.concat([newPropertyObject])
+        });
+        this.updateElementExtensions(propertiesObject);
+      }
       this.propertyFormModelVisible = false;
       this.resetAttributesList();
     },
