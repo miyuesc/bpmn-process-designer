@@ -62,12 +62,16 @@
 import translations from "@/translations";
 // 自定义渲染（隐藏了 label 标签）
 import CustomRenderer from "@/modules/custom-renderer";
+// 自定义定位
+import CustomAutoPlace from "@/modules/auto-place";
 // 自定义元素选中时的弹出菜单（修改 默认任务 为 用户任务）
 import CustomContentPadProvider from "../package/designer/plugins/content-pad";
 // 自定义左侧菜单（修改 默认任务 为 用户任务）
 import CustomPaletteProvider from "../package/designer/plugins/palette";
 import xmlObj2json from "./utils/xml2json";
 import MyProcessPalette from "../package/palette/ProcessPalette";
+import { getNewCustomShapePosition } from "./modules/auto-place/CustomAutoPlace";
+import Log from "../package/Log";
 // 自定义侧边栏
 // import MyProcessPanel from "../package/process-panel/ProcessPanel";
 
@@ -103,7 +107,14 @@ export default {
     initModeler(modeler) {
       setTimeout(() => {
         this.modeler = modeler;
-        console.log(modeler);
+        const eventBus = modeler.get("eventBus");
+        eventBus.on("element.dblclick", 3000, function(context) {
+          return "null";
+        });
+        const canvas = modeler.get("canvas");
+        const rootElement = canvas.getRootElement();
+        Log.prettyPrimary("Process Id:", rootElement.id);
+        Log.prettyPrimary("Process Name:", rootElement.businessObject.name);
       }, 10);
     },
     reloadProcessDesigner(deep) {
@@ -137,24 +148,24 @@ export default {
       !this.overlays && (this.overlays = this.modeler.get("overlays"));
       !this.contextPad && (this.contextPad = this.modeler.get("contextPad"));
 
-      this.modeler.on("element.hover", ({ element }) => {
-        if (!this.elementOverlayIds[element.id] && element.type !== "bpmn:Process") {
-          this.elementOverlayIds[element.id] = this.overlays.add(element, {
-            position: { left: 0, bottom: 0 },
-            html: `<div class="element-overlays">
-            <p>Elemet id: ${element.id}</p>
-            <p>Elemet type: ${element.type}</p>
-          </div>`
-          });
-        }
-      });
+      // this.modeler.on("element.hover", ({ element }) => {
+      //   if (!this.elementOverlayIds[element.id] && element.type !== "bpmn:Process") {
+      //     this.elementOverlayIds[element.id] = this.overlays.add(element, {
+      //       position: { left: 0, bottom: 0 },
+      //       html: `<div class="element-overlays">
+      //       <p>Elemet id: ${element.id}</p>
+      //       <p>Elemet type: ${element.type}</p>
+      //     </div>`
+      //     });
+      //   }
+      // });
 
-      this.modeler.on("element.out", ({ element }) => {
-        if (element) {
-          this.overlays.remove({ element });
-          this.elementOverlayIds[element.id] = null;
-        }
-      });
+      // this.modeler.on("element.out", ({ element }) => {
+      //   if (element) {
+      //     this.overlays.remove({ element });
+      //     this.elementOverlayIds[element.id] = null;
+      //   }
+      // });
     }
   }
 };

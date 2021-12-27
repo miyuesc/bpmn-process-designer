@@ -55,6 +55,7 @@ import ElementListeners from "./listeners/ElementListeners";
 import ElementProperties from "./properties/ElementProperties";
 import ElementForm from "./form/ElementForm";
 import UserTaskListeners from "./listeners/UserTaskListeners";
+import Log from "../Log";
 /**
  * 侧边栏
  * @Author MiyueFE
@@ -165,14 +166,8 @@ export default {
           window.bpmnInstances.elementRegistry.find(el => el.type === "bpmn:Collaboration");
       }
       if (!activatedElement) return;
-      console.log(`
-              ----------
-      select element changed:
-                id:  ${activatedElement.id}
-              type:  ${activatedElement.businessObject.$type}
-              ----------
-              `);
-      console.log("businessObject: ", activatedElement.businessObject);
+      Log.printBack(`select element changed: id: ${activatedElement.id} , type: ${activatedElement.businessObject.$type}`);
+      Log.prettyInfo("businessObject", activatedElement.businessObject);
       window.bpmnInstances.bpmnElement = activatedElement;
       this.bpmnElement = activatedElement;
       this.elementId = activatedElement.id;
