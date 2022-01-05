@@ -9,7 +9,7 @@ import ElementUI from "element-ui";
 Vue.use(ElementUI);
 import "../package/theme/element-variables.scss";
 
-import { vuePlugin } from "@/highlight";
+import { vuePlugin } from "../package/highlight";
 import "highlight.js/styles/atom-one-dark-reasonable.css";
 Vue.use(vuePlugin);
 

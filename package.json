@@ -26,6 +26,7 @@
     "min-dash": "^3.5.2",
     "vue": "^2.6.11",
     "vue-router": "^3.4.9",
+    "x2js": "^3.4.2",
     "xml-js": "^1.6.11"
   },
   "devDependencies": {
@@ -36,7 +37,7 @@
     "@vue/eslint-config-prettier": "^5.0.0",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
-    "bpmn-js": "^7.4.0",
+    "bpmn-js": "^8.8.3",
     "bpmn-js-properties-panel": "^0.37.2",
     "camunda-bpmn-moddle": "^4.4.1",
     "compression-webpack-plugin": "^6.1.1",

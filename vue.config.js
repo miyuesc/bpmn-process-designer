@@ -15,7 +15,7 @@ const CDN = {
   },
   css: [],
   js: [
-    "https://unpkg.com/bpmn-js@^7.4.0/dist/bpmn-modeler.development.js",
+    "https://unpkg.com/browse/bpmn-js@8.8.3/dist/bpmn-modeler.production.min.js",
     "https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js",
     "https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.0/index.min.js"
   ]

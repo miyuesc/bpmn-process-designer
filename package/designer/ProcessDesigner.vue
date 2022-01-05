@@ -105,6 +105,7 @@ import activitiModdleExtension from "./plugins/extension-moddle/activiti";
 import flowableModdleExtension from "./plugins/extension-moddle/flowable";
 // 引入json转换与高亮
 import convert from "xml-js";
+import X2JS from "x2js";
 
 export default {
   name: "MyProcessDesigner",
@@ -439,8 +440,15 @@ export default {
       });
     },
     previewProcessJson() {
+      const newConvert = new X2JS();
       this.bpmnModeler.saveXML({ format: true }).then(({ xml }) => {
-        this.previewResult = convert.xml2json(xml, { spaces: 2 });
+        const { definitions } = newConvert.xml2js(xml);
+        if (definitions) {
+          this.previewResult = JSON.stringify(definitions, null, 4);
+        } else {
+          this.previewResult = "";
+        }
+
         this.previewType = "json";
         this.previewModelVisible = true;
       });
