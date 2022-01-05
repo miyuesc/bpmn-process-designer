@@ -104,7 +104,6 @@ import camundaModdleExtension from "./plugins/extension-moddle/camunda";
 import activitiModdleExtension from "./plugins/extension-moddle/activiti";
 import flowableModdleExtension from "./plugins/extension-moddle/flowable";
 // 引入json转换与高亮
-import convert from "xml-js";
 import X2JS from "x2js";
 
 export default {
