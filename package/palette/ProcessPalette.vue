@@ -2,12 +2,13 @@
   <div class="my-process-palette">
     <el-collapse>
       <el-collapse-item title="任务" name="1">
-        <div class="custom-button" @click="addTask" @mousedown="addTask($event, 'Task')">任务</div>
-        <div class="custom-button" @click="addTask" @mousedown="addTask($event, 'UserTask')">用户任务</div>
-        <div class="custom-button" @click="addTask" @mousedown="addTask($event, 'SendTask')">发送任务</div>
-        <div class="custom-button" @click="addTask" @mousedown="addTask($event, 'ReceiveTask')">接收任务</div>
-        <div class="custom-button" @click="addTask" @mousedown="addTask($event, 'ScriptTask')">脚本任务</div>
-        <div class="custom-button" @click="addTask" @mousedown="addTask($event, 'ServiceTask')">服务任务</div>
+        <!--  可以简化。。。 -->
+        <div class="custom-button" @click="createElement($event, 'Task')" @mousedown="createElement($event, 'Task')">任务</div>
+        <div class="custom-button" @click="createElement($event, 'UserTask')" @mousedown="createElement($event, 'UserTask')">用户任务</div>
+        <div class="custom-button" @click="createElement($event, 'SendTask')" @mousedown="createElement($event, 'SendTask')">发送任务</div>
+        <div class="custom-button" @click="createElement($event, 'ReceiveTask')" @mousedown="createElement($event, 'ReceiveTask')">接收任务</div>
+        <div class="custom-button" @click="createElement($event, 'ScriptTask')" @mousedown="createElement($event, 'ScriptTask')">脚本任务</div>
+        <div class="custom-button" @click="createElement($event, 'ServiceTask')" @mousedown="createElement($event, 'ServiceTask')">服务任务</div>
       </el-collapse-item>
       <el-collapse-item title="网关" name="2"> </el-collapse-item>
       <el-collapse-item title="开始" name="3"> </el-collapse-item>
@@ -27,7 +28,7 @@ export default {
   },
   mounted() {},
   methods: {
-    addTask(event, type, options = {}) {
+    createElement(event, type, options = {}) {
       const ElementFactory = window.bpmnInstances.elementFactory;
       const create = window.bpmnInstances.modeler.get("create");
       const shape = ElementFactory.createShape(assign({ type: `bpmn:${type}` }, options));
