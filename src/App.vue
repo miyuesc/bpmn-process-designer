@@ -51,6 +51,7 @@
     </el-drawer>
 
     <div class="info-tip">
+      <p><strong>该项目仅作为Bpmn.js的简单演示项目，不涉及过多的自定义Render内容。</strong></p>
       <p>注：activiti 好像不支持表单配置，控制台可能会报错</p>
       <p>
         <span>更多配置请查看源码：</span>
