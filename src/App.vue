@@ -72,12 +72,10 @@ import CustomRenderer from "@/modules/custom-renderer";
 import CustomContentPadProvider from "../package/designer/plugins/content-pad";
 // 自定义左侧菜单（修改 默认任务 为 用户任务）
 import CustomPaletteProvider from "../package/designer/plugins/palette";
-import MyProcessPalette from "../package/palette/ProcessPalette";
 import Log from "../package/Log";
 
 export default {
   name: "App",
-  components: { MyProcessPalette },
   data() {
     return {
       xmlString: "",

@@ -1,7 +1,8 @@
 import MyProcessDesigner from "./designer";
+import MyProcessPalette from "./palette";
 import MyProcessPenal from "./penal";
 
-const components = [MyProcessDesigner, MyProcessPenal];
+const components = [MyProcessDesigner, MyProcessPenal, MyProcessPalette];
 
 const install = function(Vue) {
   components.forEach(component => {
