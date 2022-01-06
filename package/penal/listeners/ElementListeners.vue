@@ -3,19 +3,12 @@
     <el-table :data="elementListenersList" size="mini" border>
       <el-table-column label="序号" width="50px" type="index" />
       <el-table-column label="事件类型" min-width="100px" prop="event" />
-      <el-table-column
-        label="监听器类型"
-        min-width="100px"
-        show-overflow-tooltip
-        :formatter="row => listenerTypeObject[row.listenerType]"
-      />
+      <el-table-column label="监听器类型" min-width="100px" show-overflow-tooltip :formatter="row => listenerTypeObject[row.listenerType]" />
       <el-table-column label="操作" width="90px">
         <template slot-scope="{ row, $index }">
           <el-button size="mini" type="text" @click="openListenerForm(row, $index)">编辑</el-button>
           <el-divider direction="vertical" />
-          <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeListener(row, $index)"
-            >移除</el-button
-          >
+          <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeListener(row, $index)">移除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -24,13 +17,7 @@
     </div>
 
     <!-- 监听器 编辑/创建 部分 -->
-    <el-drawer
-      :visible.sync="listenerFormModelVisible"
-      title="执行监听器"
-      :size="`${width}px`"
-      append-to-body
-      destroy-on-close
-    >
+    <el-drawer :visible.sync="listenerFormModelVisible" title="执行监听器" :size="`${width}px`" append-to-body destroy-on-close>
       <el-form size="mini" :model="listenerForm" label-width="96px" ref="listenerFormRef" @submit.native.prevent>
         <el-form-item label="事件类型" prop="event" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.event">
@@ -40,12 +27,7 @@
         </el-form-item>
         <el-form-item label="监听器类型" prop="listenerType" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-select v-model="listenerForm.listenerType">
-            <el-option
-              v-for="i in Object.keys(listenerTypeObject)"
-              :key="i"
-              :label="listenerTypeObject[i]"
-              :value="i"
-            />
+            <el-option v-for="i in Object.keys(listenerTypeObject)" :key="i" :label="listenerTypeObject[i]" :value="i" />
           </el-select>
         </el-form-item>
         <el-form-item
@@ -123,25 +105,13 @@
       <el-table :data="fieldsListOfListener" size="mini" max-height="240" border fit style="flex: none">
         <el-table-column label="序号" width="50px" type="index" />
         <el-table-column label="字段名称" min-width="100px" prop="name" />
-        <el-table-column
-          label="字段类型"
-          min-width="80px"
-          show-overflow-tooltip
-          :formatter="row => fieldTypeObject[row.fieldType]"
-        />
-        <el-table-column
-          label="字段值/表达式"
-          min-width="100px"
-          show-overflow-tooltip
-          :formatter="row => row.string || row.expression"
-        />
+        <el-table-column label="字段类型" min-width="80px" show-overflow-tooltip :formatter="row => fieldTypeObject[row.fieldType]" />
+        <el-table-column label="字段值/表达式" min-width="100px" show-overflow-tooltip :formatter="row => row.string || row.expression" />
         <el-table-column label="操作" width="100px">
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openListenerFieldForm(row, $index)">编辑</el-button>
             <el-divider direction="vertical" />
-            <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeListenerField(row, $index)"
-              >移除</el-button
-            >
+            <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeListenerField(row, $index)">移除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -153,21 +123,8 @@
     </el-drawer>
 
     <!-- 注入西段 编辑/创建 部分 -->
-    <el-dialog
-      title="字段配置"
-      :visible.sync="listenerFieldFormModelVisible"
-      width="600px"
-      append-to-body
-      destroy-on-close
-    >
-      <el-form
-        :model="listenerFieldForm"
-        size="mini"
-        label-width="96px"
-        ref="listenerFieldFormRef"
-        style="height: 136px"
-        @submit.native.prevent
-      >
+    <el-dialog title="字段配置" :visible.sync="listenerFieldFormModelVisible" width="600px" append-to-body destroy-on-close>
+      <el-form :model="listenerFieldForm" size="mini" label-width="96px" ref="listenerFieldFormRef" style="height: 136px" @submit.native.prevent>
         <el-form-item label="字段名称：" prop="name" :rules="{ required: true, trigger: ['blur', 'change'] }">
           <el-input v-model="listenerFieldForm.name" clearable />
         </el-form-item>
@@ -243,9 +200,7 @@ export default {
       this.bpmnElement = window.bpmnInstances.bpmnElement;
       this.otherExtensionList = [];
       this.bpmnElementListeners =
-        this.bpmnElement.businessObject?.extensionElements?.values?.filter(
-          ex => ex.$type === `${this.prefix}:ExecutionListener`
-        ) ?? [];
+        this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => ex.$type === `${this.prefix}:ExecutionListener`) ?? [];
       this.elementListenersList = this.bpmnElementListeners.map(listener => initListenerType(listener));
     },
     // 打开 监听器详情 侧边栏
@@ -333,10 +288,7 @@ export default {
         this.elementListenersList.splice(this.editingListenerIndex, 1, this.listenerForm);
       }
       // 保存其他配置
-      this.otherExtensionList =
-        this.bpmnElement.businessObject?.extensionElements?.values?.filter(
-          ex => ex.$type !== `${this.prefix}:ExecutionListener`
-        ) ?? [];
+      this.otherExtensionList = this.bpmnElement.businessObject?.extensionElements?.values?.filter(ex => ex.$type !== `${this.prefix}:ExecutionListener`) ?? [];
       updateElementExtensions(this.bpmnElement, this.otherExtensionList.concat(this.bpmnElementListeners));
       // 4. 隐藏侧边栏
       this.listenerFormModelVisible = false;

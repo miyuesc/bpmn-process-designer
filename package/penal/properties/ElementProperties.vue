@@ -8,16 +8,12 @@
         <template slot-scope="{ row, $index }">
           <el-button size="mini" type="text" @click="openAttributesForm(row, $index)">编辑</el-button>
           <el-divider direction="vertical" />
-          <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeAttributes(row, $index)"
-            >移除</el-button
-          >
+          <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeAttributes(row, $index)">移除</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="element-drawer__button">
-      <el-button size="mini" type="primary" icon="el-icon-plus" @click="openAttributesForm(null, -1)"
-        >添加属性</el-button
-      >
+      <el-button size="mini" type="primary" icon="el-icon-plus" @click="openAttributesForm(null, -1)">添加属性</el-button>
     </div>
 
     <el-dialog :visible.sync="propertyFormModelVisible" title="属性配置" width="600px" append-to-body destroy-on-close>
@@ -77,10 +73,7 @@ export default {
         }) ?? [];
 
       // 保存所有的 扩展属性字段
-      this.bpmnElementPropertyList = this.bpmnElementProperties.reduce(
-        (pre, current) => pre.concat(current.values),
-        []
-      );
+      this.bpmnElementPropertyList = this.bpmnElementProperties.reduce((pre, current) => pre.concat(current.values), []);
       // 复制 显示
       this.elementPropertyList = JSON.parse(JSON.stringify(this.bpmnElementPropertyList ?? []));
     },
@@ -113,14 +106,10 @@ export default {
       const { name, value } = this.propertyForm;
       console.log(this.bpmnElementPropertyList);
       if (this.editingPropertyIndex !== -1) {
-        window.bpmnInstances.modeling.updateModdleProperties(
-          this.bpmnElement,
-          this.bpmnElementPropertyList[this.editingPropertyIndex],
-          {
-            name,
-            value
-          }
-        );
+        window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.bpmnElementPropertyList[this.editingPropertyIndex], {
+          name,
+          value
+        });
       } else {
         // 新建属性字段
         const newPropertyObject = window.bpmnInstances.moddle.create(`${this.prefix}:Property`, { name, value });

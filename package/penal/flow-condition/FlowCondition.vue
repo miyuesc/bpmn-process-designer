@@ -14,11 +14,7 @@
           <el-option label="脚本" value="script" />
         </el-select>
       </el-form-item>
-      <el-form-item
-        label="表达式"
-        v-if="flowConditionForm.conditionType && flowConditionForm.conditionType === 'expression'"
-        key="express"
-      >
+      <el-form-item label="表达式" v-if="flowConditionForm.conditionType && flowConditionForm.conditionType === 'expression'" key="express">
         <el-input v-model="flowConditionForm.body" clearable @change="updateFlowCondition" />
       </el-form-item>
       <template v-if="flowConditionForm.conditionType && flowConditionForm.conditionType === 'script'">
@@ -67,11 +63,7 @@ export default {
       this.bpmnElement = window.bpmnInstances.bpmnElement;
       this.bpmnElementSource = this.bpmnElement.source;
       this.bpmnElementSourceRef = this.bpmnElement.businessObject.sourceRef;
-      if (
-        this.bpmnElementSourceRef &&
-        this.bpmnElementSourceRef.default &&
-        this.bpmnElementSourceRef.default.id === this.bpmnElement.id
-      ) {
+      if (this.bpmnElementSourceRef && this.bpmnElementSourceRef.default && this.bpmnElementSourceRef.default.id === this.bpmnElement.id) {
         // 默认
         this.flowConditionForm = { type: "default" };
       } else if (!this.bpmnElement.businessObject.conditionExpression) {

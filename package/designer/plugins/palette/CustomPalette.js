@@ -1,28 +1,8 @@
 import PaletteProvider from "bpmn-js/lib/features/palette/PaletteProvider";
 import { assign } from "min-dash";
 
-export default function CustomPalette(
-  palette,
-  create,
-  elementFactory,
-  spaceTool,
-  lassoTool,
-  handTool,
-  globalConnect,
-  translate
-) {
-  PaletteProvider.call(
-    this,
-    palette,
-    create,
-    elementFactory,
-    spaceTool,
-    lassoTool,
-    handTool,
-    globalConnect,
-    translate,
-    2000
-  );
+export default function CustomPalette(palette, create, elementFactory, spaceTool, lassoTool, handTool, globalConnect, translate) {
+  PaletteProvider.call(this, palette, create, elementFactory, spaceTool, lassoTool, handTool, globalConnect, translate, 2000);
 }
 
 const F = function() {}; // 核心，利用空对象作为中介；
@@ -134,43 +114,18 @@ F.prototype.getPaletteEntries = function() {
       group: "tools",
       separator: true
     },
-    "create.start-event": createAction(
-      "bpmn:StartEvent",
-      "event",
-      "bpmn-icon-start-event-none",
-      translate("Create StartEvent")
-    ),
+    "create.start-event": createAction("bpmn:StartEvent", "event", "bpmn-icon-start-event-none", translate("Create StartEvent")),
     "create.intermediate-event": createAction(
       "bpmn:IntermediateThrowEvent",
       "event",
       "bpmn-icon-intermediate-event-none",
       translate("Create Intermediate/Boundary Event")
     ),
-    "create.end-event": createAction(
-      "bpmn:EndEvent",
-      "event",
-      "bpmn-icon-end-event-none",
-      translate("Create EndEvent")
-    ),
-    "create.exclusive-gateway": createAction(
-      "bpmn:ExclusiveGateway",
-      "gateway",
-      "bpmn-icon-gateway-none",
-      translate("Create Gateway")
-    ),
+    "create.end-event": createAction("bpmn:EndEvent", "event", "bpmn-icon-end-event-none", translate("Create EndEvent")),
+    "create.exclusive-gateway": createAction("bpmn:ExclusiveGateway", "gateway", "bpmn-icon-gateway-none", translate("Create Gateway")),
     "create.user-task": createAction("bpmn:UserTask", "activity", "bpmn-icon-user-task", translate("Create User Task")),
-    "create.data-object": createAction(
-      "bpmn:DataObjectReference",
-      "data-object",
-      "bpmn-icon-data-object",
-      translate("Create DataObjectReference")
-    ),
-    "create.data-store": createAction(
-      "bpmn:DataStoreReference",
-      "data-store",
-      "bpmn-icon-data-store",
-      translate("Create DataStoreReference")
-    ),
+    "create.data-object": createAction("bpmn:DataObjectReference", "data-object", "bpmn-icon-data-object", translate("Create DataObjectReference")),
+    "create.data-store": createAction("bpmn:DataStoreReference", "data-store", "bpmn-icon-data-store", translate("Create DataStoreReference")),
     "create.subprocess-expanded": {
       group: "activity",
       className: "bpmn-icon-subprocess-expanded",
@@ -195,16 +150,7 @@ F.prototype.getPaletteEntries = function() {
   return actions;
 };
 
-CustomPalette.$inject = [
-  "palette",
-  "create",
-  "elementFactory",
-  "spaceTool",
-  "lassoTool",
-  "handTool",
-  "globalConnect",
-  "translate"
-];
+CustomPalette.$inject = ["palette", "create", "elementFactory", "spaceTool", "lassoTool", "handTool", "globalConnect", "translate"];
 
 CustomPalette.prototype = new F(); // 核心，将 F的实例赋值给子类；
 CustomPalette.prototype.constructor = CustomPalette; // 修复子类CustomPalette的构造器指向，防止原型链的混乱；

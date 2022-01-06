@@ -124,8 +124,7 @@ export default {
   "diagram not part of bpmn:Definitions": "流程图不符合bpmn规范",
   "no diagram to display": "没有可展示的流程图",
   "no process or collaboration to display": "没有可展示的流程/协作",
-  "element {element} referenced by {referenced}#{property} not yet drawn":
-    "由{referenced}#{property}引用的{element}元素仍未绘制",
+  "element {element} referenced by {referenced}#{property} not yet drawn": "由{referenced}#{property}引用的{element}元素仍未绘制",
   "already rendered {element}": "{element} 已被渲染",
   "failed to import {element}": "导入{element}失败",
   //属性面板的参数
