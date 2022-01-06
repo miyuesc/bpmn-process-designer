@@ -10,7 +10,12 @@
       @element-click="elementClick"
       @init-finished="initModeler"
     />
-    <my-properties-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
+    <my-properties-panel
+      :key="`penal-${reloadIndex}`"
+      :bpmn-modeler="modeler"
+      :prefix="controlForm.prefix"
+      class="process-panel"
+    />
 
     <!-- demo config -->
     <div class="demo-control-bar">
@@ -25,13 +30,28 @@
           <el-input v-model="controlForm.processName" @change="reloadProcessDesigner" />
         </el-form-item>
         <el-form-item label="流转模拟">
-          <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner" />
+          <el-switch
+            v-model="controlForm.simulation"
+            inactive-text="停用"
+            active-text="启用"
+            @change="reloadProcessDesigner"
+          />
         </el-form-item>
         <el-form-item label="禁用双击">
-          <el-switch v-model="controlForm.labelEditing" inactive-text="停用" active-text="启用" @change="changeLabelEditingStatus" />
+          <el-switch
+            v-model="controlForm.labelEditing"
+            inactive-text="停用"
+            active-text="启用"
+            @change="changeLabelEditingStatus"
+          />
         </el-form-item>
         <el-form-item label="隐藏label">
-          <el-switch v-model="controlForm.labelVisible" inactive-text="停用" active-text="启用" @change="changeLabelVisibleStatus" />
+          <el-switch
+            v-model="controlForm.labelVisible"
+            inactive-text="停用"
+            active-text="启用"
+            @change="changeLabelVisibleStatus"
+          />
         </el-form-item>
         <el-form-item label="流程引擎">
           <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner(true)">
@@ -52,8 +72,14 @@
 
     <div class="info-tip">
       <p>注：activiti 好像不支持表单配置，控制台可能会报错</p>
-      <p>更多配置请查看源码：<a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a></p>
-      <p>疑问请在此留言：<a href="https://github.com/miyuesc/bpmn-process-designer/issues/16">MiyueSC/bpmn-process-designer/issues</a></p>
+      <p>
+        <span>更多配置请查看源码：</span>
+        <a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a>
+      </p>
+      <p>
+        <span>疑问请在此留言：</span>
+        <a href="https://github.com/miyuesc/bpmn-process-designer/issues/16">MiyueSC/bpmn-process-designer/issues</a>
+      </p>
     </div>
   </div>
 </template>

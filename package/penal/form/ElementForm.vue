@@ -18,7 +18,13 @@
       <el-table :data="fieldList" size="mini" max-height="240" border fit>
         <el-table-column label="序号" type="index" width="50px" />
         <el-table-column label="字段名称" prop="label" min-width="80px" show-overflow-tooltip />
-        <el-table-column label="字段类型" prop="type" min-width="80px" :formatter="row => fieldType[row.type] || row.type" show-overflow-tooltip />
+        <el-table-column
+          label="字段类型"
+          prop="type"
+          min-width="80px"
+          :formatter="row => fieldType[row.type] || row.type"
+          show-overflow-tooltip
+        />
         <el-table-column label="默认值" prop="defaultValue" min-width="80px" show-overflow-tooltip />
         <el-table-column label="操作" width="90px">
           <template slot-scope="{ row, $index }">
@@ -40,7 +46,12 @@
           <el-input v-model="formFieldForm.id" clearable />
         </el-form-item>
         <el-form-item label="类型">
-          <el-select v-model="formFieldForm.typeType" placeholder="请选择字段类型" clearable @change="changeFieldTypeType">
+          <el-select
+            v-model="formFieldForm.typeType"
+            placeholder="请选择字段类型"
+            clearable
+            @change="changeFieldTypeType"
+          >
             <el-option v-for="(value, key) of fieldType" :label="value" :value="key" :key="key" />
           </el-select>
         </el-form-item>
@@ -73,7 +84,13 @@
             <template slot-scope="{ row, $index }">
               <el-button size="mini" type="text" @click="openFieldOptionForm(row, $index, 'enum')">编辑</el-button>
               <el-divider direction="vertical" />
-              <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeFieldOptionItem(row, $index, 'enum')">移除</el-button>
+              <el-button
+                size="mini"
+                type="text"
+                style="color: #ff4d4f"
+                @click="removeFieldOptionItem(row, $index, 'enum')"
+                >移除</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -93,7 +110,13 @@
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openFieldOptionForm(row, $index, 'constraint')">编辑</el-button>
             <el-divider direction="vertical" />
-            <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeFieldOptionItem(row, $index, 'constraint')">移除</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              style="color: #ff4d4f"
+              @click="removeFieldOptionItem(row, $index, 'constraint')"
+              >移除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -112,7 +135,13 @@
           <template slot-scope="{ row, $index }">
             <el-button size="mini" type="text" @click="openFieldOptionForm(row, $index, 'property')">编辑</el-button>
             <el-divider direction="vertical" />
-            <el-button size="mini" type="text" style="color: #ff4d4f" @click="removeFieldOptionItem(row, $index, 'property')">移除</el-button>
+            <el-button
+              size="mini"
+              type="text"
+              style="color: #ff4d4f"
+              @click="removeFieldOptionItem(row, $index, 'property')"
+              >移除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -124,7 +153,13 @@
       </div>
     </el-drawer>
 
-    <el-dialog :visible.sync="fieldOptionModelVisible" :title="optionModelTitle" width="600px" append-to-body destroy-on-close>
+    <el-dialog
+      :visible.sync="fieldOptionModelVisible"
+      :title="optionModelTitle"
+      width="600px"
+      append-to-body
+      destroy-on-close
+    >
       <el-form :model="fieldOptionForm" size="mini" label-width="96px" @submit.native.prevent>
         <el-form-item label="编号/ID" v-if="fieldOptionType !== 'constraint'" key="option-id">
           <el-input v-model="fieldOptionForm.id" clearable />
@@ -198,7 +233,8 @@ export default {
       this.formKey = this.bpmnELement.businessObject.formKey;
       // 获取元素扩展属性 或者 创建扩展属性
       this.elExtensionElements =
-        this.bpmnELement.businessObject.get("extensionElements") || window.bpmnInstances.moddle.create("bpmn:ExtensionElements", { values: [] });
+        this.bpmnELement.businessObject.get("extensionElements") ||
+        window.bpmnInstances.moddle.create("bpmn:ExtensionElements", { values: [] });
       // 获取元素表单配置 或者 创建新的表单配置
       this.formData =
         this.elExtensionElements.values.filter(ex => ex.$type === `${this.prefix}:FormData`)?.[0] ||
@@ -220,7 +256,9 @@ export default {
       window.bpmnInstances.modeling.updateProperties(this.bpmnELement, { formKey: this.formKey });
     },
     updateElementBusinessKey() {
-      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnELement, this.formData, { businessKey: this.businessKey });
+      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnELement, this.formData, {
+        businessKey: this.businessKey
+      });
     },
     // 根据类型调整字段type
     changeFieldTypeType(type) {
@@ -282,9 +320,12 @@ export default {
           this.fieldEnumList.push(this.fieldOptionForm);
         }
       } else {
-        this.fieldOptionType === "property" && this.fieldPropertiesList.splice(this.formFieldOptionIndex, 1, this.fieldOptionForm);
-        this.fieldOptionType === "constraint" && this.fieldConstraintsList.splice(this.formFieldOptionIndex, 1, this.fieldOptionForm);
-        this.fieldOptionType === "enum" && this.fieldEnumList.splice(this.formFieldOptionIndex, 1, this.fieldOptionForm);
+        this.fieldOptionType === "property" &&
+          this.fieldPropertiesList.splice(this.formFieldOptionIndex, 1, this.fieldOptionForm);
+        this.fieldOptionType === "constraint" &&
+          this.fieldConstraintsList.splice(this.formFieldOptionIndex, 1, this.fieldOptionForm);
+        this.fieldOptionType === "enum" &&
+          this.fieldEnumList.splice(this.formFieldOptionIndex, 1, this.fieldOptionForm);
       }
       this.fieldOptionModelVisible = false;
       this.fieldOptionForm = {};
@@ -300,14 +341,18 @@ export default {
         const fieldPropertyList = this.fieldPropertiesList.map(fp => {
           return window.bpmnInstances.moddle.create(`${this.prefix}:Property`, { id: fp.id, value: fp.value });
         });
-        Field.properties = window.bpmnInstances.moddle.create(`${this.prefix}:Properties`, { values: fieldPropertyList });
+        Field.properties = window.bpmnInstances.moddle.create(`${this.prefix}:Properties`, {
+          values: fieldPropertyList
+        });
       }
       // 构建校验规则
       if (this.fieldConstraintsList && this.fieldConstraintsList.length) {
         const fieldConstraintList = this.fieldConstraintsList.map(fc => {
           return window.bpmnInstances.moddle.create(`${this.prefix}:Constraint`, { name: fc.name, config: fc.config });
         });
-        Field.validation = window.bpmnInstances.moddle.create(`${this.prefix}:Validation`, { constraints: fieldConstraintList });
+        Field.validation = window.bpmnInstances.moddle.create(`${this.prefix}:Validation`, {
+          constraints: fieldConstraintList
+        });
       }
       // 构建枚举值
       if (this.fieldEnumList && this.fieldEnumList.length) {

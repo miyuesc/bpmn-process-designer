@@ -18,7 +18,12 @@
           <el-input v-model="elementBaseInfo.versionTag" clearable @change="updateBaseInfo('versionTag')" />
         </el-form-item>
         <el-form-item label="可执行">
-          <el-switch v-model="elementBaseInfo.isExecutable" active-text="是" inactive-text="否" @change="updateBaseInfo('isExecutable')" />
+          <el-switch
+            v-model="elementBaseInfo.isExecutable"
+            active-text="是"
+            inactive-text="否"
+            @change="updateBaseInfo('isExecutable')"
+          />
         </el-form-item>
       </template>
     </el-form>

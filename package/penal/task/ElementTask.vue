@@ -4,7 +4,12 @@
       <el-form-item label="异步延续">
         <el-checkbox v-model="taskConfigForm.asyncBefore" label="异步前" @change="changeTaskAsync" />
         <el-checkbox v-model="taskConfigForm.asyncAfter" label="异步后" @change="changeTaskAsync" />
-        <el-checkbox v-model="taskConfigForm.exclusive" v-if="taskConfigForm.asyncAfter || taskConfigForm.asyncBefore" label="排除" @change="changeTaskAsync" />
+        <el-checkbox
+          v-model="taskConfigForm.exclusive"
+          v-if="taskConfigForm.asyncAfter || taskConfigForm.asyncBefore"
+          label="排除"
+          @change="changeTaskAsync"
+        />
       </el-form-item>
       <component :is="witchTaskComponent" v-bind="$props" />
     </el-form>

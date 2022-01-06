@@ -242,7 +242,11 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
   if (is(businessObject, "bpmn:FlowNode")) {
     if (is(businessObject, "bpmn:EventBasedGateway")) {
       assign(actions, {
-        "append.receive-task": appendAction("bpmn:ReceiveTask", "bpmn-icon-receive-task", translate("Append ReceiveTask")),
+        "append.receive-task": appendAction(
+          "bpmn:ReceiveTask",
+          "bpmn-icon-receive-task",
+          translate("Append ReceiveTask")
+        ),
         "append.message-intermediate-event": appendAction(
           "bpmn:IntermediateCatchEvent",
           "bpmn-icon-intermediate-event-catch-message",
@@ -270,9 +274,14 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
       });
     } else if (isEventType(businessObject, "bpmn:BoundaryEvent", "bpmn:CompensateEventDefinition")) {
       assign(actions, {
-        "append.compensation-activity": appendAction("bpmn:Task", "bpmn-icon-task", translate("Append compensation activity"), {
-          isForCompensation: true
-        })
+        "append.compensation-activity": appendAction(
+          "bpmn:Task",
+          "bpmn-icon-task",
+          translate("Append compensation activity"),
+          {
+            isForCompensation: true
+          }
+        )
       });
     } else if (
       !is(businessObject, "bpmn:EndEvent") &&
@@ -313,14 +322,23 @@ ContextPadProvider.prototype.getContextPadEntries = function(element) {
     });
   }
 
-  if (isAny(businessObject, ["bpmn:FlowNode", "bpmn:InteractionNode", "bpmn:DataObjectReference", "bpmn:DataStoreReference"])) {
+  if (
+    isAny(businessObject, [
+      "bpmn:FlowNode",
+      "bpmn:InteractionNode",
+      "bpmn:DataObjectReference",
+      "bpmn:DataStoreReference"
+    ])
+  ) {
     assign(actions, {
       "append.text-annotation": appendAction("bpmn:TextAnnotation", "bpmn-icon-text-annotation"),
 
       connect: {
         group: "connect",
         className: "bpmn-icon-connection-multi",
-        title: translate("Connect using " + (businessObject.isForCompensation ? "" : "Sequence/MessageFlow or ") + "Association"),
+        title: translate(
+          "Connect using " + (businessObject.isForCompensation ? "" : "Sequence/MessageFlow or ") + "Association"
+        ),
         action: {
           click: startConnect,
           dragstart: startConnect

@@ -3,7 +3,16 @@ import { assign } from "min-dash";
 /**
  * A palette provider for BPMN 2.0 elements.
  */
-export default function PaletteProvider(palette, create, elementFactory, spaceTool, lassoTool, handTool, globalConnect, translate) {
+export default function PaletteProvider(
+  palette,
+  create,
+  elementFactory,
+  spaceTool,
+  lassoTool,
+  handTool,
+  globalConnect,
+  translate
+) {
   this._palette = palette;
   this._create = create;
   this._elementFactory = elementFactory;
@@ -16,7 +25,16 @@ export default function PaletteProvider(palette, create, elementFactory, spaceTo
   palette.registerProvider(this);
 }
 
-PaletteProvider.$inject = ["palette", "create", "elementFactory", "spaceTool", "lassoTool", "handTool", "globalConnect", "translate"];
+PaletteProvider.$inject = [
+  "palette",
+  "create",
+  "elementFactory",
+  "spaceTool",
+  "lassoTool",
+  "handTool",
+  "globalConnect",
+  "translate"
+];
 
 PaletteProvider.prototype.getPaletteEntries = function() {
   var actions = {},
@@ -123,18 +141,43 @@ PaletteProvider.prototype.getPaletteEntries = function() {
       group: "tools",
       separator: true
     },
-    "create.start-event": createAction("bpmn:StartEvent", "event", "bpmn-icon-start-event-none", translate("Create StartEvent")),
+    "create.start-event": createAction(
+      "bpmn:StartEvent",
+      "event",
+      "bpmn-icon-start-event-none",
+      translate("Create StartEvent")
+    ),
     "create.intermediate-event": createAction(
       "bpmn:IntermediateThrowEvent",
       "event",
       "bpmn-icon-intermediate-event-none",
       translate("Create Intermediate/Boundary Event")
     ),
-    "create.end-event": createAction("bpmn:EndEvent", "event", "bpmn-icon-end-event-none", translate("Create EndEvent")),
-    "create.exclusive-gateway": createAction("bpmn:ExclusiveGateway", "gateway", "bpmn-icon-gateway-none", translate("Create Gateway")),
+    "create.end-event": createAction(
+      "bpmn:EndEvent",
+      "event",
+      "bpmn-icon-end-event-none",
+      translate("Create EndEvent")
+    ),
+    "create.exclusive-gateway": createAction(
+      "bpmn:ExclusiveGateway",
+      "gateway",
+      "bpmn-icon-gateway-none",
+      translate("Create Gateway")
+    ),
     "create.user-task": createAction("bpmn:UserTask", "activity", "bpmn-icon-user-task", translate("Create User Task")),
-    "create.data-object": createAction("bpmn:DataObjectReference", "data-object", "bpmn-icon-data-object", translate("Create DataObjectReference")),
-    "create.data-store": createAction("bpmn:DataStoreReference", "data-store", "bpmn-icon-data-store", translate("Create DataStoreReference")),
+    "create.data-object": createAction(
+      "bpmn:DataObjectReference",
+      "data-object",
+      "bpmn-icon-data-object",
+      translate("Create DataObjectReference")
+    ),
+    "create.data-store": createAction(
+      "bpmn:DataStoreReference",
+      "data-store",
+      "bpmn-icon-data-store",
+      translate("Create DataStoreReference")
+    ),
     "create.subprocess-expanded": {
       group: "activity",
       className: "bpmn-icon-subprocess-expanded",

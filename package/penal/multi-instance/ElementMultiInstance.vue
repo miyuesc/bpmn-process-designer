@@ -11,7 +11,9 @@
           <el-option label="无" value="Null" />
         </el-select>
       </el-form-item>
-      <template v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'">
+      <template
+        v-if="loopCharacteristics === 'ParallelMultiInstance' || loopCharacteristics === 'SequentialMultiInstance'"
+      >
         <el-form-item label="循环基数" key="loopCardinality">
           <el-input v-model="loopInstanceForm.loopCardinality" clearable @change="updateLoopCardinality" />
         </el-form-item>
@@ -34,7 +36,12 @@
             @change="updateLoopAsync('exclusive')"
           />
         </el-form-item>
-        <el-form-item label="重试周期" prop="timeCycle" v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore" key="timeCycle">
+        <el-form-item
+          label="重试周期"
+          prop="timeCycle"
+          v-if="loopInstanceForm.asyncAfter || loopInstanceForm.asyncBefore"
+          key="timeCycle"
+        >
           <el-input v-model="loopInstanceForm.timeCycle" clearable @change="updateLoopTimeCycle" />
         </el-form-item>
       </template>
@@ -108,7 +115,11 @@ export default {
         businessObject.loopCharacteristics.extensionElements.values &&
         businessObject.loopCharacteristics.extensionElements.values.length
       ) {
-        this.$set(this.loopInstanceForm, "timeCycle", businessObject.loopCharacteristics.extensionElements.values[0].body);
+        this.$set(
+          this.loopInstanceForm,
+          "timeCycle",
+          businessObject.loopCharacteristics.extensionElements.values[0].body
+        );
       }
     },
     changeLoopCharacteristicsType(type) {
@@ -129,7 +140,9 @@ export default {
       }
       // 时序
       if (type === "SequentialMultiInstance") {
-        this.multiLoopInstance = window.bpmnInstances.moddle.create("bpmn:MultiInstanceLoopCharacteristics", { isSequential: true });
+        this.multiLoopInstance = window.bpmnInstances.moddle.create("bpmn:MultiInstanceLoopCharacteristics", {
+          isSequential: true
+        });
       } else {
         this.multiLoopInstance = window.bpmnInstances.moddle.create("bpmn:MultiInstanceLoopCharacteristics");
       }
@@ -143,7 +156,9 @@ export default {
       if (cardinality && cardinality.length) {
         loopCardinality = window.bpmnInstances.moddle.create("bpmn:FormalExpression", { body: cardinality });
       }
-      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.multiLoopInstance, { loopCardinality });
+      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.multiLoopInstance, {
+        loopCardinality
+      });
     },
     // 完成条件
     updateLoopCondition(condition) {
@@ -151,7 +166,9 @@ export default {
       if (condition && condition.length) {
         completionCondition = window.bpmnInstances.moddle.create("bpmn:FormalExpression", { body: condition });
       }
-      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.multiLoopInstance, { completionCondition });
+      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.multiLoopInstance, {
+        completionCondition
+      });
     },
     // 重试周期
     updateLoopTimeCycle(timeCycle) {
@@ -162,7 +179,9 @@ export default {
           })
         ]
       });
-      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.multiLoopInstance, { extensionElements });
+      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.multiLoopInstance, {
+        extensionElements
+      });
     },
     // 直接更新的基础信息
     updateLoopBase() {

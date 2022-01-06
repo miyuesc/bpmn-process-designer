@@ -6,12 +6,22 @@
       </el-select>
     </el-form-item>
     <el-form-item label="候选用户">
-      <el-select v-model="userTaskForm.candidateUsers" multiple collapse-tags @change="updateElementTask('candidateUsers')">
+      <el-select
+        v-model="userTaskForm.candidateUsers"
+        multiple
+        collapse-tags
+        @change="updateElementTask('candidateUsers')"
+      >
         <el-option v-for="uk in mockData" :key="'user-' + uk" :label="`用户${uk}`" :value="`user${uk}`" />
       </el-select>
     </el-form-item>
     <el-form-item label="候选分组">
-      <el-select v-model="userTaskForm.candidateGroups" multiple collapse-tags @change="updateElementTask('candidateGroups')">
+      <el-select
+        v-model="userTaskForm.candidateGroups"
+        multiple
+        collapse-tags
+        @change="updateElementTask('candidateGroups')"
+      >
         <el-option v-for="gk in mockData" :key="'ass-' + gk" :label="`分组${gk}`" :value="`group${gk}`" />
       </el-select>
     </el-form-item>
