@@ -114,6 +114,10 @@ export default {
     processId: String,
     processName: String,
     translations: Object, // 自定义的翻译文件
+    options: {
+      type: Object,
+      default: () => ({})
+    }, // 自定义的翻译文件
     additionalModel: [Object, Array], // 自定义model
     moddleExtension: Object, // 自定义moddle
     onlyCustomizeAddi: {
@@ -251,7 +255,8 @@ export default {
         container: this.$refs["bpmn-canvas"],
         keyboard: this.keyboard ? { bindTo: document } : null,
         additionalModules: this.additionalModules,
-        moddleExtensions: this.moddleExtensions
+        moddleExtensions: this.moddleExtensions,
+        ...this.options
       });
       this.$emit("init-finished", this.bpmnModeler);
       this.initModelListeners();

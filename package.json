@@ -20,6 +20,7 @@
     "build": "vue-cli-service build --report"
   },
   "dependencies": {
+    "bpmn-js-task-resize": "^1.2.0",
     "bpmn-js-token-simulation": "^0.10.0",
     "core-js": "^3.8.1",
     "highlight.js": "^10.5.0",
