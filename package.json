@@ -20,9 +20,11 @@
     "build": "vue-cli-service build --report"
   },
   "dependencies": {
+    "bpmn-js-sketchy": "^0.5.3",
     "bpmn-js-task-resize": "^1.2.0",
     "bpmn-js-token-simulation": "^0.10.0",
     "core-js": "^3.8.1",
+    "diagram-js-minimap": "^2.0.4",
     "highlight.js": "^10.5.0",
     "min-dash": "^3.5.2",
     "vue": "^2.6.11",

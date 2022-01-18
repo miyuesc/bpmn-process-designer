@@ -18,27 +18,27 @@
 
     <!-- demo config -->
     <div class="demo-control-bar">
-      <div class="open-control-dialog" @click="controlDrawerVisible = true"><i class="el-icon-setting"></i></div>
+      <div class="open-model-button" @click="controlDrawerVisible = true"><i class="el-icon-setting"></i></div>
     </div>
     <el-drawer :visible.sync="controlDrawerVisible" size="400px" title="偏好设置" append-to-body destroy-on-close>
       <el-form :model="controlForm" size="small" label-width="100px" class="control-form" @submit.native.prevent>
         <el-form-item label="流程ID">
-          <el-input v-model="controlForm.processId" @change="reloadProcessDesigner" />
+          <el-input v-model="controlForm.processId" @change="reloadProcessDesigner(true)" />
         </el-form-item>
         <el-form-item label="流程名称">
-          <el-input v-model="controlForm.processName" @change="reloadProcessDesigner" />
+          <el-input v-model="controlForm.processName" @change="reloadProcessDesigner(true)" />
         </el-form-item>
         <el-form-item label="流转模拟">
-          <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner" />
+          <el-switch v-model="controlForm.simulation" inactive-text="停用" active-text="启用" @change="reloadProcessDesigner()" />
         </el-form-item>
         <el-form-item label="禁用双击">
           <el-switch v-model="controlForm.labelEditing" inactive-text="停用" active-text="启用" @change="changeLabelEditingStatus" />
         </el-form-item>
-        <el-form-item label="隐藏label">
+        <el-form-item label="自定义渲染">
           <el-switch v-model="controlForm.labelVisible" inactive-text="停用" active-text="启用" @change="changeLabelVisibleStatus" />
         </el-form-item>
         <el-form-item label="流程引擎">
-          <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner(true)">
+          <el-radio-group v-model="controlForm.prefix" @change="reloadProcessDesigner()">
             <el-radio label="camunda">camunda</el-radio>
             <el-radio label="flowable">flowable</el-radio>
             <el-radio label="activiti">activiti</el-radio>
@@ -54,17 +54,22 @@
       </el-form>
     </el-drawer>
 
-    <div class="info-tip">
-      <p><strong>该项目仅作为Bpmn.js的简单演示项目，不涉及过多的自定义Render内容。</strong></p>
-      <p>注：activiti 好像不支持表单配置，控制台可能会报错</p>
-      <p>
-        <span>更多配置请查看源码：</span>
-        <a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a>
-      </p>
-      <p>
-        <span>疑问请在此留言：</span>
-        <a href="https://github.com/miyuesc/bpmn-process-designer/issues/16">MiyueSC/bpmn-process-designer/issues</a>
-      </p>
+    <div class="demo-info-bar">
+      <div class="open-model-button" @click="infoTipVisible = !infoTipVisible"><i class="el-icon-info"></i></div>
+      <transition name="zoom-in-right">
+        <div class="info-tip" v-show="infoTipVisible">
+          <p><strong>该项目仅作为Bpmn.js的简单演示项目，不涉及过多的自定义Render内容。</strong></p>
+          <p>注：activiti 好像不支持表单配置，控制台可能会报错</p>
+          <p>
+            <span>更多配置请查看源码：</span>
+            <a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a>
+          </p>
+          <p>
+            <span>疑问请在此留言：</span>
+            <a href="https://github.com/miyuesc/bpmn-process-designer/issues/16">MiyueSC/bpmn-process-designer/issues</a>
+          </p>
+        </div>
+      </transition>
     </div>
   </div>
 </template>
@@ -80,15 +85,26 @@ import CustomPaletteProvider from "../package/designer/plugins/palette";
 import Log from "../package/Log";
 // 任务resize
 import resizeTask from "bpmn-js-task-resize/lib";
+// bpmn theme plugin
+import sketchyRendererModule from "bpmn-js-sketchy";
+// 小地图
+import minimapModule from "diagram-js-minimap";
+
+// clickoutside
+import clickoutside from "element-ui/lib/utils/clickoutside";
 
 export default {
   name: "App",
+  directives: {
+    clickoutside: clickoutside
+  },
   data() {
     return {
       xmlString: "",
       modeler: null,
       reloadIndex: 0,
       controlDrawerVisible: false,
+      infoTipVisible: false,
       translationsSelf: translations,
       controlForm: {
         processId: "",
@@ -99,7 +115,7 @@ export default {
         prefix: "flowable",
         headerButtonSize: "mini",
         // additionalModel: []
-        additionalModel: [CustomContentPadProvider, CustomPaletteProvider, resizeTask]
+        additionalModel: [CustomContentPadProvider, CustomPaletteProvider, minimapModule]
       },
       addis: {
         CustomContentPadProvider,
@@ -118,14 +134,14 @@ export default {
         Log.prettyPrimary("Process Name:", rootElement.businessObject.name);
       }, 10);
     },
-    reloadProcessDesigner(deep) {
+    reloadProcessDesigner(notDeep) {
       this.controlForm.additionalModel = [];
       for (let key in this.addis) {
         if (this.addis[key]) {
           this.controlForm.additionalModel.push(this.addis[key]);
         }
       }
-      deep && (this.xmlString = undefined);
+      !notDeep && (this.xmlString = undefined);
       this.reloadIndex += 1;
       this.modeler = null; // 避免 panel 异常
     },
@@ -138,6 +154,7 @@ export default {
       this.reloadProcessDesigner();
     },
     elementClick(element) {
+      console.log(element);
       this.element = element;
     }
   }
@@ -157,30 +174,75 @@ body {
   display: inline-grid;
   grid-template-columns: 100px auto max-content;
 }
+.demo-info-bar {
+  position: fixed;
+  right: 8px;
+  bottom: 108px;
+  z-index: 1;
+}
 .demo-control-bar {
   position: fixed;
   right: 8px;
-  bottom: 8px;
+  bottom: 48px;
   z-index: 1;
-  .open-control-dialog {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-    font-size: 32px;
-    background: rgba(64, 158, 255, 1);
-    color: #ffffff;
-    cursor: pointer;
-  }
+}
+.open-model-button {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 32px;
+  background: rgba(64, 158, 255, 1);
+  color: #ffffff;
+  cursor: pointer;
+}
+.zoom-in-right-enter-active,
+.zoom-in-right-leave-active {
+  opacity: 1;
+  transform: scaleY(1) translateY(-48px);
+  transition: all 300ms cubic-bezier(0.23, 1, 0.32, 1);
+  transform-origin: right center;
+}
+.zoom-in-right-enter,
+.zoom-in-right-leave-active {
+  opacity: 0;
+  transform: scaleX(0) translateY(-48px);
 }
 .info-tip {
-  position: fixed;
-  top: 40px;
-  right: 500px;
+  position: absolute;
+  width: 480px;
+  top: 0;
+  right: 64px;
   z-index: 10;
-  color: #999999;
+  box-sizing: border-box;
+  padding: 0 16px;
+  color: #333333;
+  background: #f2f6fc;
+  transform: translateY(-48px);
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  &::before,
+  &::after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-width: 8px;
+    border-style: solid;
+    position: absolute;
+    right: -15px;
+    top: 50%;
+  }
+  &::before {
+    border-color: transparent transparent transparent #f2f6fc;
+    z-index: 10;
+  }
+  &::after {
+    right: -16px;
+    border-color: transparent transparent transparent #ebeef5;
+    z-index: 1;
+  }
 }
 .control-form {
   .el-radio {
