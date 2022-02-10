@@ -16,11 +16,12 @@
 
 ### 友情链接
 
-1. [Bpmn.js 中文文档和json描述文件说明](https://juejin.cn/column/6964382482007490590)
-2. yiuman： 低代码平台[citrus](https://github.com/Yiuman/citrus)，已集成 activiti7 工作流引擎后端部分
+1. Me: [Bpmn.js 中文文档、json描述文件说明等](https://juejin.cn/column/6964382482007490590)
+2. Yiuman: 低代码平台 [citrus](https://github.com/Yiuman/citrus) ，已集成 activiti7 工作流引擎后端部分
 3. [霖呆呆（掘金五级大佬）](https://juejin.cn/user/360295513463912): [《全网最详bpmn.js教材目录》](https://juejin.cn/post/6844904017567416328)，[关于bpmn.js交流群的说明](https://juejin.cn/post/6844904041026158599)
-4. PL-FE：[Bpmn Document](https://github.com/PL-FE/bpmn-doc)
-5. 运维咖啡吧 [《BPMN系列原创文章》](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU5MDY1MzcyOQ==&action=getalbum&album_id=1576254888626454529&scene=173&from_msgid=2247484449&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
+4. PL-FE: [Bpmn Document](https://github.com/PL-FE/bpmn-doc)
+5. 芋道源码: [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro) ,一套全部开源的企业级的快速开发平台，毫无保留给个人及企业免费使用。
+6. 运维咖啡吧: [《BPMN系列原创文章》](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU5MDY1MzcyOQ==&action=getalbum&album_id=1576254888626454529&scene=173&from_msgid=2247484449&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
 
 
 ## 1. 安装依赖 Installation
@@ -153,10 +154,11 @@ npm run demo
 
 ## 友情赞助
 
-偷偷丢个赞赏码吧~~~~
+生活不易，偷偷丢个赞赏码吧😊😊😊~~~~
 
 <img alt="微信" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg" width="400"/>
 <img alt="支付宝" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg" width="400"/>
+
 
 ## 学习交流
 
