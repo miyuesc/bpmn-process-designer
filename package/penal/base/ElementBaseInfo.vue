@@ -21,6 +21,9 @@
           <el-switch v-model="elementBaseInfo.isExecutable" active-text="是" inactive-text="否" @change="updateBaseInfo('isExecutable')" />
         </el-form-item>
       </template>
+      <el-form-item v-if="elementBaseInfo.$type === 'bpmn:SubProcess'" label="状态">
+        <el-switch v-model="elementBaseInfo.isExpanded" active-text="展开" inactive-text="折叠" @change="updateBaseInfo('isExpanded')" />
+      </el-form-item>
     </el-form>
   </div>
 </template>
@@ -52,20 +55,27 @@ export default {
   },
   methods: {
     resetBaseInfo() {
-      this.bpmnElement = window?.bpmnInstances?.bpmnElement;
+      this.bpmnElement = window?.bpmnInstances?.bpmnElement || {};
       this.elementBaseInfo = JSON.parse(JSON.stringify(this.bpmnElement.businessObject));
+      if (this.elementBaseInfo && this.elementBaseInfo.$type === "bpmn:SubProcess") {
+        this.$set(this.elementBaseInfo, "isExpanded", this.elementBaseInfo.di?.isExpanded);
+      }
     },
     updateBaseInfo(key) {
-      const attrObj = Object.create(null);
-      attrObj[key] = this.elementBaseInfo[key];
       if (key === "id") {
         window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
           id: this.elementBaseInfo[key],
           di: { id: `${this.elementBaseInfo[key]}_di` }
         });
-      } else {
-        window.bpmnInstances.modeling.updateProperties(this.bpmnElement, attrObj);
+        return;
       }
+      if (key === "isExpanded") {
+        window?.bpmnInstances?.modeling.toggleCollapse(this.bpmnElement);
+        return;
+      }
+      const attrObj = Object.create(null);
+      attrObj[key] = this.elementBaseInfo[key];
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, attrObj);
     }
   },
   beforeDestroy() {
