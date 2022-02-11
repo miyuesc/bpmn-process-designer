@@ -194,11 +194,11 @@ export default {
   },
   methods: {
     resetFormList() {
-      this.bpmnELement = window.bpmnInstances.bpmnElement;
-      this.formKey = this.bpmnELement.businessObject.formKey;
+      this.bpmnElement = window.bpmnInstances.bpmnElement;
+      this.formKey = this.bpmnElement.businessObject.formKey;
       // 获取元素扩展属性 或者 创建扩展属性
       this.elExtensionElements =
-        this.bpmnELement.businessObject.get("extensionElements") || window.bpmnInstances.moddle.create("bpmn:ExtensionElements", { values: [] });
+        this.bpmnElement.businessObject.get("extensionElements") || window.bpmnInstances.moddle.create("bpmn:ExtensionElements", { values: [] });
       // 获取元素表单配置 或者 创建新的表单配置
       this.formData =
         this.elExtensionElements.values.filter(ex => ex.$type === `${this.prefix}:FormData`)?.[0] ||
@@ -217,10 +217,10 @@ export default {
       this.updateElementExtensions();
     },
     updateElementFormKey() {
-      window.bpmnInstances.modeling.updateProperties(this.bpmnELement, { formKey: this.formKey });
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, { formKey: this.formKey });
     },
     updateElementBusinessKey() {
-      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnELement, this.formData, {
+      window.bpmnInstances.modeling.updateModdleProperties(this.bpmnElement, this.formData, {
         businessKey: this.businessKey
       });
     },
@@ -358,7 +358,7 @@ export default {
         values: this.otherExtensions.concat(this.formData)
       });
       // 更新到元素上
-      window.bpmnInstances.modeling.updateProperties(this.bpmnELement, {
+      window.bpmnInstances.modeling.updateProperties(this.bpmnElement, {
         extensionElements: newElExtensionElements
       });
     }
