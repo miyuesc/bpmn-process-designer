@@ -12,6 +12,7 @@
       keyboard
       ref="processDesigner"
       @element-click="elementClick"
+      @element-contextmenu="elementContextmenu"
       @init-finished="initModeler"
     />
     <my-properties-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
@@ -51,6 +52,7 @@
             <el-radio label="medium">medium</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-switch v-model="pageMode" active-text="dark" inactive-text="light" @change="changePageMode"></el-switch>
       </el-form>
     </el-drawer>
 
@@ -105,6 +107,7 @@ export default {
       reloadIndex: 0,
       controlDrawerVisible: false,
       infoTipVisible: false,
+      pageMode: false,
       translationsSelf: translations,
       controlForm: {
         processId: "",
@@ -114,6 +117,7 @@ export default {
         labelVisible: false,
         prefix: "flowable",
         headerButtonSize: "mini",
+        events: ["element.click", "element.contextmenu"],
         // additionalModel: []
         additionalModel: [CustomContentPadProvider, CustomPaletteProvider, minimapModule]
       },
@@ -156,6 +160,24 @@ export default {
     elementClick(element) {
       console.log(element);
       this.element = element;
+    },
+    elementContextmenu(element) {
+      console.log("elementContextmenu:", element);
+    },
+    changePageMode(mode) {
+      const theme = mode
+        ? {
+            // dark
+            stroke: "#ffffff",
+            fill: "#333333"
+          }
+        : {
+            // light
+            stroke: "#000000",
+            fill: "#ffffff"
+          };
+      const elements = this.modeler.get("elementRegistry").getAll();
+      this.modeler.get("modeling").setColor(elements, theme);
     }
   }
 };
