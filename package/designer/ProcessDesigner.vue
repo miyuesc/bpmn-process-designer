@@ -309,6 +309,10 @@ export default {
     },
 
     // 下载流程图到本地
+    /**
+     * @param {string} type
+     * @param {*} name
+     */
     async downloadProcess(type, name) {
       try {
         const _this = this;
