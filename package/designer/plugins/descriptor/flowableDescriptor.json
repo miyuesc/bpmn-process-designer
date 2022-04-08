@@ -760,7 +760,8 @@
         "allowedIn": [
           "flowable:ServiceTaskLike",
           "flowable:ExecutionListener",
-          "flowable:TaskListener"
+          "flowable:TaskListener",
+          "bpmn:ServiceTask"
         ]
       },
       "properties": [
@@ -781,6 +782,10 @@
         {
           "name": "string",
           "type": "String"
+        },
+        {
+          "name": "htmlVar",
+          "type": "Expression"
         }
       ]
     },
