@@ -13,6 +13,8 @@
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
+> Vue 3 + Vite + Typescript 简易项目，请访问 [vite-vue-bpmn-process](https://github.com/miyuesc/vite-vue-bpmn-process)
+
 
 ### 友情链接
 
@@ -154,7 +156,7 @@ npm run demo
 
 ## 友情赞助
 
-生活不易，偷偷丢个赞赏码吧😊😊😊~~~~
+生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
 
 <img alt="微信" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg" width="400"/>
 <img alt="支付宝" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg" width="400"/>
