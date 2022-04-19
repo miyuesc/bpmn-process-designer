@@ -2,12 +2,7 @@
   <div class="panel-tab__content">
     <el-form size="mini" label-width="90px" @submit.native.prevent>
       <el-form-item label="ID">
-        <el-input
-          v-model="elementBaseInfo.id"
-          :disabled="idEditDisabled || elementBaseInfo.$type === 'bpmn:Process'"
-          clearable
-          @change="updateBaseInfo('id')"
-        />
+        <el-input v-model="elementBaseInfo.id" :disabled="idEditDisabled" clearable @change="updateBaseInfo('id')" />
       </el-form-item>
       <el-form-item label="名称">
         <el-input v-model="elementBaseInfo.name" clearable @change="updateBaseInfo('name')" />
