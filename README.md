@@ -13,7 +13,7 @@
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
-<h2>🔶🔶🔶Vue 3 + Vite + Typescript 简易项目，请访问 <a href="https://github.com/miyuesc/vite-vue-bpmn-process">vite-vue-bpmn-process</a></h3>
+<h2>🔶🔶🔶Vue 3 + Vite + Typescript 简易项目, 包含 Bpmn.js 类型声明, 请访问 <a href="https://github.com/miyuesc/vite-vue-bpmn-process">vite-vue-bpmn-process</a></h3>
 
 
 ### 友情链接
