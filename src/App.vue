@@ -67,6 +67,10 @@
             <a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a>
           </p>
           <p>
+            <span>bpmn 官方图标：</span>
+            <a href="https://cdn.staticaly.com/gh/bpmn-io/bpmn-font/master/dist/demo.html">bpmn-io/bpmn-font</a>
+          </p>
+          <p>
             <span>疑问请在此留言：</span>
             <a href="https://github.com/miyuesc/bpmn-process-designer/issues/16">MiyueSC/bpmn-process-designer/issues</a>
           </p>
