@@ -13,8 +13,6 @@
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
-<h2>🔶🔶🔶Vue 3 + Vite + Typescript 简易项目, 包含 Bpmn.js 类型声明, 请访问 <a href="https://github.com/miyuesc/vite-vue-bpmn-process">vite-vue-bpmn-process</a></h3>
-
 
 ### 友情链接
 
@@ -24,6 +22,15 @@
 4. PL-FE: [Bpmn Document](https://github.com/PL-FE/bpmn-doc)
 5. 芋道源码: [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro) ,一套全部开源的企业级的快速开发平台，毫无保留给个人及企业免费使用。
 6. 运维咖啡吧: [《BPMN系列原创文章》](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU5MDY1MzcyOQ==&action=getalbum&album_id=1576254888626454529&scene=173&from_msgid=2247484449&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
+
+
+## 友情赞助
+
+生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
+
+<img alt="微信" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg" height="200"/>
+<img alt="支付宝" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg" height="200"/>
+
 
 
 ## 1. 安装依赖 Installation
@@ -151,15 +158,6 @@ npm run demo
 ### 5.9 预览
 
 ![image-20210422140939414](screenshot/image-20210422140939414.png)
-
-
-
-## 友情赞助
-
-生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
-
-<img alt="微信" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg" width="400"/>
-<img alt="支付宝" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg" width="400"/>
 
 
 ## 学习交流

@@ -5,7 +5,10 @@
       :key="`designer-${reloadIndex}`"
       :options="{
         taskResizingEnabled: true,
-        eventResizingEnabled: true
+        eventResizingEnabled: true,
+        minimap: {
+          open: true
+        }
       }"
       v-model="xmlString"
       v-bind="controlForm"
