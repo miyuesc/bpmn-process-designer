@@ -29,7 +29,7 @@
 生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
 
 <img alt="微信" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg" height="200"/>
-<img alt="支付宝" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/8236f07c5d73175acbed49937020ed05127d0de9.jpg" height="200"/>
+<img alt="支付宝" src="https://s3.bmp.ovh/imgs/2022/05/10/bffc46e12619dc50.png" height="200"/>
 
 
 
