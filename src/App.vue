@@ -99,6 +99,8 @@ import sketchyRendererModule from "bpmn-js-sketchy";
 // 小地图
 import minimapModule from "diagram-js-minimap";
 
+import UserSql from "./modules/extension/user.json";
+
 // clickoutside
 import clickoutside from "element-ui/lib/utils/clickoutside";
 
@@ -126,7 +128,8 @@ export default {
         headerButtonSize: "mini",
         events: ["element.click", "element.contextmenu"],
         // additionalModel: []
-        additionalModel: [CustomContentPadProvider, CustomPaletteProvider, minimapModule]
+        moddleExtension: { user: UserSql },
+        additionalModel: [CustomContentPadProvider, CustomPaletteProvider, minimapModule, CustomRenderer]
       },
       addis: {
         CustomContentPadProvider,
@@ -140,6 +143,7 @@ export default {
       setTimeout(() => {
         this.modeler = modeler;
         const canvas = modeler.get("canvas");
+
         const rootElement = canvas.getRootElement();
         Log.prettyPrimary("Process Id:", rootElement.id);
         Log.prettyPrimary("Process Name:", rootElement.businessObject.name);

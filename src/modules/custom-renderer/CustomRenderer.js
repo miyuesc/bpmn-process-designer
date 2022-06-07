@@ -1,17 +1,23 @@
 import BpmnRenderer from "bpmn-js/lib/draw/BpmnRenderer";
 
-export default function CustomRenderer(eventBus, styles, pathMap, canvas, textRenderer) {
-  const config = {
-    defaultFillColor: "",
-    defaultStrokeColor: "#8b238f",
-    defaultLabelColor: "#2dd257"
-  };
-  BpmnRenderer.call(this, config, eventBus, styles, pathMap, canvas, textRenderer, 2000);
+import { append as svgAppend, create as svgCreate } from "tiny-svg";
+
+export default class CustomRenderer extends BpmnRenderer {
+  constructor(config, eventBus, styles, pathMap, canvas, textRenderer) {
+    super(config, eventBus, styles, pathMap, canvas, textRenderer, 2000);
+
+    this.handlers["user:MySql"] = function(parentGfx, element) {
+      const url = "https://hexo-blog-1256114407.cos.ap-shenzhen-fsi.myqcloud.com/rules.png",
+        attr = { x: 0, y: 0, width: 48, height: 48 };
+      const customIcon = svgCreate("image", {
+        // 在这里创建了一个image
+        ...attr,
+        href: url
+      });
+      element["width"] = attr.width; // 这里我是取了巧, 直接修改了元素的宽高
+      element["height"] = attr.height;
+      svgAppend(parentGfx, customIcon);
+      return customIcon;
+    };
+  }
 }
-
-CustomRenderer.$inject = ["eventBus", "styles", "pathMap", "canvas", "textRenderer"];
-
-const F = function() {}; // 核心，利用空对象作为中介；
-F.prototype = BpmnRenderer.prototype; // 核心，将父类的原型赋值给空对象F；
-CustomRenderer.prototype = new F(); // 核心，将 F的实例赋值给子类；
-CustomRenderer.prototype.constructor = CustomRenderer; // 修复子类CustomRenderer的构造器指向，防止原型链的混乱；
