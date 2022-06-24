@@ -17,7 +17,8 @@
       @element-click="elementClick"
       @element-contextmenu="elementContextmenu"
       @init-finished="initModeler"
-    />
+    >
+    </my-process-designer>
     <my-properties-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
 
     <!-- demo config -->
@@ -189,6 +190,11 @@ export default {
           };
       const elements = this.modeler.get("elementRegistry").getAll();
       this.modeler.get("modeling").setColor(elements, theme);
+    },
+    toggle() {
+      console.log(this.modeler);
+      console.log(this.modeler.get("toggleMode"));
+      this.modeler.get("toggleMode").toggleMode();
     }
   }
 };
