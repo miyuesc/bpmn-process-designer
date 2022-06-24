@@ -13,9 +13,11 @@
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
 
-**Vite + Vue 3 + pinia + naiveUI 新项目，取消了window命名空间保存bpmn实例的方式，并进行了大部分显示自定义功能，完成了 bpmn.js 基本依赖的 typescript 类型声明。**
-
-**体验请访问：[vite-vue-bpmn-process](https://miyuesc.github.io/vite-vue-bpmn-process/)**
+> **Vite + Vue 3 + pinia + naiveUI 新项目，取消了window命名空间保存bpmn实例的方式，并进行了大部分显示自定义功能，完成了 bpmn.js 基本依赖的 typescript 类型声明。**
+>
+> **体验请访问：[vite-vue-bpmn-process](https://miyuesc.github.io/vite-vue-bpmn-process/)**
+>
+> **国内同步体验地址：[vite-vue-bpmn-process](https://miyuesc.gitee.io/vite-vue-bpmn-process/)**
 
 
 ### 友情链接
@@ -32,8 +34,10 @@
 
 生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
 
+<p>
 <img alt="微信" src="/public/wechat.jpg" width="240" style="display: inline-block"/>
 <img alt="支付宝" src="/public/alipay.png" width="240" style="display: inline-block"/>
+</p>
 
 
 
