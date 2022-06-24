@@ -1,9 +1,26 @@
-# Bpmn Process Designer
+<p align="center">
+  <a href="https://github.com/miyuesc/bpmn-process-designer">
+   <img alt="logo" src="./public/icon-process.png" />
+  </a>
+</p>
 
-<a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a><a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a>
+<h1 align="center">Bpmn Process Designer</h1>
 
-<a href='https://gitee.com/miyuesc/bpmn-process-designer' target="__blank"><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' /></a><a href='https://gitee.com/miyuesc/bpmn-process-designer' target="__blank"><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' /></a>
+<p align="center">
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/miyuesc/bpmn-process-designer?style=flat&logo=github" />
+<img alt="GitHub stars" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" />
+<img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' />
+<img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' />
+</p>
 
+<p align="center">
+<img src="https://img.shields.io/badge/Vue-2.x-brightgreen" alt="" />
+<img src="https://img.shields.io/badge/ElementUI-%5E2.13-orange" alt="" />
+<img src="https://img.shields.io/badge/Bpmn.js-8.8.3-orange" alt="" />
+</p>
+
+
+### 项目简介
 
 一个基于 `bpmn.js`，`Vue 2.x` 和 `ElementUI` 开发的流程设计器。
 
@@ -37,8 +54,8 @@
 生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
 
 <p>
-<img alt="微信" src="/public/wechat.jpg" width="240" style="display: inline-block"/>
-<img alt="支付宝" src="/public/alipay.png" width="240" style="display: inline-block"/>
+<img alt="微信" src="./public/wechat.jpg" width="240" style="display: inline-block"/>
+<img alt="支付宝" src="./public/alipay.png" width="240" style="display: inline-block"/>
 </p>
 
 
