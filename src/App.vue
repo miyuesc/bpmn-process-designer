@@ -104,6 +104,7 @@ import UserSql from "./modules/extension/user.json";
 
 // clickoutside
 import clickoutside from "element-ui/lib/utils/clickoutside";
+import RewriteAutoPlace from "./modules/auto-place/rewriteAutoPlace";
 
 export default {
   name: "App",
@@ -130,7 +131,15 @@ export default {
         events: ["element.click", "element.contextmenu"],
         // additionalModel: []
         moddleExtension: { user: UserSql },
-        additionalModel: [CustomContentPadProvider, CustomPaletteProvider, minimapModule, CustomRenderer]
+        additionalModel: [
+          CustomContentPadProvider,
+          CustomPaletteProvider,
+          minimapModule,
+          {
+            __init__: ["autoPlaceSelectionBehavior"],
+            autoPlace: ["type", RewriteAutoPlace]
+          }
+        ]
       },
       addis: {
         CustomContentPadProvider,
