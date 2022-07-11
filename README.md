@@ -37,6 +37,8 @@
 > **体验请访问：[vite-vue-bpmn-process](https://miyuesc.github.io/vite-vue-bpmn-process/)**
 >
 > **国内同步体验地址：[vite-vue-bpmn-process](https://miyuesc.gitee.io/vite-vue-bpmn-process/)**
+> 
+> 付费咨询请加微信（毕竟生活太累了😩😩😩）
 
 
 ### 友情链接

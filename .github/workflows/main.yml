@@ -32,7 +32,7 @@ jobs:
       # 执行npm脚本打包项目
       - name: Install and Build
         run: |
-          npm install
+          yarn install
           npm run build
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@3.7.1
