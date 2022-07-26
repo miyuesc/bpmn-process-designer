@@ -62,7 +62,9 @@
 <img alt="支付宝" src="./public/alipay.png" width="240" style="display: inline-block"/>
 </p>
 
-
+> 付费咨询联系微信：
+>
+> <img alt="wechat.png" src="public/wechat.png" width="200"/>
 
 ## 1. 安装依赖 Installation
 
