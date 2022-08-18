@@ -1,9 +1,26 @@
-# Bpmn Process Designer
+<p align="center">
+  <a href="https://github.com/miyuesc/bpmn-process-designer">
+   <img alt="logo" src="./public/icon-process.png" />
+  </a>
+</p>
 
-<a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a><a href="https://github.com/miyuesc/bpmn-process-designer" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" /></a>
+<h1 align="center">Bpmn Process Designer</h1>
 
-<a href='https://gitee.com/miyuesc/bpmn-process-designer' target="__blank"><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' /></a><a href='https://gitee.com/miyuesc/bpmn-process-designer' target="__blank"><img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' /></a>
+<p align="center">
+<img alt="GitHub stars" src="https://img.shields.io/github/stars/miyuesc/bpmn-process-designer?style=flat&logo=github" />
+<img alt="GitHub stars" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" />
+<img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' />
+<img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' />
+</p>
 
+<p align="center">
+<img src="https://img.shields.io/badge/Vue-2.x-brightgreen" alt="" />
+<img src="https://img.shields.io/badge/ElementUI-%5E2.13-orange" alt="" />
+<img src="https://img.shields.io/badge/Bpmn.js-8.8.3-orange" alt="" />
+</p>
+
+
+### 项目简介
 
 一个基于 `bpmn.js`，`Vue 2.x` 和 `ElementUI` 开发的流程设计器。
 
@@ -12,6 +29,18 @@
 在线demo请访问 [MiyueFE Blog](https://miyuesc.github.io/process-designer/)
 
 码云同步镜像请访问 [Gitee/MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/)
+
+> 🚀🚀🚀
+> 
+> **Vite + Vue 3 + pinia + naiveUI 新项目，取消了window命名空间保存bpmn实例的方式，并进行了大部分显示自定义功能，完成了 bpmn.js 基本依赖的 typescript 类型声明。**
+>
+> **体验请访问：[vite-vue-bpmn-process](https://miyuesc.github.io/vite-vue-bpmn-process/)**
+>
+> **国内同步体验地址：[vite-vue-bpmn-process](https://miyuesc.gitee.io/vite-vue-bpmn-process/)**
+> 
+> 付费咨询请加微信（毕竟生活太累了😩😩😩）
+> 
+> 源码地址：[vite-vue-bpmn-process](https://github.com/moon-studio/vite-vue-bpmn-process)
 
 
 ### 友情链接
@@ -28,10 +57,14 @@
 
 生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
 
-<img alt="微信" src="https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fcf8ffa7f5a1dad34c3c9066e6b0f1d2a181c981.jpg" height="200"/>
-<img alt="支付宝" src="https://s3.bmp.ovh/imgs/2022/05/10/bffc46e12619dc50.png" height="200"/>
+<p>
+<img alt="微信" src="./public/wechat.jpg" width="240" style="display: inline-block"/>
+<img alt="支付宝" src="./public/alipay.png" width="240" style="display: inline-block"/>
+</p>
 
-
+> 付费咨询联系微信：
+>
+> <img alt="wechat.png" src="public/wechat.png" width="200"/>
 
 ## 1. 安装依赖 Installation
 

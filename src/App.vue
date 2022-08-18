@@ -17,7 +17,8 @@
       @element-click="elementClick"
       @element-contextmenu="elementContextmenu"
       @init-finished="initModeler"
-    />
+    >
+    </my-process-designer>
     <my-properties-panel :key="`penal-${reloadIndex}`" :bpmn-modeler="modeler" :prefix="controlForm.prefix" class="process-panel" />
 
     <!-- demo config -->
@@ -65,6 +66,7 @@
         <div class="info-tip" v-show="infoTipVisible">
           <p><strong>该项目仅作为Bpmn.js的简单演示项目，不涉及过多的自定义Render内容。</strong></p>
           <p>注：activiti 好像不支持表单配置，控制台可能会报错</p>
+          <p>付费咨询请加微信（毕竟生活太累了😩😩😩）</p>
           <p>
             <span>更多配置请查看源码：</span>
             <a href="https://github.com/miyuesc/bpmn-process-designer">MiyueSC/bpmn-process-designer</a>
@@ -99,8 +101,11 @@ import sketchyRendererModule from "bpmn-js-sketchy";
 // 小地图
 import minimapModule from "diagram-js-minimap";
 
+import UserSql from "./modules/extension/user.json";
+
 // clickoutside
 import clickoutside from "element-ui/lib/utils/clickoutside";
+import RewriteAutoPlace from "./modules/auto-place/rewriteAutoPlace";
 
 export default {
   name: "App",
@@ -126,7 +131,16 @@ export default {
         headerButtonSize: "mini",
         events: ["element.click", "element.contextmenu"],
         // additionalModel: []
-        additionalModel: [CustomContentPadProvider, CustomPaletteProvider, minimapModule]
+        moddleExtension: { user: UserSql },
+        additionalModel: [
+          CustomContentPadProvider,
+          CustomPaletteProvider,
+          minimapModule,
+          {
+            __init__: ["autoPlaceSelectionBehavior"],
+            autoPlace: ["type", RewriteAutoPlace]
+          }
+        ]
       },
       addis: {
         CustomContentPadProvider,
@@ -140,6 +154,7 @@ export default {
       setTimeout(() => {
         this.modeler = modeler;
         const canvas = modeler.get("canvas");
+
         const rootElement = canvas.getRootElement();
         Log.prettyPrimary("Process Id:", rootElement.id);
         Log.prettyPrimary("Process Name:", rootElement.businessObject.name);
@@ -185,6 +200,11 @@ export default {
           };
       const elements = this.modeler.get("elementRegistry").getAll();
       this.modeler.get("modeling").setColor(elements, theme);
+    },
+    toggle() {
+      console.log(this.modeler);
+      console.log(this.modeler.get("toggleMode"));
+      this.modeler.get("toggleMode").toggleMode();
     }
   }
 };

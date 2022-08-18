@@ -1,0 +1,32 @@
+{
+  "name": "UserSql",
+  "uri": "http://user.org/schema/1.0/bpmn",
+  "prefix": "user",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "associations": [],
+  "types": [
+    {
+      "name": "MySql",
+      "superClass": ["bpmn:Task"],
+      "properties": [
+        {
+          "name": "address",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "username",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "password",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    }
+  ]
+}
