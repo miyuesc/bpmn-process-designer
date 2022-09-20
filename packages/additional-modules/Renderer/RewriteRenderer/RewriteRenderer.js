@@ -31,6 +31,8 @@ import { is } from "bpmn-js/lib/util/ModelUtil";
 import { getLabel } from "bpmn-js/lib/features/label-editing/LabelUtil";
 import { isEventSubProcess, isExpanded } from "bpmn-js/lib/util/DiUtil";
 
+import mysqlIcon from "@packages/theme/process-icons/mysql.png";
+
 const RENDERER_IDS = new Ids();
 const TASK_BORDER_RADIUS = 10;
 const INNER_OUTER_DIST = 3;
@@ -1921,7 +1923,7 @@ class RewriteRenderer extends BaseRenderer {
           ...(attr || {}),
           width: element.width,
           height: element.height,
-          href: "./icons/mysql.png"
+          href: mysqlIcon
         });
         svgAppend(parentGfx, customIcon);
         return customIcon;
