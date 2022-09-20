@@ -58,8 +58,8 @@
 生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
 
 <p>
-<img alt="微信" src="./public/wechat.jpg" width="240" style="display: inline-block"/>
-<img alt="支付宝" src="./public/alipay.png" width="240" style="display: inline-block"/>
+<img alt="微信" src="packages/theme/images/wechat.jpg" width="240" style="display: inline-block"/>
+<img alt="支付宝" src="packages/theme/images/alipay.png" width="240" style="display: inline-block"/>
 </p>
 
 > 付费咨询联系微信：
