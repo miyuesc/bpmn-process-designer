@@ -1,0 +1,136 @@
+{
+  "name": "miyue",
+  "prefix": "miyue",
+  "uri": "http://miyue.org/schema",
+  "xml": {
+    "tagAlias": "lowerCase"
+  },
+  "associations": [],
+  "types": [
+    {
+      "name": "SqlTask",
+      "superClass": ["bpmn:Task"],
+      "properties": [
+        {
+          "name": "address",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "username",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "port",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "tables",
+          "type": "Table",
+          "isMany": true,
+          "isBody": true
+        }
+      ]
+    },
+    {
+      "name": "Table",
+      "superClass": ["bpmn:Element"],
+      "meta": {
+        "allowedIn": ["miyue:SqlTask"]
+      },
+      "properties": [
+        {
+          "name": "fields",
+          "isMany": true,
+          "type": "TableField"
+        },
+        {
+          "name": "isKey",
+          "isAttr": true,
+          "type": "Boolean",
+          "default": false
+        },
+        {
+          "name": "author",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "title",
+          "isAttr": true,
+          "type": "String"
+        }
+      ]
+    },
+    {
+      "name": "TableField",
+      "superClass": ["bpmn:Element"],
+      "meta": {
+        "allowedIn": ["*"]
+      },
+      "properties": [
+        {
+          "name": "type",
+          "isAttr": true,
+          "type": "String"
+        },
+        {
+          "name": "nullable",
+          "type": "Boolean",
+          "isAttr": true
+        },
+        {
+          "name": "defaultValue",
+          "type": "String",
+          "isAttr": true
+        }
+      ]
+    },
+    {
+      "name": "ExternalTask",
+      "extends": ["bpmn:Task", "bpmn:UserTask", "bpmn:ScriptTask"],
+      "properties": [
+        {
+          "name": "developer",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "projectName",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "revisedCount",
+          "type": "Number",
+          "default": 1,
+          "isAttr": true
+        }
+      ]
+    },
+    {
+      "name": "ExternalEvent",
+      "extends": ["bpmn:Event"],
+      "properties": [
+        {
+          "name": "developer",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "projectName",
+          "type": "String",
+          "isAttr": true
+        },
+        {
+          "name": "revisedCount",
+          "type": "Number",
+          "default": 1,
+          "isAttr": true
+        }
+      ]
+    }
+  ]
+}

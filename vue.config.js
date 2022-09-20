@@ -8,69 +8,39 @@ function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
-const CDN = {
-  externals: {
-    vue: "Vue",
-    "element-ui": "ELEMENT",
-    x2js: "X2JS",
-    "bpmn-js/lib/Modeler": "BpmnJS"
-  },
-  css: [],
-  js: [
-    "https://unpkg.com/bpmn-js@8.8.3/dist/bpmn-modeler.production.min.js",
-    "https://unpkg.com/x2js@3.4.2/dist/x2js.min.js",
-    "https://cdn.bootcdn.net/ajax/libs/vue/2.6.12/vue.min.js",
-    "https://cdn.bootcdn.net/ajax/libs/element-ui/2.15.0/index.min.js"
-  ]
-};
-
 module.exports = {
   publicPath: IS_PROD ? "././" : "/", // 打包相对路径
   productionSourceMap: false,
   devServer: {
-    port: 8100,
-    proxy: {
-      "^/user/": {
-        target: "http://localhost:3000/user",
-        changeOrigin: true, //是否允许跨域
-        pathRewrite: {
-          "^/user": "/"
-        }
-      }
-    }
+    port: 8100
   },
   chainWebpack: config => {
-    // ============注入cdn start============
-    config.plugin("html").tap(args => {
-      // 生产环境或本地需要cdn时，才注入cdn
-      if (IS_PROD) args[0].cdn = CDN;
-      return args;
-    });
-    // ============注入cdn start============
+    config.when(!IS_PROD, config => config.devtool("source-map"));
 
-    config
-      // https://webpack.js.org/configuration/devtool/#development
-      .when(process.env.NODE_ENV === "development", config => config.devtool("source-map"));
-
-    config.when(process.env.NODE_ENV !== "development", config => {
+    config.when(IS_PROD, config => {
       config.optimization.splitChunks({
         chunks: "all",
         cacheGroups: {
+          elementUI: {
+            name: "chunk-element-ui",
+            priority: 20,
+            test: /[\\/]node_modules[\\/]_?element-ui(.*)/
+          },
+          highlight: {
+            name: "chunk-highlight",
+            priority: 20,
+            test: /[\\/]node_modules[\\/]_?highlight(.*)/
+          },
           libs: {
             name: "chunk-libs",
             test: /[\\/]node_modules[\\/]/,
             priority: 10,
-            chunks: "initial" // only package third parties that are initially dependent
+            chunks: "initial"
           },
-          // elementUI: {
-          //   name: "chunk-element-ui", // split elementUI into a single package
-          //   priority: 20, // the weight needs to be larger than libs and app or it will be packaged into libs or app
-          //   test: /[\\/]node_modules[\\/]_?element-ui(.*)/ // in order to adapt to cnpm
-          // },
           commons: {
-            name: "chunk-components",
-            test: resolve("package"), // can customize your rules
-            minChunks: 1, //  minimum common number
+            name: "chunk-packages",
+            test: /[\\/]packages[\\/]/,
+            minChunks: 1,
             priority: 5,
             reuseExistingChunk: true
           }
