@@ -1,23 +1,11 @@
 {
   "name": "bpmn-process-designer",
-  "version": "0.0.1",
-  "description": "A process designer base on Vue 2.x and ElementUI",
-  "keywords": [
-    "bpmn",
-    "bpmn.js",
-    "vue"
-  ],
-  "author": {
-    "name": "MiyueFE",
-    "email": "913784771@qq.com"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:miyuesc/bpmn-process-designer.git"
-  },
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
     "demo": "vue-cli-service serve",
-    "build": "vue-cli-service build --report"
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@bpmn-io/add-exporter": "^0.2.0",
@@ -41,62 +29,24 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
-    "@vue/compiler-sfc": "^3.0.1",
-    "@vue/eslint-config-prettier": "^5.0.0",
-    "axios": "^0.21.1",
-    "babel-eslint": "^10.1.0",
-    "compression-webpack-plugin": "^6.1.1",
-    "eslint": "^6.7.2",
-    "eslint-plugin-prettier": "^3.1.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "fs-extra": "^8.1.0",
-    "sass": "^1.30.0",
-    "sass-loader": "^8.0.2",
-    "script-ext-html-webpack-plugin": "^2.1.5",
-    "terser-webpack-plugin": "^4.2.3",
-    "vue-template-compiler": "^2.6.11",
-    "webpack-bundle-analyzer": "^3.9.0"
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.1",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "vue-template-compiler": "^2.6.14"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended",
-      "@vue/prettier"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {
-      "no-use-before-define": "off",
-      "no-unused-vars": "off",
-      "prettier/prettier": [
-        "warn",
-        {
-          "useTabs": false,
-          "singleQuote": false,
-          "printWidth": 160,
-          "semi": true,
-          "trailingComma": "none",
-          "bracketSpacing": true,
-          "jsxBracketSameLine": true,
-          "arrowParens": "avoid",
-          "requirePragma": false,
-          "proseWrap": "preserve"
-        }
-      ]
-    }
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "license": "Apache"
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  }
 }

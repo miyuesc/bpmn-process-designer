@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { defaultSettings } from "../preset-configuration/editor.config";
-import {unObserver} from "../../utils/tool";
+import { unObserver } from "@utils/tool";
 
 Vue.use(Vuex);
 
@@ -16,17 +16,19 @@ const store = new Vuex.Store({
       _moddle: null,
       _elementRegistry: null,
       _activeElement: null,
-      _activeElementId: null
+      _activeElementId: null,
+      __v_skip: true
     }
   },
   getters: {
     //  editor
-    getProcessDef: state => ({
+    getEditor: (state) => state.editor,
+    getProcessDef: (state) => ({
       processName: state.editor.processName,
       processId: state.editor.processId
     }),
-    getProcessEngine: state => state.editor.processEngine,
-    getEditorConfig: state => {
+    getProcessEngine: (state) => state.editor.processEngine,
+    getEditorConfig: (state) => {
       return Object.keys(state.editor).reduce((config, key) => {
         if (!["processName", "processId", "processEngine"].includes(key)) {
           config[key] = state.editor[key];
@@ -36,14 +38,14 @@ const store = new Vuex.Store({
     },
 
     // modeler
-    getModeler: state => state.bpmn._modeler,
-    getModeling: state => state.bpmn._modeling,
-    getCanvas: state => state.bpmn._canvas,
-    getEventBus: state => state.bpmn._eventBus,
-    getModdle: state => state.bpmn._moddle,
-    getElRegistry: state => state.bpmn._elementRegistry,
-    getActive: state => state.bpmn._activeElement,
-    getActiveId: state => state.bpmn._activeElementId
+    getModeler: (state) => state.bpmn._modeler,
+    getModeling: (state) => state.bpmn._modeling,
+    getCanvas: (state) => state.bpmn._canvas,
+    getEventBus: (state) => state.bpmn._eventBus,
+    getModdle: (state) => state.bpmn._moddle,
+    getElRegistry: (state) => state.bpmn._elementRegistry,
+    getActive: (state) => state.bpmn._activeElement,
+    getActiveId: (state) => state.bpmn._activeElementId
   },
   mutations: {
     // editor

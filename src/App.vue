@@ -1,10 +1,14 @@
 <template>
-  <div id="app"></div>
+  <div id="app">
+    <bpmn-designer />
+  </div>
 </template>
 
 <script>
+import BpmnDesigner from "../packages/components/Designer";
 export default {
   name: "App",
+  components: { BpmnDesigner },
   data() {
     return {};
   }

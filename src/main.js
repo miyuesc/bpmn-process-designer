@@ -11,7 +11,9 @@ import { vuePlugin } from "../packages/highlight";
 import "highlight.js/styles/atom-one-dark-reasonable.css";
 Vue.use(vuePlugin);
 
+import "../packages/theme/index.scss";
+
 new Vue({
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 }).$mount("#app");

@@ -1,0 +1,23 @@
+@import 'bpmn-js/dist/assets/diagram-js.css'; // 基础样式
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn.css'; // 节点基础图标
+@import 'bpmn-js/dist/assets/bpmn-font/css/bpmn-codes.css'; // 节点完整图标
+
+// 小地图
+@import "diagram-js-minimap/assets/diagram-js-minimap.css";
+
+.bpmn-designer {
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+
+.djs-minimap div.toggle {
+  display: none;
+}
+.bts-toggle-mode {
+  display: none;
+}
+// 修复选中时填充色
+.layer-selectionOutline {
+  fill: none;
+}

@@ -37,7 +37,10 @@ export class Logger {
     }
     if (back) {
       // 如果是打印帶背景圖的
-      console.log(`%c ${text} `, `background:${Logger.typeColor(type)}; padding: 2px; border-radius: 4px; color: #fff;`);
+      console.log(
+        `%c ${text} `,
+        `background:${Logger.typeColor(type)}; padding: 2px; border-radius: 4px; color: #fff;`
+      );
     } else {
       console.log(
         `%c ${text} `,
@@ -75,23 +78,23 @@ export class Logger {
   }
 
   static prettyPrimary(title, ...text) {
-    text.forEach(t => Logger.pretty("primary", title, t));
+    text.forEach((t) => Logger.pretty("primary", title, t));
   }
 
   static prettySuccess(title, ...text) {
-    text.forEach(t => Logger.pretty("success", title, t));
+    text.forEach((t) => Logger.pretty("success", title, t));
   }
 
   static prettyWarn(title, ...text) {
-    text.forEach(t => Logger.pretty("warn", title, t));
+    text.forEach((t) => Logger.pretty("warn", title, t));
   }
 
   static prettyError(title, ...text) {
-    text.forEach(t => Logger.pretty("error", title, t));
+    text.forEach((t) => Logger.pretty("error", title, t));
   }
 
   static prettyInfo(title, ...text) {
-    text.forEach(t => Logger.pretty("info", title, t));
+    text.forEach((t) => Logger.pretty("info", title, t));
   }
 }
 export default Logger;
