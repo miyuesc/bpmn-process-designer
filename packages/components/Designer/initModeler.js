@@ -1,5 +1,6 @@
 import Modeler from "bpmn-js/lib/Modeler";
 import EventEmitter from "@utils/EventEmitter";
+import { catchError } from "@utils/printCatch";
 
 export default function (designerDom, moduleAndExtensions, context) {
   const options = {
@@ -11,16 +12,11 @@ export default function (designerDom, moduleAndExtensions, context) {
 
   // 清除旧 modeler
   context.getModeler && context.getModeler.destroy();
-  context.$store.commit("setModeler", null);
+  context.$store.commit("clearBpmnState");
 
   const modeler = new Modeler(options);
 
   context.$store.commit("setModeler", modeler);
-  context.$store.commit("setModules", { key: "modeling", module: modeler.get("modeling") });
-  context.$store.commit("setModules", { key: "canvas", module: modeler.get("canvas") });
-  context.$store.commit("setModules", { key: "eventBus", module: modeler.get("eventBus") });
-  context.$store.commit("setModules", { key: "moddle", module: modeler.get("moddle") });
-  context.$store.commit("setModules", { key: "elementRegistry", module: modeler.get("elementRegistry") });
 
   EventEmitter.emit("modeler-init", modeler);
 
@@ -31,7 +27,7 @@ export default function (designerDom, moduleAndExtensions, context) {
       context.$emit("update:xml", xml);
       context.$emit("command-stack-changed", event);
     } catch (error) {
-      console.error(error);
+      catchError(error);
     }
   });
 

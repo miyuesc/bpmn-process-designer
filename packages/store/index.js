@@ -1,24 +1,14 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { defaultSettings } from "../preset-configuration/editor.config";
-import { unObserver } from "@utils/tool";
+import { unObserver } from "../../utils/tool";
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
     editor: { ...defaultSettings },
-    bpmn: {
-      _modeler: null,
-      _modeling: null,
-      _canvas: null,
-      _eventBus: null,
-      _moddle: null,
-      _elementRegistry: null,
-      _activeElement: null,
-      _activeElementId: null,
-      __v_skip: true
-    }
+    bpmn: {}
   },
   getters: {
     //  editor
@@ -39,13 +29,13 @@ const store = new Vuex.Store({
 
     // modeler
     getModeler: (state) => state.bpmn._modeler,
-    getModeling: (state) => state.bpmn._modeling,
-    getCanvas: (state) => state.bpmn._canvas,
-    getEventBus: (state) => state.bpmn._eventBus,
-    getModdle: (state) => state.bpmn._moddle,
-    getElRegistry: (state) => state.bpmn._elementRegistry,
-    getActive: (state) => state.bpmn._activeElement,
-    getActiveId: (state) => state.bpmn._activeElementId
+    getModeling: (state) => (state.bpmn._modeler ? state.bpmn._modeler.get("modeling") : undefined)
+    // getCanvas: (state) => state.bpmn._canvas,
+    // getEventBus: (state) => state.bpmn._eventBus,
+    // getModdle: (state) => state.bpmn._moddle,
+    // getElRegistry: (state) => state.bpmn._elementRegistry,
+    // getActive: (state) => state.bpmn._activeElement,
+    // getActiveId: (state) => state.bpmn._activeElementId
   },
   mutations: {
     // editor
@@ -53,6 +43,9 @@ const store = new Vuex.Store({
       state.editor = { ...state.editor, ...conf };
     },
 
+    clearBpmnState(state) {
+      state.bpmn = {};
+    },
     /**
      * @param state
      * @param modeler { object }
@@ -65,9 +58,9 @@ const store = new Vuex.Store({
      * @param key { string }
      * @param module { object }
      */
-    setModules(state, { key, module }) {
-      state.bpmn[`_${key}`] = unObserver(module);
-    },
+    // setModules(state, { key, module }) {
+    //   // state.bpmn[`_${key}`] = Object.freeze(module);
+    // },
     /**
      * @param state
      * @param id { string }

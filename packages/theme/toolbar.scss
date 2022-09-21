@@ -1,0 +1,69 @@
+.bpmn-toolbar {
+  width: 100%;
+  height: min-content;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  > div[class^='el-button-group'] + div[class^='el-button-group'] {
+    margin-left: 16px;
+  }
+
+  .el-button__padding {
+    padding: 6px 15px;
+  }
+}
+
+.el-popover.button-popover {
+  min-width: unset;
+  padding: 8px 16px;
+}
+
+.button-list_column {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 8px;
+  padding: 8px 0;
+}
+
+.preview-model {
+  width: 64vw;
+  height: 64vh;
+  overflow-y: auto;
+  .preview-model-content {
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+  code.n-code {
+    font-size: 16px;
+  }
+}
+
+.shortcut-keys-model {
+  width: 460px;
+  display: grid;
+  line-height: 20px;
+  font-size: 14px;
+  grid-template-columns: 160px auto;
+}
+
+.event-listeners-box {
+  width: 520px;
+  height: 60vh;
+  display: flex;
+  flex-direction: column;
+  .event-listeners-box {
+    margin-top: 16px;
+    flex: 1;
+    width: 520px;
+    overflow-y: auto;
+  }
+  .listener-item {
+    margin: 4px 0;
+  }
+}
+
+/* 修改弹窗宽度 */
+.n-dialog.n-modal {
+  width: auto;
+}

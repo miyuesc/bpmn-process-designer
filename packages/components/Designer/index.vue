@@ -1,12 +1,14 @@
 <template>
-  <div class="bpmn-designer" ref="designerRef"></div>
+  <div :class="['bpmn-designer', bgClass]" ref="designerRef"></div>
 </template>
 
 <script>
+import { debounce } from "min-dash";
 import { mapGetters } from "vuex";
+import { createNewDiagram } from "@utils/xml";
+import { catchError } from "@utils/printCatch";
 import moduleAndExtensions from "./moduleAndExtensions";
 import initModeler from "./initModeler";
-import { createNewDiagram } from "@utils/xml";
 
 export default {
   name: "BpmnDesigner",
@@ -17,7 +19,26 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getEditor"])
+    ...mapGetters(["getEditor", "getModeler", "getModeling"]),
+    bgClass() {
+      const bg = this.getEditor.bg;
+      if (bg === "grid-image") return "designer-with-bg";
+      if (bg === "image") return "designer-with-image";
+      return "";
+    }
+  },
+  methods: {
+    reloadProcess: debounce(async function (setting, oldSetting) {
+      const modelerModules = moduleAndExtensions(setting);
+
+      await this.$nextTick();
+      const modeler = initModeler(this.$refs.designerRef, modelerModules, this);
+      if (!oldSetting || setting.processEngine !== oldSetting.processEngine) {
+        await createNewDiagram(modeler);
+      } else {
+        await createNewDiagram(modeler, this.xml, setting);
+      }
+    }, 100)
   },
   watch: {
     getEditor: {
@@ -25,17 +46,9 @@ export default {
       deep: true,
       handler: async function (value, oldValue) {
         try {
-          const modelerModules = moduleAndExtensions(value);
-
-          await this.$nextTick();
-          const modeler = initModeler(this.$refs.designerRef, modelerModules, this);
-          if (!oldValue || value.processEngine !== oldValue.processEngine) {
-            await createNewDiagram(modeler);
-          } else {
-            await createNewDiagram(modeler, this.xml, value);
-          }
+          this.reloadProcess(value, oldValue);
         } catch (e) {
-          console.log(e);
+          catchError(e);
         }
       }
     }

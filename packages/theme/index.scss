@@ -9,6 +9,11 @@
 @import "bpmn-js-token-simulation/assets/css/bpmn-js-token-simulation.css";
 
 
-@import "./designer";
-@import "./settings";
-@import "./palette";
+@import "toolbar";
+@import "designer";
+@import "palette";
+@import "context-pad";
+@import "panel";
+@import "camunda-penal";
+@import "settings";
+@import "contextmenu";

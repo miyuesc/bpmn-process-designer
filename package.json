@@ -22,6 +22,7 @@
     "diagram-js-minimap": "^2.1.1",
     "element-ui": "^2.15.10",
     "highlight.js": "^10.5.0",
+    "lodash.debounce": "^4.0.8",
     "lucide-vue": "^0.89.0",
     "min-dash": "^3.5.2",
     "vue": "^2.6.11",

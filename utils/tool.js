@@ -34,10 +34,7 @@ export function getRawType(value) {
 
 // 取消响应式
 export function unObserver(val) {
-  if (getRawType(val) === "object") {
-    return { ...val, __v_skip: true };
-  }
-  if (getRawType(val) === "array") {
+  if (getRawType(val) === "object" || getRawType(val) === "array") {
     val.__v_skip = true;
     return val;
   }

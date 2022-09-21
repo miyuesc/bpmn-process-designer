@@ -24,11 +24,11 @@
           <el-form-item label="模板选项扩展">
             <el-switch v-model="editorSettings.templateChooser" />
           </el-form-item>
-          <el-form-item label="工具栏">
-            <el-switch v-model="editorSettings.toolbar" />
-          </el-form-item>
           <el-form-item label="右键增强">
             <el-switch v-model="editorSettings.contextmenu" />
+          </el-form-item>
+          <el-form-item label="自定义右键菜单">
+            <el-switch v-model="editorSettings.customContextmenu" />
           </el-form-item>
           <el-form-item label="流程引擎">
             <el-radio-group v-model="editorSettings.processEngine">
@@ -109,6 +109,7 @@
 import { mapGetters } from "vuex";
 import { defaultSettings } from "../../preset-configuration/editor.config";
 import LucideIcon from "../common/LucideIcon";
+import { debounce } from "min-dash";
 
 export default {
   name: "BpmnSettings",
@@ -157,7 +158,7 @@ export default {
         if (this.editorSettings.penalMode !== "custom") {
           this.editorSettings.processEngine = "camunda";
         }
-        this.editorSettings && this.$store.commit("setConfiguration", { ...this.editorSettings });
+        this.updateEditorState();
       }
     }
   },
@@ -165,7 +166,10 @@ export default {
     changeModelVisible(event) {
       event.stopPropagation();
       this.modelVisible = !this.modelVisible;
-    }
+    },
+    updateEditorState: debounce(function () {
+      this.editorSettings && this.$store.commit("setConfiguration", { ...this.editorSettings });
+    }, 100)
   }
 };
 </script>

@@ -1,6 +1,7 @@
 <template>
   <div id="app">
-    <bpmn-designer />
+    <bpmn-toolbar v-if="getEditorConfig.toolbar" />
+    <bpmn-designer :xml.sync="xmlString" />
     <bpmn-settings />
   </div>
 </template>
@@ -8,11 +9,18 @@
 <script>
 import BpmnDesigner from "../packages/components/Designer";
 import BpmnSettings from "../packages/components/Settings";
+import { mapGetters } from "vuex";
+import BpmnToolbar from "../packages/components/Toolbar";
 export default {
   name: "App",
-  components: { BpmnSettings, BpmnDesigner },
+  components: { BpmnToolbar, BpmnSettings, BpmnDesigner },
   data() {
-    return {};
+    return {
+      xmlString: undefined
+    };
+  },
+  computed: {
+    ...mapGetters(["getEditorConfig"])
   }
 };
 </script>
