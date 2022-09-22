@@ -6,7 +6,7 @@ function resolve(dir) {
 }
 
 module.exports = defineConfig({
-  transpileDependencies: true,
+  transpileDependencies: false,
   runtimeCompiler: true,
   parallel: true,
   productionSourceMap: false,
