@@ -5,12 +5,14 @@
   padding: 8px 16px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   > div[class^='el-button-group'] + div[class^='el-button-group'] {
     margin-left: 16px;
   }
 
-  .el-button__padding {
-    padding: 6px 15px;
+  .el-button__no-padding {
+    padding: 0 15px;
+    height: 32px;
   }
 }
 
@@ -24,6 +26,9 @@
   grid-template-columns: 1fr;
   grid-row-gap: 8px;
   padding: 8px 0;
+  .el-button {
+    margin-left: 0;
+  }
 }
 
 .preview-model {
@@ -47,6 +52,9 @@
   grid-template-columns: 160px auto;
 }
 
+.el-message-box.bpmn-events-box {
+  width: auto;
+}
 .event-listeners-box {
   width: 520px;
   height: 60vh;
