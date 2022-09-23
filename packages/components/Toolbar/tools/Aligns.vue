@@ -52,6 +52,9 @@ export default {
   },
   methods: {
     alignElements(tag) {
+      if (!this._align) {
+        return this.$message.error("当前模式不支持自动对齐");
+      }
       if (this._modeling && this._selection) {
         const SelectedElements = this._selection.get();
         if (!SelectedElements || SelectedElements.length <= 1) {
