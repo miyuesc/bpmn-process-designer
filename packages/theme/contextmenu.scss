@@ -4,6 +4,13 @@
   max-height: 360px;
   overflow: hidden;
   flex-direction: column;
+  position: fixed;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 2px;
+  padding: 8px 14px;
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  line-height: 1.6;
   .context-menu_header {
     line-height: 40px;
     font-size: 16px;

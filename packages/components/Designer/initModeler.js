@@ -1,7 +1,7 @@
 import Modeler from "bpmn-js/lib/Modeler";
 import EventEmitter from "@utils/EventEmitter";
 import { catchError } from "@utils/printCatch";
-import externalScrollCenter from "@packages/bpmn-utils/ExternalScrollCenter";
+import EnhancementContextmenu from "@packages/additional-components/EnhancementContextmenu";
 
 export default function (designerDom, moduleAndExtensions, context) {
   const options = {
@@ -32,10 +32,7 @@ export default function (designerDom, moduleAndExtensions, context) {
     }
   });
 
-  modeler.on("selection.changed", ({ newSelection }) => {
-    const el = newSelection[0];
-    externalScrollCenter(modeler, el);
-  });
+  EnhancementContextmenu(modeler, context.getEditor);
 
   return modeler;
 }
