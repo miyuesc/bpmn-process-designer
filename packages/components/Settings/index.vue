@@ -78,6 +78,16 @@
             <el-switch v-model="editorSettings.otherModule" />
           </el-form-item>
           <el-form-item label="自定义主题" class="theme-list" v-if="editorSettings.rendererMode === 'rewrite'">
+            <div class="theme-item">
+              <div class="theme-item_label">
+                <el-tooltip content="该功能只修改了显示部分，路径调整依然沿用折线计算方式，慎用！！！">
+                  <span slot="">路径曲线 <i class="el-icon-question" />：</span>
+                </el-tooltip>
+              </div>
+              <div>
+                <el-switch v-model="editorSettings.useCurve" />
+              </div>
+            </div>
             <div class="theme-item" v-for="keyItem in themeColorKeys" :key="keyItem">
               <div class="theme-item_label">{{ keyItem }}：</div>
               <el-color-picker color-format="hex" v-model="editorSettings.customTheme[keyItem]" />

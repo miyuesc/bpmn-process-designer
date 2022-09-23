@@ -89,6 +89,8 @@ class RewriteRenderer extends BaseRenderer {
       defaultSequenceOpacity
     } = { ...presetOpacity, ...config };
 
+    const useCurve = config?.useCurve || false;
+
     const computeStyle = styles.computeStyle;
     const rendererId = RENDERER_IDS.next();
     const markers = {};
@@ -574,10 +576,39 @@ class RewriteRenderer extends BaseRenderer {
     function createPathFromConnection(connection) {
       const waypoints = connection.waypoints;
 
-      let pathData = "m  " + waypoints[0].x + "," + waypoints[0].y;
-      for (let i = 1; i < waypoints.length; i++) {
-        pathData += "L" + waypoints[i].x + "," + waypoints[i].y + " ";
+      // 起始点
+      let pathData = "m " + waypoints[0].x + "," + waypoints[0].y;
+
+      // 原始折线
+      if (!useCurve) {
+        for (let i = 1; i < waypoints.length; i++) {
+          pathData += "L" + waypoints[i].x + "," + waypoints[i].y + " ";
+        }
+        return pathData;
       }
+
+      // 曲线绘制部分
+      // 不同 length 对应的 svg path关键字，两个点时使用直线，三个点用Q，其余数量使用三次贝塞尔曲线
+      const curveCodeMap = {
+        2: " L ",
+        3: " Q ",
+        0: " C " // 置空作用
+      };
+      // 点数总数
+      const waypointCount = waypoints.length;
+      // 路径组装
+      if (waypointCount === 2) {
+        for (let i = 1; i < waypointCount; i++) {
+          pathData += curveCodeMap[waypointCount] + waypoints[i].x + "," + waypoints[i].y + " ";
+        }
+      } else {
+        pathData += curveCodeMap[waypointCount] || "C";
+        for (let i = 1; i < waypoints.length; i++) {
+          pathData += waypoints[i].x + "," + waypoints[i].y + " ";
+        }
+      }
+
+      console.log("pathData", pathData);
       return pathData;
     }
 

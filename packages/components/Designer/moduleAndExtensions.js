@@ -54,7 +54,7 @@ export default function (settings) {
   settings.rendererMode === "enhancement" && modules.push(EnhancementRenderer);
   if (settings.rendererMode === "rewrite") {
     modules.push(RewriteRenderer);
-    options["bpmnRenderer"] = { ...(settings.customTheme || {}) };
+    options["bpmnRenderer"] = { ...(settings.customTheme || {}), useCurve: settings.useCurve };
   }
 
   // 配置模板选择弹窗（会影响默认 popupmenu）
