@@ -29,7 +29,7 @@ export class Logger {
     return getRawType(val);
   }
 
-  static print(type = "default", text, back = false) {
+  static print(text, type = "default", back = false) {
     if (typeof text === "object") {
       // 如果是對象則調用打印對象方式
       Logger.isArray(text) ? console.table(text) : console.dir(text);
@@ -55,7 +55,7 @@ export class Logger {
     return Logger.print(text, type, true);
   }
 
-  static pretty(title, text, type = "primary") {
+  static pretty(type = "primary", title, text) {
     if (typeof text === "object") {
       console.group("Console Group", title);
       console.log(
