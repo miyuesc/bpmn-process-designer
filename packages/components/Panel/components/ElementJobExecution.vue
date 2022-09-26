@@ -26,7 +26,7 @@ import {
   setExternalTaskValue,
   setRetryTimeCycleValue,
   taskPriorityVisible
-} from "@packages/bo-utils/jobExecutionUtil.ts";
+} from "@packages/bo-utils/jobExecutionUtil";
 
 export default {
   name: "ElementJobExecution",

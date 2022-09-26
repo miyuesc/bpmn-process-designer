@@ -1,5 +1,5 @@
 import { Base, Shape, Connection, Label } from 'diagram-js/lib/model'
-import { MessageApiInjection } from 'naive-ui/lib/message/src/MessageProvider'
+import { MessageApiInjection } from 'naive-ui/lib/message/playground/MessageProvider'
 
 declare global {
   interface Window {

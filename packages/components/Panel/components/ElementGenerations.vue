@@ -29,14 +29,14 @@
 <script>
 import { mapGetters } from "vuex";
 import { catchError } from "@utils/printCatch";
-import { getNameValue, setNameValue } from "@packages/bo-utils/nameUtil.ts";
+import { getNameValue, setNameValue } from "@packages/bo-utils/nameUtil";
 import {
   getProcessExecutable,
   getProcessVersionTag,
   setProcessExecutable,
   setProcessVersionTag
-} from "@packages/bo-utils/processUtil.ts";
-import { setIdValue } from "@packages/bo-utils/idUtil.ts";
+} from "@packages/bo-utils/processUtil";
+import { setIdValue } from "@packages/bo-utils/idUtil";
 import EventEmitter from "@utils/EventEmitter";
 
 export default {

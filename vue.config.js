@@ -6,6 +6,12 @@ function resolve(dir) {
 }
 
 module.exports = defineConfig({
+  pages: {
+    index: {
+      entry: "playground/main.js",
+      template: "public/index.html"
+    }
+  },
   transpileDependencies: false,
   runtimeCompiler: true,
   parallel: true,

@@ -107,8 +107,8 @@ import {
   getExecutionListenerTypes,
   removeExecutionListener,
   updateExecutionListener
-} from "@packages/bo-utils/executionListenersUtil.ts";
-import { getScriptType } from "@packages/bo-utils/scriptUtil.ts";
+} from "@packages/bo-utils/executionListenersUtil";
+import { getScriptType } from "@packages/bo-utils/scriptUtil";
 import EventEmitter from "@utils/EventEmitter";
 
 export default {

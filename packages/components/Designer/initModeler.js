@@ -2,7 +2,7 @@ import Modeler from "bpmn-js/lib/Modeler";
 import EventEmitter from "@utils/EventEmitter";
 import { catchError } from "@utils/printCatch";
 import EnhancementContextmenu from "@packages/additional-components/EnhancementContextmenu";
-import { addExtensionProperty } from "@packages/bo-utils/extensionPropertiesUtil.ts";
+import { addExtensionProperty } from "@packages/bo-utils/extensionPropertiesUtil";
 
 export default function (designerDom, moduleAndExtensions, context) {
   const options = {
