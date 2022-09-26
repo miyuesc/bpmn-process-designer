@@ -16,13 +16,11 @@
 </template>
 
 <script>
-import LucideIcon from "@packages/components/common/LucideIcon";
 import { mapGetters } from "vuex";
 import { createNewDiagram } from "@utils/xml";
 
 export default {
   name: "BpmnCommands",
-  components: { LucideIcon },
   computed: {
     ...mapGetters(["getModeler"])
   },

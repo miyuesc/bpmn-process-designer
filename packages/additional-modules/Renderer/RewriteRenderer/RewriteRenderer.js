@@ -1108,8 +1108,6 @@ class RewriteRenderer extends BaseRenderer {
           stroke: getStrokeColor(element, defaultTaskColor)
         });
 
-        renderButton(parentGfx, "1111", {});
-
         return task;
       },
       "bpmn:ManualTask": function (parentGfx, element) {

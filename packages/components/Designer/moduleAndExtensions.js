@@ -62,7 +62,7 @@ export default function (settings) {
     modules.push(BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule);
     moddle = {};
     if (settings.penalMode !== "custom") {
-      options["propertiesPanel"] = { parent: "#camunda-penal" };
+      options["propertiesPanel"] = { parent: "#camunda-panel" };
       moddle["camunda"] = camundaModdleDescriptors;
     }
     if (settings.templateChooser) {

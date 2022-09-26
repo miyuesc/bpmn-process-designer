@@ -118,12 +118,10 @@
 <script>
 import { mapGetters } from "vuex";
 import { defaultSettings } from "../../preset-configuration/editor.config";
-import LucideIcon from "../common/LucideIcon";
 import { debounce } from "min-dash";
 
 export default {
   name: "BpmnSettings",
-  components: { LucideIcon },
   props: {
     settings: {
       type: Object,

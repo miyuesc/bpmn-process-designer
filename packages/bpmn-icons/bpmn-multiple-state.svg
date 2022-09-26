@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="128" height="64" viewBox="0 0 128 64">
+  <defs>
+    <rect id="multiple-state-bpmn-a" width="110" height="47" x="9" y="9"/>
+    <mask id="multiple-state-bpmn-b" width="110" height="47" x="0" y="0" fill="#fff" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox">
+      <use xlink:href="#multiple-state-bpmn-a"/>
+    </mask>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#818798" d="M25,20.2720779 L37.7279221,33 L25,45.7279221 L12.2720779,33 L25,20.2720779 Z M25,23.1005051 L15.1005051,33 L25,42.8994949 L34.8994949,33 L25,23.1005051 Z"/>
+    <rect width="16" height="6" x="17" y="47" fill="#D5D7DD"/>
+    <g transform="translate(35 30)">
+      <rect width="27" height="2" y="2" fill="#818798"/>
+      <polygon fill="#818798" points="31 0 31 6 25 3" transform="matrix(-1 0 0 1 56 0)"/>
+      <rect width="21" height="6" x="45" y="4" fill="#D5D7DD"/>
+    </g>
+    <g transform="translate(65 12)">
+      <path fill="#818798" d="M46,0 C48.7614237,-5.07265313e-16 51,2.23857625 51,5 L51,36 C51,38.7614237 48.7614237,41 46,41 L5,41 C2.23857625,41 3.38176876e-16,38.7614237 0,36 L0,5 C-3.38176876e-16,2.23857625 2.23857625,5.07265313e-16 5,0 L46,0 Z M46,2 L5,2 C3.34314575,2 2,3.34314575 2,5 L2,5 L2,36 C2,37.6568542 3.34314575,39 5,39 L5,39 L46,39 C47.6568542,39 49,37.6568542 49,36 L49,36 L49,5 C49,3.34314575 47.6568542,2 46,2 L46,2 Z"/>
+      <rect width="31" height="6" x="10" y="13" fill="#D5D7DD"/>
+    </g>
+    <use stroke="#B9BCC6" stroke-dasharray="5 2" stroke-width="2" mask="url(#multiple-state-bpmn-b)" xlink:href="#multiple-state-bpmn-a"/>
+  </g>
+</svg>

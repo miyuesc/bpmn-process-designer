@@ -1,7 +1,12 @@
 <template>
   <div id="app">
     <bpmn-toolbar v-if="getEditorConfig.toolbar" />
-    <bpmn-designer :xml.sync="xmlString" />
+    <div class="main-content">
+      <bpmn-designer :xml.sync="xmlString" />
+      <bpmn-panel v-if="getEditorConfig.penalMode === 'custom'" />
+      <div v-else class="camunda-panel" id="camunda-panel"></div>
+    </div>
+
     <bpmn-settings />
     <bpmn-context-menu />
   </div>
@@ -13,9 +18,10 @@ import BpmnSettings from "../packages/components/Settings";
 import { mapGetters } from "vuex";
 import BpmnToolbar from "../packages/components/Toolbar";
 import BpmnContextMenu from "@packages/components/ContextMenu/ContextMenu";
+import BpmnPanel from "@packages/components/Panel";
 export default {
   name: "App",
-  components: { BpmnContextMenu, BpmnToolbar, BpmnSettings, BpmnDesigner },
+  components: { BpmnPanel, BpmnContextMenu, BpmnToolbar, BpmnSettings, BpmnDesigner },
   data() {
     return {
       xmlString: undefined
@@ -31,18 +37,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-body,
-html {
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-#app {
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
-}
-</style>

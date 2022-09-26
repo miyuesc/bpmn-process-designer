@@ -18,13 +18,11 @@
 </template>
 
 <script>
-import LucideIcon from "@packages/components/common/LucideIcon";
 import { mapGetters } from "vuex";
 
 import EventEmitter from "@utils/EventEmitter";
 export default {
   name: "BpmnScales",
-  components: { LucideIcon },
   data() {
     return {
       currentScale: 1

@@ -14,6 +14,34 @@
 @import "palette";
 @import "context-pad";
 @import "panel";
-@import "camunda-penal";
+@import "camunda-panel";
 @import "settings";
 @import "contextmenu";
+
+body,
+html {
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#app {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  position: relative;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  .main-content {
+    width: 100%;
+    flex: 1;
+    overflow: hidden;
+    display: flex;
+    .designer {
+      flex: 1;
+    }
+  }
+}

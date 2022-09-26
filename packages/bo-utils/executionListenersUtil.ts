@@ -5,9 +5,7 @@ import {
   addExtensionElements,
   removeExtensionElements
 } from "@packages/bpmn-utils/BpmnExtensionElements";
-
-import modeler from "@/store/modeler";
-import { createScript } from "./scriptUtil";
+import { createScript } from "@packages/bo-utils/scriptUtil.ts";
 
 export const EXECUTION_LISTENER_TYPE = {
   class: "Java class",

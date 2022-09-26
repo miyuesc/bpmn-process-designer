@@ -21,13 +21,11 @@
 </template>
 
 <script>
-import LucideIcon from "../../common/LucideIcon";
 import { mapGetters } from "vuex";
 import EventEmitter from "@utils/EventEmitter";
 
 export default {
   name: "BpmnAligns",
-  components: { LucideIcon },
   computed: {
     ...mapGetters(["getModeler"])
   },

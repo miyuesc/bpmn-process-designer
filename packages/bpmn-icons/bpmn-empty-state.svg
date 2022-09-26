@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <rect id="empty-state-bpmn-a" width="57" height="47" x="3" y="8" rx="7"/>
+    <mask id="empty-state-bpmn-b" width="57" height="47" x="0" y="0" fill="#fff" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox">
+      <use xlink:href="#empty-state-bpmn-a"/>
+    </mask>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <path fill="#818798" d="M52,11 C54.7614237,11 57,13.2385763 57,16 L57,47 C57,49.7614237 54.7614237,52 52,52 L11,52 C8.23857625,52 6,49.7614237 6,47 L6,16 C6,13.2385763 8.23857625,11 11,11 L52,11 Z M52,13 L11,13 C9.40231912,13 8.09633912,14.24892 8.00509269,15.8237272 L8,16 L8,47 C8,48.5976809 9.24891996,49.9036609 10.8237272,49.9949073 L11,50 L52,50 C53.5976809,50 54.9036609,48.75108 54.9949073,47.1762728 L55,47 L55,16 C55,14.4023191 53.75108,13.0963391 52.1762728,13.0050927 L52,13 Z"/>
+    <rect width="31" height="6" x="16" y="24" fill="#D5D7DD"/>
+    <rect width="21" height="6" x="21" y="33" fill="#D5D7DD"/>
+    <use stroke="#B9BCC6" stroke-dasharray="5 2" stroke-width="2" mask="url(#empty-state-bpmn-b)" xlink:href="#empty-state-bpmn-a"/>
+  </g>
+</svg>

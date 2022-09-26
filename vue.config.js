@@ -18,5 +18,19 @@ module.exports = defineConfig({
         "@utils": resolve("utils")
       }
     }
+  },
+  chainWebpack(config) {
+    config.module.rule("svg").exclude.add(resolve("packages/bpmn-icons")).end();
+    config.module
+      .rule("icons")
+      .test(/\.svg$/)
+      .include.add(resolve("packages/bpmn-icons"))
+      .end()
+      .use("svg-sprite-loader")
+      .loader("svg-sprite-loader")
+      .options({
+        symbolId: "[name]"
+      })
+      .end();
   }
 });

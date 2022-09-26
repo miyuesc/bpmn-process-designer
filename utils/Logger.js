@@ -26,7 +26,7 @@ export class Logger {
   }
 
   static isArray(val) {
-    return getRawType(val);
+    return getRawType(val) === "array";
   }
 
   static print(text, type = "default", back = false) {

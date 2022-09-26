@@ -1,6 +1,6 @@
 import { isAny } from "bpmn-js/lib/util/ModelUtil";
-import store from "@packages/store";
 import { catchError } from "@utils/printCatch";
+import store from "@packages/store";
 
 export function getModeler() {
   try {

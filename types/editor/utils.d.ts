@@ -1,4 +1,4 @@
-declare module '@/utils/Logger' {
+declare module '@utils/Logger' {
   export class Logger {
     constructor()
     static print(type: string, text: any, back?: boolean): void

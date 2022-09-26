@@ -29,13 +29,9 @@ const store = new Vuex.Store({
 
     // modeler
     getModeler: (state) => state.bpmn._modeler,
-    getModeling: (state) => (state.bpmn._modeler ? state.bpmn._modeler.get("modeling") : undefined)
-    // getCanvas: (state) => state.bpmn._canvas,
-    // getEventBus: (state) => state.bpmn._eventBus,
-    // getModdle: (state) => state.bpmn._moddle,
-    // getElRegistry: (state) => state.bpmn._elementRegistry,
-    // getActive: (state) => state.bpmn._activeElement,
-    // getActiveId: (state) => state.bpmn._activeElementId
+    getModeling: (state) => (state.bpmn._modeler ? state.bpmn._modeler.get("modeling") : undefined),
+    getActive: (state) => state.bpmn._activeElement,
+    getActiveId: (state) => state.bpmn._activeElementId
   },
   mutations: {
     // editor
