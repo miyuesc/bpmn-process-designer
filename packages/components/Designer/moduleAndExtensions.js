@@ -91,11 +91,16 @@ export default function (settings) {
   }
 
   // 设置 lint 校验
-  if (settings.miniMap) {
+  if (settings.useMinimap) {
     modules.push(minimapModule);
     options["minimap"] = {
       open: true
     };
+  }
+
+  // 设置 lint 校验
+  if (settings.useMock) {
+    modules.push(TokenSimulationModule);
   }
 
   // 官方网点背景
@@ -109,8 +114,6 @@ export default function (settings) {
     modules.push(Rules);
 
     modules.push(AutoPlace);
-
-    modules.push(TokenSimulationModule);
 
     // 设置键盘事件绑定
     options["keyboard"] = {

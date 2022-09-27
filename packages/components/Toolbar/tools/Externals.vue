@@ -1,6 +1,11 @@
 <template>
   <el-button-group>
-    <el-button v-r-popover:processMock class="el-button__no-padding" @click="mockSimulationToggle">
+    <el-button
+      v-if="getEditorConfig.useMock"
+      v-r-popover:processMock
+      class="el-button__no-padding"
+      @click="mockSimulationToggle"
+    >
       <lucide-icon name="Bot" :size="16" />
       <el-popover
         ref="processMock"
@@ -10,7 +15,12 @@
         popper-class="button-popover"
       />
     </el-button>
-    <el-button v-r-popover:minimapToggle class="el-button__no-padding" @click="minimapToggle">
+    <el-button
+      v-if="getEditorConfig.useMinimap"
+      v-r-popover:minimapToggle
+      class="el-button__no-padding"
+      @click="minimapToggle"
+    >
       <lucide-icon name="Map" :size="16" />
       <el-popover
         ref="minimapToggle"
@@ -20,7 +30,7 @@
         popper-class="button-popover"
       />
     </el-button>
-    <el-button v-r-popover:lintToggle class="el-button__no-padding" @click="lintToggle">
+    <el-button v-if="getEditorConfig.useLint" v-r-popover:lintToggle class="el-button__no-padding" @click="lintToggle">
       <lucide-icon name="FileCheck" :size="16" />
       <el-popover
         ref="lintToggle"

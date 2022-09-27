@@ -8,11 +8,12 @@ export const defaultSettings = {
   rendererMode: "rewrite",
   bg: "grid-image",
   toolbar: true,
-  miniMap: true,
+  useMinimap: true,
+  useLint: false,
+  useMock: false,
   contextmenu: true,
   customContextmenu: true,
   otherModule: true,
   templateChooser: true,
-  useLint: false,
   customTheme: {}
 };

@@ -16,10 +16,13 @@
             <el-switch v-model="editorSettings.toolbar" />
           </el-form-item>
           <el-form-item label="小地图">
-            <el-switch v-model="editorSettings.miniMap" />
+            <el-switch v-model="editorSettings.useMinimap" />
           </el-form-item>
           <el-form-item label="流程校验">
             <el-switch v-model="editorSettings.useLint" />
+          </el-form-item>
+          <el-form-item label="流程模拟">
+            <el-switch v-model="editorSettings.useMock" />
           </el-form-item>
           <el-form-item label="模板选项扩展">
             <el-switch v-model="editorSettings.templateChooser" />

@@ -2,6 +2,7 @@ import BpmnRenderer from "bpmn-js/lib/draw/BpmnRenderer";
 import { append as svgAppend, attr as svgAttr, create as svgCreate } from "tiny-svg";
 import renderEventContent from "./renderEventContent";
 import { drawCircle } from "../utils";
+import mysqlIcon from "@packages/theme/process-icons/mysql.png";
 
 class EnhancementRenderer extends BpmnRenderer {
   constructor(config, eventBus, styles, pathMap, canvas, textRenderer) {
@@ -29,17 +30,21 @@ class EnhancementRenderer extends BpmnRenderer {
       renderEventContent(this.handlers, element, parentGfx);
       return circle;
     };
+
     // 自定义节点的绘制
     this.handlers["miyue:SqlTask"] = (parentGfx, element, attr) => {
+      // 渲染外层边框
+      const task = this.handlers["bpmn:Activity"](parentGfx, element);
+      // 自定义节点
       const customIcon = svgCreate("image");
       svgAttr(customIcon, {
         ...(attr || {}),
         width: element.width,
         height: element.height,
-        href: "./icons/mysql.png"
+        href: mysqlIcon
       });
       svgAppend(parentGfx, customIcon);
-      return customIcon;
+      return task;
     };
   }
 }
