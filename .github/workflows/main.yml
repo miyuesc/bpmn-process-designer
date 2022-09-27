@@ -6,9 +6,9 @@ name: BPMN-CI
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
-    branches: [ main ]
+    branches: [ v2 ]
   pull_request:
-    branches: [ main ]
+    branches: [ v2 ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -45,4 +45,4 @@ jobs:
           FOLDER: dist
           CLEAN: true
           REPOSITORY_NAME: miyuesc/miyuesc.github.io
-          TARGET_FOLDER: process-designer
+          TARGET_FOLDER: process-designer-v2
