@@ -6,6 +6,7 @@ function resolve(dir) {
 }
 
 module.exports = defineConfig({
+  publicPath: process.env.NODE_ENV === "production" ? "././" : "/",
   pages: {
     index: {
       entry: "playground/main.js",
