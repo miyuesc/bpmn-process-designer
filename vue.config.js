@@ -6,7 +6,7 @@ function resolve(dir) {
 }
 
 module.exports = defineConfig({
-  publicPath: process.env.NODE_ENV === "production" ? "././" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "./process-designer-v2/" : "/",
   pages: {
     index: {
       entry: "playground/main.js",
