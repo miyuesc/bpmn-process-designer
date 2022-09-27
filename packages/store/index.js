@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { defaultSettings } from "../preset-configuration/editor.config";
-import { unObserver } from "../../utils/tool";
+import { unObserver } from "@utils/tool";
 
 Vue.use(Vuex);
 
@@ -30,8 +30,7 @@ const store = new Vuex.Store({
     // modeler
     getModeler: (state) => state.bpmn._modeler,
     getModeling: (state) => (state.bpmn._modeler ? state.bpmn._modeler.get("modeling") : undefined),
-    getActive: (state) => state.bpmn._activeElement,
-    getActiveId: (state) => state.bpmn._activeElementId
+    getActive: (state) => state.bpmn._activeElement
   },
   mutations: {
     // editor
@@ -63,8 +62,7 @@ const store = new Vuex.Store({
      * @param element { object }
      */
     setElement(state, { element, id }) {
-      state.bpmn._activeElement = unObserver(element);
-      state.bpmn._activeElementId = id;
+      state.bpmn._activeElement = { element: unObserver(element), id };
     }
   }
 });

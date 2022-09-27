@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { catchError } from "@utils/printCatch";
 import { getNameValue, setNameValue } from "@packages/bo-utils/nameUtil";
 import {
@@ -38,6 +37,7 @@ import {
 } from "@packages/bo-utils/processUtil";
 import { setIdValue } from "@packages/bo-utils/idUtil";
 import EventEmitter from "@utils/EventEmitter";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementGenerations",
@@ -50,39 +50,37 @@ export default {
       isProcess: false
     };
   },
-  computed: {
-    ...mapGetters(["getActive", "getActiveId"])
-  },
+
   mounted() {
     this.reloadGenerationData();
     EventEmitter.on("element-update", this.reloadGenerationData);
   },
   methods: {
     reloadGenerationData() {
-      this.isProcess = !!this.getActive && this.getActive.type === "bpmn:Process";
-      this.elementId = this.getActiveId;
-      this.elementName = getNameValue(this.getActive) || "";
+      this.isProcess = !!getActive() && getActive().type === "bpmn:Process";
+      this.elementId = getActive().id;
+      this.elementName = getNameValue(getActive()) || "";
       if (this.isProcess) {
-        this.elementExecutable = getProcessExecutable(this.getActive);
-        this.elementVersion = getProcessVersionTag(this.getActive) || "";
+        this.elementExecutable = getProcessExecutable(getActive());
+        this.elementVersion = getProcessVersionTag(getActive()) || "";
       }
     },
     updateElementName(value) {
-      setNameValue(this.getActive, value);
+      setNameValue(getActive(), value);
     },
     updateElementId(value) {
-      setIdValue(this.getActive, value);
+      setIdValue(getActive(), value);
     },
     updateElementVersion(value) {
       const reg = /((\d|([1-9](\d*))).){2}(\d|([1-9](\d*)))/;
       if (reg.test(value)) {
-        setProcessVersionTag(this.getActive, value);
+        setProcessVersionTag(getActive(), value);
       } else {
         catchError("版本号必须符合语义化版本2.0.0 要点");
       }
     },
     updateElementExecutable(value) {
-      setProcessExecutable(this.getActive, value);
+      setProcessExecutable(getActive(), value);
     }
   }
 };

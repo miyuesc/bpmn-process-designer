@@ -1,11 +1,13 @@
 .bpmn-panel {
+  display: flex;
   width: 480px;
+  height: 100%;
   box-sizing: border-box;
   padding: 0 8px;
   border-left: 1px solid #eee;
   box-shadow: 0 0 8px #ccc;
-  max-height: 100%;
-  overflow-y: auto;
+  flex-direction: column;
+  overflow: hidden;
   .n-collapse .el-collapse-item {
     border-top: none;
     margin: 0;
@@ -48,6 +50,11 @@
       font-size: 14px;
       font-weight: bolder;
     }
+  }
+
+  .el-collapse {
+    flex: 1;
+    overflow-y: auto;
   }
 
   .need-filled {

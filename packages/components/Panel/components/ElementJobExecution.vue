@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import EventEmitter from "@utils/EventEmitter";
 import {
   getExternalTaskValue,
@@ -27,6 +26,7 @@ import {
   setRetryTimeCycleValue,
   taskPriorityVisible
 } from "@packages/bo-utils/jobExecutionUtil";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementJobExecution",
@@ -38,18 +38,7 @@ export default {
       tpVisible: false
     };
   },
-  computed: {
-    ...mapGetters(["getActive", "getActiveId"])
-  },
-  watch: {
-    getActiveId: {
-      immediate: true,
-      handler() {
-        this.getRetryTimeCycle();
-        this.getExternalTaskPriority();
-      }
-    }
-  },
+
   mounted() {
     this.getRetryTimeCycle();
     this.getExternalTaskPriority();
@@ -61,18 +50,18 @@ export default {
   },
   methods: {
     getRetryTimeCycle() {
-      this.rtVisible = retryTimeCycleVisible(this.getActive);
-      this.retryTimeCycle = getRetryTimeCycleValue(this.getActive) || "";
+      this.rtVisible = retryTimeCycleVisible(getActive());
+      this.retryTimeCycle = getRetryTimeCycleValue(getActive()) || "";
     },
     getExternalTaskPriority() {
-      this.tpVisible = taskPriorityVisible(this.getActive);
-      this.taskPriority = getExternalTaskValue(this.getActive) || "";
+      this.tpVisible = taskPriorityVisible(getActive());
+      this.taskPriority = getExternalTaskValue(getActive()) || "";
     },
     setRetryTimeCycle(value) {
-      setRetryTimeCycleValue(this.getActive, value);
+      setRetryTimeCycleValue(getActive(), value);
     },
     setExternalTaskPriority(value) {
-      setExternalTaskValue(this.getActive, value);
+      setExternalTaskValue(getActive(), value);
     }
   }
 };

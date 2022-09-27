@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import * as CU from "@packages/bo-utils/conditionUtil";
 import EventEmitter from "@utils/EventEmitter";
 import { scriptTypeOptions } from "@packages/preset-configuration/enumsOption";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementConditional",
@@ -73,63 +73,61 @@ export default {
       scriptTypeOptions: scriptTypeOptions
     };
   },
-  computed: {
-    ...mapGetters(["getActive", "getActiveId"])
-  },
+
   mounted() {
     this.getElementVariables();
     this.getElementConditionType();
-    this.conditionTypeOptions = CU.getConditionTypeOptions(this.getActive);
+    this.conditionTypeOptions = CU.getConditionTypeOptions(getActive());
     EventEmitter.on("element-update", () => {
-      this.conditionTypeOptions = CU.getConditionTypeOptions(this.getActive);
+      this.conditionTypeOptions = CU.getConditionTypeOptions(getActive());
       this.getElementVariables();
       this.getElementConditionType();
     });
   },
   methods: {
     getElementVariables() {
-      this.varVisible = CU.isConditionEventDefinition(this.getActive);
-      this.variableName = CU.getVariableNameValue(this.getActive);
+      this.varVisible = CU.isConditionEventDefinition(getActive());
+      this.variableName = CU.getVariableNameValue(getActive());
       if (this.varVisible) {
-        this.varEventVisible = !CU.isExtendStartEvent(this.getActive);
-        this.variableEvents = CU.getVariableEventsValue(this.getActive);
+        this.varEventVisible = !CU.isExtendStartEvent(getActive());
+        this.variableEvents = CU.getVariableEventsValue(getActive());
       }
     },
     getElementConditionType() {
-      this.conditionData.conditionType = CU.getConditionTypeValue(this.getActive);
+      this.conditionData.conditionType = CU.getConditionTypeValue(getActive());
       this.conditionData.conditionType === "expression" && this.getConditionExpression();
       this.conditionData.conditionType === "script" && this.getConditionScript();
     },
     getConditionScript() {
-      this.conditionData.language = CU.getConditionScriptLanguageValue(this.getActive);
-      this.conditionData.scriptType = CU.getConditionScriptTypeValue(this.getActive);
-      this.conditionData.body = CU.getConditionScriptBodyValue(this.getActive);
-      this.conditionData.resource = CU.getConditionScriptResourceValue(this.getActive);
+      this.conditionData.language = CU.getConditionScriptLanguageValue(getActive());
+      this.conditionData.scriptType = CU.getConditionScriptTypeValue(getActive());
+      this.conditionData.body = CU.getConditionScriptBodyValue(getActive());
+      this.conditionData.resource = CU.getConditionScriptResourceValue(getActive());
     },
 
     setElementVariableName(value) {
-      CU.setVariableNameValue(this.getActive, value);
+      CU.setVariableNameValue(getActive(), value);
     },
     setElementVariableEvents(value) {
-      CU.setVariableEventsValue(this.getActive, value);
+      CU.setVariableEventsValue(getActive(), value);
     },
     setElementConditionType(value) {
-      CU.setConditionTypeValue(this.getActive, value);
+      CU.setConditionTypeValue(getActive(), value);
     },
     setConditionExpression(value) {
-      CU.setConditionExpressionValue(this.getActive, value);
+      CU.setConditionExpressionValue(getActive(), value);
     },
     setConditionScriptLanguage(value) {
-      CU.setConditionScriptLanguageValue(this.getActive, value);
+      CU.setConditionScriptLanguageValue(getActive(), value);
     },
     setElementConditionScriptType(value) {
-      CU.setConditionScriptTypeValue(this.getActive, value);
+      CU.setConditionScriptTypeValue(getActive(), value);
     },
     setConditionScriptBody(value) {
-      CU.setConditionScriptBodyValue(this.getActive, value);
+      CU.setConditionScriptBodyValue(getActive(), value);
     },
     setConditionScriptResource(value) {
-      CU.setConditionScriptResourceValue(this.getActive, value);
+      CU.setConditionScriptResourceValue(getActive(), value);
     }
   }
 };

@@ -54,11 +54,15 @@
     left: 0;
     bottom: 20vh;
     z-index: 0;
-    background: rgba(64, 158, 255, 1);
+    background: rgba(64, 158, 255, 0.6);
     border-radius: 8px;
     transform: translateX(-100%);
     cursor: pointer;
     transition: all cubic-bezier(0.8, 0.4, 0.8, 0.4) 0.24s;
+    &:hover {
+      background: rgba(64, 158, 255, 1);
+      box-shadow: 0 0 8px 0 rgba(64, 158, 255, 0.8);
+    }
   }
 }
 

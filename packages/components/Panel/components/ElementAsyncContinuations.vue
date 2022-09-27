@@ -27,7 +27,7 @@ import {
   setACExclusive
 } from "@packages/bo-utils/asynchronousContinuationsUtil";
 import EventEmitter from "@utils/EventEmitter";
-import { mapGetters } from "vuex";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementAsyncContinuations",
@@ -39,7 +39,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["getActive", "getActiveId"]),
     showExclusive() {
       return this.acBefore || this.acAfter;
     }
@@ -50,20 +49,20 @@ export default {
   },
   methods: {
     reloadACStatus() {
-      this.acBefore = getACBefore(this.getActive);
-      this.acAfter = getACAfter(this.getActive);
-      this.acExclusive = getACExclusive(this.getActive);
+      this.acBefore = getACBefore(getActive());
+      this.acAfter = getACAfter(getActive());
+      this.acExclusive = getACExclusive(getActive());
     },
     updateElementACBefore(value) {
-      setACBefore(this.getActive, value);
+      setACBefore(getActive(), value);
       this.reloadACStatus();
     },
     updateElementACAfter(value) {
-      setACAfter(this.getActive, value);
+      setACAfter(getActive(), value);
       this.reloadACStatus();
     },
     updateElementACExclusive(value) {
-      setACExclusive(this.getActive, value);
+      setACExclusive(getActive(), value);
       this.reloadACStatus();
     }
   }

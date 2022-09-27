@@ -14,7 +14,7 @@
 <script>
 import { getDocumentValue, setDocumentValue } from "@packages/bo-utils/documentationUtil";
 import EventEmitter from "@utils/EventEmitter";
-import { mapGetters } from "vuex";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementDocumentations",
@@ -23,26 +23,24 @@ export default {
       elementDoc: ""
     };
   },
-  computed: {
-    ...mapGetters(["getActive", "getActiveId"])
-  },
+
   watch: {
-    getActiveId: {
+    getActive: {
       immediate: true,
       handler() {
-        this.elementDoc = getDocumentValue(this.getActive) || "";
+        this.elementDoc = getDocumentValue(getActive()) || "";
       }
     }
   },
   mounted() {
-    this.elementDoc = getDocumentValue(this.getActive) || "";
+    this.elementDoc = getDocumentValue(getActive()) || "";
     EventEmitter.on("element-update", () => {
-      this.elementDoc = getDocumentValue(this.getActive) || "";
+      this.elementDoc = getDocumentValue(getActive()) || "";
     });
   },
   methods: {
     updateElementDoc(value) {
-      setDocumentValue(this.getActive, value);
+      setDocumentValue(getActive(), value);
     }
   }
 };

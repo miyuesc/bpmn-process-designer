@@ -2,6 +2,17 @@ import { isAny } from "bpmn-js/lib/util/ModelUtil";
 import { catchError } from "@utils/printCatch";
 import store from "@packages/store";
 
+export function getProcessEngine() {
+  try {
+    if (!store.getters.getProcessEngine) {
+      throw new Error("Bpmn store 或者配置加载失败");
+    }
+    return store.getters.getProcessEngine;
+  } catch (e) {
+    catchError(e);
+  }
+}
+
 export function getModeler() {
   try {
     if (!store.getters.getModeler) {
@@ -29,15 +40,8 @@ getModeler.getCanvas = function () {
   return modeler.get("canvas");
 };
 
-export function getProcessEngine() {
-  try {
-    if (!store.getters.getProcessEngine) {
-      throw new Error("Bpmn store 或者配置加载失败");
-    }
-    return store.getters.getProcessEngine;
-  } catch (e) {
-    catchError(e);
-  }
+export function getActive() {
+  return store.state.bpmn._activeElement?.element || null;
 }
 
 export function isAppendAction(element) {

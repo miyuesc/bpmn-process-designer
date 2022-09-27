@@ -4,13 +4,11 @@
       <collapse-title title="扩展属性">
         <lucide-icon name="FileCog" />
       </collapse-title>
-      <el-tag type="primary" round>
-        {{ extensions.length }}
-      </el-tag>
+      <number-tag :value="extensions.length" margin-left="12px" />
     </template>
     <div class="element-extension-properties">
-      <el-table :data="extensions" style="width: 100%" height="200px">
-        <el-table-column type="index" width="50" />
+      <el-table border :data="extensions" style="width: 100%" height="200px">
+        <el-table-column label="No" type="index" width="50" />
         <el-table-column label="Name" prop="name" show-overflow-tooltip />
         <el-table-column label="Value" prop="value" show-overflow-tooltip />
         <el-table-column label="操作" width="140">
@@ -20,9 +18,8 @@
         </el-table-column>
       </el-table>
 
-      <el-button type="info" class="inline-large-button" secondary @click="openPropertyModel">
-        <lucide-icon :size="20" name="Plus" />
-        <span>添加扩展属性</span>
+      <el-button type="primary" class="inline-large-button" icon="el-icon-plus" @click="openPropertyModel(-1)">
+        添加扩展属性
       </el-button>
     </div>
 
@@ -50,7 +47,7 @@ import {
   removeExtensionProperty
 } from "@packages/bo-utils/extensionPropertiesUtil";
 import EventEmitter from "@utils/EventEmitter";
-import { mapGetters } from "vuex";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementExtensionProperties",
@@ -65,17 +62,6 @@ export default {
       modelVisible: false
     };
   },
-  computed: {
-    ...mapGetters(["getActive", "getActiveId"])
-  },
-  watch: {
-    getActiveId: {
-      immediate: true,
-      handler() {
-        this.reloadExtensionProperties();
-      }
-    }
-  },
   mounted() {
     this.reloadExtensionProperties();
     EventEmitter.on("element-update", this.reloadExtensionProperties);
@@ -85,16 +71,16 @@ export default {
       this.modelVisible = false;
       await this.$nextTick();
       this.newProperty = { name: "", value: "" };
-      this._extensionsRaw = getExtensionProperties(this.getActive);
+      this._extensionsRaw = getExtensionProperties(getActive());
       this.extensions = JSON.parse(JSON.stringify(this._extensionsRaw));
     },
     removeProperty(propIndex) {
-      removeExtensionProperty(this.getActive, this._extensionsRaw[propIndex]);
+      removeExtensionProperty(getActive(), this._extensionsRaw[propIndex]);
       this.reloadExtensionProperties();
     },
     async addProperty() {
       await this.$refs.formRef.validate();
-      addExtensionProperty(this.getActive, this.newProperty);
+      addExtensionProperty(getActive(), this.newProperty);
       await this.reloadExtensionProperties();
     },
     async openPropertyModel() {

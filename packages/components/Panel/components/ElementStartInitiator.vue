@@ -16,7 +16,7 @@
 <script>
 import { getInitiatorValue, setInitiatorValue } from "@packages/bo-utils/initiatorUtil";
 import EventEmitter from "@utils/EventEmitter";
-import { mapGetters } from "vuex";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementStartInitiator",
@@ -25,9 +25,7 @@ export default {
       initiator: ""
     };
   },
-  computed: {
-    ...mapGetters(["getActive", "getActiveId"])
-  },
+
   mounted() {
     this.getElementInitiator();
 
@@ -35,10 +33,10 @@ export default {
   },
   methods: {
     getElementInitiator() {
-      getInitiatorValue(this.getActive);
+      getInitiatorValue(getActive());
     },
     setElementInitiator(value) {
-      setInitiatorValue(this.getActive, value);
+      setInitiatorValue(getActive(), value);
     }
   }
 };

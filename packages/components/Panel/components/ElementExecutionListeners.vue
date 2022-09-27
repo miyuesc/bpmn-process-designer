@@ -4,13 +4,11 @@
       <collapse-title title="执行监听">
         <lucide-icon name="Radio" />
       </collapse-title>
-      <el-tag type="primary" round>
-        {{ listeners.length }}
-      </el-tag>
+      <number-tag :value="listeners.length" margin-left="12px" />
     </template>
     <div class="element-extension-listeners">
-      <el-table :data="listeners" style="width: 100%" height="200px">
-        <el-table-column type="index" width="50" />
+      <el-table border :data="listeners" style="width: 100%" height="200px">
+        <el-table-column label="No" type="index" width="50" />
         <el-table-column label="EventType" prop="event" show-overflow-tooltip />
         <el-table-column label="ListenerType" prop="type" show-overflow-tooltip />
         <el-table-column label="操作" width="140">
@@ -21,9 +19,8 @@
         </el-table-column>
       </el-table>
 
-      <el-button type="primary" class="inline-large-button" secondary @click="openListenerModel(-1)">
-        <lucide-icon :size="20" name="Plus" />
-        <span>添加执行监听</span>
+      <el-button type="primary" class="inline-large-button" icon="el-icon-plus" @click="openListenerModel(-1)">
+        添加执行监听
       </el-button>
     </div>
 
@@ -97,7 +94,6 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import { listenerTypeOptions, scriptTypeOptions } from "@packages/preset-configuration/enumsOption";
 import {
   addExecutionListener,
@@ -110,6 +106,7 @@ import {
 } from "@packages/bo-utils/executionListenersUtil";
 import { getScriptType } from "@packages/bo-utils/scriptUtil";
 import EventEmitter from "@utils/EventEmitter";
+import { getActive } from "@packages/bpmn-utils/BpmnDesignerUtils";
 
 export default {
   name: "ElementExecutionListeners",
@@ -122,15 +119,16 @@ export default {
         event: { required: true, trigger: ["blur", "change"], message: "事件类型不能为空" },
         type: { required: true, trigger: ["blur", "change"], message: "监听器类型不能为空" }
       },
-      formItemVisible: false,
+      formItemVisible: {
+        listenerType: "class",
+        scriptType: "none"
+      },
       listenerEventTypeOptions: [],
       listenerTypeOptions: listenerTypeOptions,
       scriptTypeOptions: scriptTypeOptions
     };
   },
-  computed: {
-    ...mapGetters(["getActive", "getActiveId"])
-  },
+
   mounted() {
     this.reloadExtensionListeners();
     EventEmitter.on("element-update", this.reloadExtensionListeners);
@@ -139,9 +137,9 @@ export default {
     reloadExtensionListeners() {
       this.modelVisible = false;
       this.updateListenerType("class");
-      this.newListener = { event: getDefaultEvent(this.getActive), type: "class" };
-      this.listenerEventTypeOptions = getExecutionListenerTypes(this.getActive);
-      this._listenersRaw = getExecutionListeners(this.getActive);
+      this.newListener = { event: getDefaultEvent(getActive()), type: "class" };
+      this.listenerEventTypeOptions = getExecutionListenerTypes(getActive());
+      this._listenersRaw = getExecutionListeners(getActive());
       const list = this._listenersRaw.map((item) => ({
         ...item,
         ...(item.script
@@ -171,14 +169,14 @@ export default {
     },
     removeListener(index) {
       const listener = this._listenersRaw[index];
-      removeExecutionListener(this.getActive, listener);
+      removeExecutionListener(getActive(), listener);
       this.reloadExtensionListeners();
     },
     async saveExecutionListener(index) {
       await this.$refs.formRef.validate();
       this.activeIndex === -1
-        ? addExecutionListener(this.getActive, this.newListener)
-        : updateExecutionListener(this.getActive, this.newListener, this._listenersRaw[this.activeIndex]);
+        ? addExecutionListener(getActive(), this.newListener)
+        : updateExecutionListener(getActive(), this.newListener, this._listenersRaw[this.activeIndex]);
       this.reloadExtensionListeners();
     },
 
