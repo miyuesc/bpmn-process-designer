@@ -14,7 +14,7 @@ import ConnectorsExtensionModule from "bpmn-js-connectors-extension";
 import Grid from "diagram-js/lib/features/grid-snapping/visuals";
 // 流程图校验部分
 import lintModule from "bpmn-js-bpmnlint";
-import bpmnlint from "@packages/additional-modules/Lint/bpmnlint";
+import { resolver, rules } from "@packages/additional-modules/Lint/bpmnlint";
 // 小地图
 import minimapModule from "diagram-js-minimap";
 
@@ -86,7 +86,12 @@ export default function (settings) {
     modules.push(lintModule);
     options["linting"] = {
       active: true,
-      bpmnlint: bpmnlint
+      bpmnlint: {
+        config: {
+          rules: { ...rules, "task-required": "error" }
+        },
+        resolver
+      }
     };
   }
 

@@ -21,7 +21,27 @@ import rule_14 from "bpmnlint/rules/start-event-required";
 import rule_15 from "bpmnlint/rules/sub-process-blank-start-event";
 import rule_16 from "bpmnlint/rules/superfluous-gateway";
 
+import taskRequired from "@packages/additional-modules/Lint/customLintRules/taskRequired";
+
 const cache = {};
+cache["bpmnlint/conditional-flows"] = rule_0;
+cache["bpmnlint/end-event-required"] = rule_1;
+cache["bpmnlint/event-sub-process-typed-start-event"] = rule_2;
+cache["bpmnlint/fake-join"] = rule_3;
+cache["bpmnlint/label-required"] = rule_4;
+cache["bpmnlint/no-bpmndi"] = rule_5;
+cache["bpmnlint/no-complex-gateway"] = rule_6;
+cache["bpmnlint/no-disconnected"] = rule_7;
+cache["bpmnlint/no-duplicate-sequence-flows"] = rule_8;
+cache["bpmnlint/no-gateway-join-fork"] = rule_9;
+cache["bpmnlint/no-implicit-split"] = rule_10;
+cache["bpmnlint/no-inclusive-gateway"] = rule_11;
+cache["bpmnlint/single-blank-start-event"] = rule_12;
+cache["bpmnlint/single-event-definition"] = rule_13;
+cache["bpmnlint/start-event-required"] = rule_14;
+cache["bpmnlint/sub-process-blank-start-event"] = rule_15;
+cache["bpmnlint/superfluous-gateway"] = rule_16;
+cache["bpmnlint/task-required"] = taskRequired;
 
 /**
  * A resolver that caches rules and configuration as part of the bundle,
@@ -47,7 +67,7 @@ Resolver.prototype.resolveConfig = function (pkg, configName) {
 
 export const resolver = new Resolver();
 
-const rules = {
+export const rules = {
   "conditional-flows": "error",
   "end-event-required": "error",
   "event-sub-process-typed-start-event": "error",
@@ -71,26 +91,7 @@ export const config = {
   rules: rules
 };
 
-const bundle = {
+export default {
   resolver: resolver,
   config: config
 };
-cache["bpmnlint/conditional-flows"] = rule_0;
-cache["bpmnlint/end-event-required"] = rule_1;
-cache["bpmnlint/event-sub-process-typed-start-event"] = rule_2;
-cache["bpmnlint/fake-join"] = rule_3;
-cache["bpmnlint/label-required"] = rule_4;
-cache["bpmnlint/no-bpmndi"] = rule_5;
-cache["bpmnlint/no-complex-gateway"] = rule_6;
-cache["bpmnlint/no-disconnected"] = rule_7;
-cache["bpmnlint/no-duplicate-sequence-flows"] = rule_8;
-cache["bpmnlint/no-gateway-join-fork"] = rule_9;
-cache["bpmnlint/no-implicit-split"] = rule_10;
-cache["bpmnlint/no-inclusive-gateway"] = rule_11;
-cache["bpmnlint/single-blank-start-event"] = rule_12;
-cache["bpmnlint/single-event-definition"] = rule_13;
-cache["bpmnlint/start-event-required"] = rule_14;
-cache["bpmnlint/sub-process-blank-start-event"] = rule_15;
-cache["bpmnlint/superfluous-gateway"] = rule_16;
-
-export default bundle;
