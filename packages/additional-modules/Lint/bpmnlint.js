@@ -46,8 +46,6 @@ cache["bpmnlint/task-required"] = taskRequired;
 /**
  * A resolver that caches rules and configuration as part of the bundle,
  * making them accessible in the browser.
- *
- * @param {Object} cache
  */
 function Resolver() {}
 
