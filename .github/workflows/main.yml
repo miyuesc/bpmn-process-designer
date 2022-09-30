@@ -34,15 +34,12 @@ jobs:
         run: |
           yarn install
           npm run build
-      - name: Deploy
+          
+          
+      # 发布到团队仓库
+      - name: Deploy Step Two
         uses: JamesIves/github-pages-deploy-action@3.7.1
         with:
-          # 该workflow需要操作repo，因此需要一个密钥，下面会讲到如何获取这个密钥
           ACCESS_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-          # 发布到的分支
-          BRANCH: master
-          # 要发布的文件夹
+          BRANCH: gh-pages
           FOLDER: dist
-          CLEAN: true
-          REPOSITORY_NAME: miyuesc/miyuesc.github.io
-          TARGET_FOLDER: process-designer-v2
