@@ -30,7 +30,7 @@ const store = new Vuex.Store({
     // modeler
     getModeler: (state) => state.bpmn._modeler,
     getModeling: (state) => (state.bpmn._modeler ? state.bpmn._modeler.get("modeling") : undefined),
-    getActive: (state) => state.bpmn._activeElement
+    getActive: (state) => state.bpmn.activeElement
   },
   mutations: {
     // editor
@@ -62,7 +62,7 @@ const store = new Vuex.Store({
      * @param element { object }
      */
     setElement(state, { element, id }) {
-      state.bpmn._activeElement = { element: unObserver(element), id };
+      state.bpmn.activeElement = { element: unObserver(element), id };
     }
   }
 });

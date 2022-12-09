@@ -3,6 +3,7 @@ import EventEmitter from "@utils/EventEmitter";
 import { catchError } from "@utils/printCatch";
 import EnhancementContextmenu from "@packages/additional-components/EnhancementContextmenu";
 import { addExtensionProperty } from "@packages/bo-utils/extensionPropertiesUtil";
+import { unObserver } from "@utils/tool";
 
 export default function (designerDom, moduleAndExtensions, context) {
   const options = {
@@ -21,6 +22,14 @@ export default function (designerDom, moduleAndExtensions, context) {
   context.$store.commit("setModeler", modeler);
 
   EventEmitter.emit("modeler-init", modeler);
+
+  context.events.forEach((event) => {
+    modeler.on(event, function (eventObj) {
+      let eventName = event.replace(/\./g, "-");
+      let element = eventObj ? eventObj.element : null;
+      context.$emit(eventName, unObserver({ element, eventObj }));
+    });
+  });
 
   modeler.on("commandStack.changed", async (event) => {
     try {
@@ -56,6 +65,8 @@ export default function (designerDom, moduleAndExtensions, context) {
     }
     return event;
   });
+
+  console.log(modeler);
 
   EnhancementContextmenu(modeler, context.getEditor);
 

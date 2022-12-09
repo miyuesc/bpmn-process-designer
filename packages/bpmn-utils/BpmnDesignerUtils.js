@@ -41,7 +41,7 @@ getModeler.getCanvas = function () {
 };
 
 export function getActive() {
-  return store.state.bpmn._activeElement?.element || null;
+  return store.state.bpmn.activeElement?.element || null;
 }
 
 export function isAppendAction(element) {

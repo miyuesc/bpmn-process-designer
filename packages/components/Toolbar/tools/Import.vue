@@ -25,6 +25,7 @@ export default {
             const xmlStr = this.result;
             getModeler() && getModeler().importXML(xmlStr);
           };
+          window.requestAnimationFrame(() => (this.$refs.importRef.value = null));
         }
       } catch (e) {
         catchError(e);
