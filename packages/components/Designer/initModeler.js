@@ -23,7 +23,7 @@ export default function (designerDom, moduleAndExtensions, context) {
 
   EventEmitter.emit("modeler-init", modeler);
 
-  context.events.forEach((event) => {
+  context.events?.forEach((event) => {
     modeler.on(event, function (eventObj) {
       let eventName = event.replace(/\./g, "-");
       let element = eventObj ? eventObj.element : null;
@@ -42,6 +42,10 @@ export default function (designerDom, moduleAndExtensions, context) {
     }
   });
 
+  // 右键菜单
+  EnhancementContextmenu(modeler, context.getEditor);
+
+  // 功能测试部分，可删除
   modeler.on("commandStack.elements.create.preExecute", (event) => {
     console.log("create", event);
     const {
@@ -52,7 +56,6 @@ export default function (designerDom, moduleAndExtensions, context) {
     }
     return event;
   });
-
   modeler.on("commandStack.shape.replace.preExecute", (event) => {
     console.log("replace", event);
     debugger;
@@ -60,15 +63,12 @@ export default function (designerDom, moduleAndExtensions, context) {
       context: { newShape, newData }
     } = event;
     if (newData && newData.type === "bpmn:UserTask") {
-      console.log(1111);
       addExtensionProperty(newData.businessObject, { name: "111", value: "1231" });
     }
     return event;
   });
 
   console.log(modeler);
-
-  EnhancementContextmenu(modeler, context.getEditor);
 
   return modeler;
 }
