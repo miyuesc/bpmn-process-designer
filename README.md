@@ -21,7 +21,7 @@
 
 ----
 
-🚨🚨当前分支为 V2 分支，根据 vue 3 项目进行了重构，属于破坏性改造，如需 v1 版本，请访问 [branches/main](https://github.com/miyuesc/bpmn-process-designer/tree/main)
+🚨🚨当前分支为 V2 分支，根据 vue 3 项目的一些方法抽离逻辑进行了重构，属于破坏性改造，如需 v1 版本，请访问 [branches/main](https://github.com/miyuesc/bpmn-process-designer/tree/main)
 
 ----
 
@@ -34,15 +34,21 @@
 
 码云同步镜像请访问 [Gitee / MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/) (V1 版本，V2 版本无法访问。。。因为没有实名，无法更新🤢)
 
-#### 🚀🚀🚀 墙裂推荐！！！
+### 🚀🚀🚀 墙裂推荐！！！
 
->**Vite + Vue 3 + pinia + naiveUI 新项目，取消了window命名空间保存bpmn实例的方式，并进行了大部分显示自定义功能，完成了 bpmn.js 基本依赖的 typescript 类型声明。React 项目也可以参考自定义插件和属性更新方式**
+>**Vite + Vue 3 + pinia + naiveUI 新项目，进行了大部分自定义功能基础实现，完成了 bpmn.js 基本依赖的 typescript 类型声明。**
 > 
->**体验请访问：[vite-vue-bpmn-process](https://miyuesc.github.io/vite-vue-bpmn-process/)**
+> React 项目也可以参考自定义插件和属性更新方式
+> 
+>**体验地址：[vite-vue-bpmn-process](https://miyuesc.github.io/vite-vue-bpmn-process/)**
 > 
 >**源码地址：[github: vite-vue-bpmn-process](https://github.com/moon-studio/vite-vue-bpmn-process), [gitee: vite-vue-bpmn-process](https://gitee.com/MiyueSC/vite-vue-bpmn-process)**
 > 
->**付费咨询请加微信（二维码见下方赞助，毕竟生活太苦了😩😩😩）**
+>**付费咨询请加微信**
+> 
+> 公众号：MiyueFE 的前端圈
+> 
+> <img alt="wechat.png" src="public/qrcode.jpg" width="200"/>
 
 
 ## 友情赞助
@@ -53,10 +59,6 @@
 <img alt="微信" src="packages/theme/images/wechat.jpg" width="240" style="display: inline-block"/>
 <img alt="支付宝" src="packages/theme/images/alipay.png" width="240" style="display: inline-block"/>
 </p>
-
-> 付费咨询联系微信：
->
-> <img alt="wechat.png" src="public/wechat.png" width="200"/>
 
 
 ## 友情链接
@@ -85,7 +87,3 @@ npm run demo
 ## 学习交流
 
 如果您觉得这些文章对您有帮助，想和我一起学习，欢迎您关注我的微信订阅号。
-
-订阅号名称：前端小白MiyueFE
-
-订阅号：[前端小白MiyueFE](https://images.weserv.nl/?url=https://i0.hdslb.com/bfs/article/fdef0d8f1731ed03b4123d22b7d82acacb6ca10c.jpg)
