@@ -3,7 +3,7 @@ import { getModeler, getProcessEngine } from "@packages/bpmn-utils/BpmnDesignerU
 import { createModdleElement, getExtensionElementsList } from "@packages/bpmn-utils/BpmnExtensionElements";
 import { getServiceTaskLikeBusinessObject } from "@packages/bpmn-utils/BpmnImplementationType";
 import { getTimerEventDefinition } from "@packages/bpmn-utils/BpmnEventDefinition";
-import { isAsync } from "@babel/core/lib/gensync-utils/async";
+import { isAsync } from "@packages/bpmn-utils/BpmnAsyncElement";
 
 //
 export function retryTimeCycleVisible(element) {
