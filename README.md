@@ -69,8 +69,9 @@
 4. PL-FE: [Bpmn Document](https://github.com/PL-FE/bpmn-doc)
 5. 芋道源码: [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro) ,一套全部开源的企业级的快速开发平台，毫无保留给个人及企业免费使用。
 6. 运维咖啡吧: [《BPMN系列原创文章》](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU5MDY1MzcyOQ==&action=getalbum&album_id=1576254888626454529&scene=173&from_msgid=2247484449&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
+7. dialYun: React Bpmn Designer - [github](https://github.com/dialYun/react_bpmn_designer), [gitee](https://gitee.com/dialYun/react_bpmn_designer)
 
-## 1. 安装依赖 Installation
+## 1. 安装依赖 Installations
 
 ```shell
 npm install
