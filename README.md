@@ -50,6 +50,11 @@
 > 
 > <img alt="wechat.png" src="public/qrcode.jpg" width="200"/>
 
+> 🚀2023年2月14日 Tips:
+>
+> Diagram.js 最近已经实现了 Type Declares 声明，具体请查看 [Diagram.js](https://github.com/bpmn-io/diagram-js) 的 **type-declarations** 分支~
+>
+> Bpmn.js 的 Type Declares 声明 目前已经加入到 bpmn-io 团队的任务面板中，但目前处于 **积压状态**。
 
 ## 友情赞助
 
@@ -85,6 +90,3 @@ npm run demo
 // or yarn run demo
 ```
 
-## 学习交流
-
-如果您觉得这些文章对您有帮助，想和我一起学习，欢迎您关注我的微信订阅号。
