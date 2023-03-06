@@ -16,6 +16,10 @@ export default {
     xml: {
       type: String,
       default: undefined
+    },
+    events: {
+      type: Array,
+      default: () => []
     }
   },
   computed: {

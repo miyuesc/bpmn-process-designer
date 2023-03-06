@@ -8,57 +8,107 @@
 
 <p align="center">
 <img alt="GitHub stars" src="https://img.shields.io/github/stars/miyuesc/bpmn-process-designer?style=flat&logo=github" />
-<img alt="GitHub stars" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" />
+<img alt="GitHub forks" src="https://img.shields.io/github/forks/miyuesc/bpmn-process-designer?style=flat&logo=github" />
 <img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/star.svg?theme=dark' alt='star' />
 <img src='https://gitee.com/miyuesc/bpmn-process-designer/badge/fork.svg?theme=dark' alt='fork' />
 </p>
 
 <p align="center">
 <img src="https://img.shields.io/badge/Vue-2.x-brightgreen" alt="" />
-<img src="https://img.shields.io/badge/ElementUI-%5E2.13-orange" alt="" />
-<img src="https://img.shields.io/badge/Bpmn.js-8.8.3-orange" alt="" />
+<img src="https://img.shields.io/badge/ElementUI-%5E2.13-brightgreen" alt="" />
+<img src="https://img.shields.io/badge/Bpmn.js-%5E8.8.3-brightgreen" alt="" />
 </p>
 
-----
+<p align="center">
+<a href="https://github.com/your-username/your-project-name/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/your-username/your-project-name"></a>
+<a href="https://github.com/your-username/your-project-name/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/your-username/your-project-name"></a>
+<a href="https://github.com/your-username/your-project-name/pulls"><img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/your-username/your-project-name"></a>
+</p>
 
-🚨🚨当前分支为 V2 分支，根据 vue 3 项目的一些方法抽离逻辑进行了重构，属于破坏性改造，如需 v1 版本，请访问 [branches/main](https://github.com/miyuesc/bpmn-process-designer/tree/main)
-
-----
-
-
+<p align="center">
+  <a href="https://miyuesc.github.io/process-designer-v2/">💻在线演示</a>
+  ·
+  <a href="https://github.com/your-username/your-project-name/issues/new">🐛报告 Bug</a>
+</p>
 ## 项目简介
 
 一个基于 `bpmn.js`，`Vue 2.x` 和 `ElementUI` 开发的 BPMN 2.0 流程设计器（网页版），您可以使用它在浏览器上查看和编辑符合 `BPMN 2.0` 规范的流程文件。
 
-在线demo请访问 [MiyueFE Blog / MiyueSC Process Designer](https://miyuesc.github.io/process-designer-v2/)
+项目内置 activiti、flowable、camunda 三种流程引擎支持文件，并提供了常见功能自定义方法与演示代码。
 
-码云同步镜像请访问 [Gitee / MiyueSC Process Designer](https://miyuesc.gitee.io/process-designer/) (V1 版本，V2 版本无法访问。。。因为没有实名，无法更新🤢)
+但由于 bpmn.js 与实际业务的特殊性，本项目暂不支持直接使用与发布 NPM 依赖，建议根据实际需求参照 `App.vue` 进行使用和二次开发。
 
-### 🚀🚀🚀 墙裂推荐！！！
+## TypeScript 支持
 
->**Vite + Vue 3 + pinia + naiveUI 新项目，进行了大部分自定义功能基础实现，完成了 bpmn.js 基本依赖的 typescript 类型声明。**
-> 
-> React 项目也可以参考自定义插件和属性更新方式
-> 
->**体验地址：[vite-vue-bpmn-process](https://miyuesc.github.io/vite-vue-bpmn-process/)**
-> 
->**源码地址：[github: vite-vue-bpmn-process](https://github.com/moon-studio/vite-vue-bpmn-process), [gitee: vite-vue-bpmn-process](https://gitee.com/MiyueSC/vite-vue-bpmn-process)**
-> 
->**付费咨询请加微信**
-> 
-> 公众号：MiyueFE 的前端圈
-> 
-> <img alt="wechat.png" src="public/qrcode.jpg" width="200"/>
+bpmn.js 的核心依赖 —— diagram.js，其核心模块已经支持 `TypeScript`，但是 `bpmn.js` 的 `tds` 仍然处于积压状态。所以在此情况下我编写了 `bpmn.js` 常用插件部分的 `ts` 声明，声明地址：[vite-vue-bpmn-process/types/declares](https://github.com/moon-studio/vite-vue-bpmn-process/tree/dev/types/declares)。
 
-> 🚀2023年2月14日 Tips:
+为支撑 `Vue3` 与 `vite` 开发模式，提供了该项目的 `Vue3` + `tsx` 实现：[vite-vue-bpmn-process](https://github.com/moon-studio/vite-vue-bpmn-process)
+
+## 安装和使用
+
+```bash
+# 克隆仓库
+git clone https://github.com/your-username/your-project-name.git -b v2
+
+# 安装依赖
+npm install
+
+# 启动项目
+npm demo
+```
+
+## 功能说明
+
+当前项目内主要包含五个组件：
+
+- `Designer`：bpmn.js 的画布部分，所有组件的基础依赖组件
+- `Toolbar`：顶部工具栏，依赖 `Designer` 组件实现 `xml` 文件的导入导出和预览，支持对齐、缩放、撤销恢复及其他第三方扩展模块开关
+- `Panel`：自定义属性面板，包括基础属性、扩展属性、监听器、注释文档等配置；支持使用原生属性面板
+- `ContextMenu`：自定义右键菜单，用于添加和更改节点类型
+- `Settings`：全局偏好设置组件，主要用于控制演示项目的配置，实际项目中建议取消
+
+另外包含一些 `bpmn.js` 的扩展：
+
+- `additional-components`：扩展组件，可能依赖 `bpmn.js` 或者 `vue` 组件的一些原生 js 控制方法
+- `additional-modules`：基于 `bpmn.js` 的原生模块进行扩展/重写的功能模块，只有 `bpmn.js` 关联。目前包含 `palette`、`contextMenu`、`renderer` 等部分，也是扩展大家进行二次开发的核心参考代码
+- `bo-utils`：与元素 `businessObject` 相关的公共方法，主要涉及属性读取和更新；与后端使用的流程引擎绑定
+- `bpmn-utils`：`bpmn.js` 相关的一些公共方法
+- `moddle-extensions`：`BPMN 2.0` 规范格式的 `JSON Schema` 文档，包含基础的 `bpmn.json`，三大流程引擎文档与自定义元素文档
+
+整个项目包含了 `store` 和 `EventBus` 两种消息传递方式：
+
+- `store` 中主要存放当前 `Modeler` 实例与节点实例，以及项目配置项，在二次开发过程中可以采用别的数据共享方式取代
+- `EventBus` 事件总线是该项目的 **核心消息传递方式**：因为 **节点实例不能被 `Vue` 进行响应式处理，影响性能且容易产生属性读取更新错误**，并且 **表单需要实时监听节点变化**，所以通过消息总线共享事件和数据是比较好的处理方式。
+
+## 开发指南
+
+`bpmn.js` 的核心内容可以参见我的文章：[Bpmn.js 进阶指南之原理分析与模块改造](https://juejin.cn/post/7117481147277246500)
+
+常见功能的开发及自定义，参见 [Bpmn.js 全面进阶指南](https://juejin.cn/column/6964382482007490590)
+
+## 贡献
+
+在这里列出如何为项目做出贡献，例如：
+
+1. Fork 本仓库
+2. 创建分支 (`git checkout -b feature/your-feature`)
+3. 提交更改 (`git commit -am 'Add some feature'`)
+4. 推送到分支 (`git push origin feature/your-feature`)
+5. 创建一个新的 Pull Request
+
+## 作者简介
+
+MiyueFE（白小米），也可以叫我小白或者小米，常驻 [掘金社区](https://juejin.cn/)，也可以通过一下方式联系我：
+
+- 邮箱：[QQ mail](mailto:913784771@qq.com)
+- 掘金：[MiyueFE](https://juejin.cn/user/747323639208391)
+- 公众号：MiyueFE 的前端圈<img alt="wechat.png" src="./docs-images/README/qrcode.jpg" width="200"/>
+
+## 赞助
+
+> 如果该项目对您有帮助，您可以请我喝杯咖啡~
 >
-> Diagram.js 最近已经实现了 Type Declares 声明，具体请查看 [Diagram.js](https://github.com/bpmn-io/diagram-js) 的 **type-declarations** 分支~
->
-> Bpmn.js 的 Type Declares 声明 目前已经加入到 bpmn-io 团队的任务面板中，但目前处于 **积压状态**。
-
-## 友情赞助
-
-生活不易，偷偷丢个赞赏码吧，各位大佬赏个饭钱🤪🤪🤪🤪~~~~
+> 如果有其他开发支持，请联系微信或者掘金（复杂问题可能需要收费）
 
 <p>
 <img alt="微信" src="packages/theme/images/wechat.jpg" width="240" style="display: inline-block"/>
@@ -66,27 +116,17 @@
 </p>
 
 
+
 ## 友情链接
 
-1. Me: [Bpmn.js 全面进阶指南](https://juejin.cn/column/6964382482007490590)
-2. Yiuman: 低代码平台 [citrus](https://github.com/Yiuman/citrus) ，已集成 activiti7 工作流引擎后端部分
-3. 霖呆呆: [《全网最详bpmn.js教材目录》](https://juejin.cn/post/6844904017567416328)，[关于bpmn.js交流群的说明](https://juejin.cn/post/6844904041026158599)
-4. PL-FE: [Bpmn Document](https://github.com/PL-FE/bpmn-doc)
-5. 芋道源码: [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro) ,一套全部开源的企业级的快速开发平台，毫无保留给个人及企业免费使用。
-6. 运维咖啡吧: [《BPMN系列原创文章》](https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU5MDY1MzcyOQ==&action=getalbum&album_id=1576254888626454529&scene=173&from_msgid=2247484449&from_itemidx=1&count=3&nolastread=1#wechat_redirect)
-7. dialYun: React Bpmn Designer - [github](https://github.com/dialYun/react_bpmn_designer), [gitee](https://gitee.com/dialYun/react_bpmn_designer)
+1. MiyueFE：[Bpmn.js 全面进阶指南](https://juejin.cn/column/6964382482007490590)
+2. Yiuman：低代码平台 [citrus](https://github.com/Yiuman/citrus) ，已集成 activiti7 工作流引擎后端部分
+3. 霖呆呆：[《全网最详bpmn.js教材目录》](https://juejin.cn/post/6844904017567416328)，[关于bpmn.js交流群的说明](https://juejin.cn/post/6844904041026158599)
+4. PL-FE：[Bpmn Document](https://github.com/PL-FE/bpmn-doc)
+5. 芋道源码： [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro) ，一套全部开源的企业级的快速开发平台，毫无保留给个人及企业免费使用。
+6. dialYun：React Bpmn Designer - [github](https://github.com/dialYun/react_bpmn_designer), [gitee](https://gitee.com/dialYun/react_bpmn_designer)
 
-## 1. 安装依赖 Installations
+## 开源许可
 
-```shell
-npm install
-// or yarn install
-```
-
-## 2. 运行 Quick Start
-
-```shell
-npm run demo
-// or yarn run demo
-```
+[Apache License](https://github.com/miyuesc/bpmn-process-designer/blob/main/LICENSE) © 2023 [miyuesc](https://github.com/miyuesc)
 
