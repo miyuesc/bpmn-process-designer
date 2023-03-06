@@ -20,16 +20,17 @@
 </p>
 
 <p align="center">
-<a href="https://github.com/your-username/your-project-name/blob/main/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/your-username/your-project-name"></a>
-<a href="https://github.com/your-username/your-project-name/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/your-username/your-project-name"></a>
-<a href="https://github.com/your-username/your-project-name/pulls"><img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/your-username/your-project-name"></a>
+<a href="https://github.com/miyuesc/bpmn-process-designer/blob/v2/LICENSE"><img alt="GitHub license" src="https://img.shields.io/github/license/miyuesc/bpmn-process-designer"></a>
+<a href="https://github.com/miyuesc/bpmn-process-designer/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/miyuesc/bpmn-process-designer"></a>
+<a href="https://github.com/miyuesc/bpmn-process-designer/pulls"><img alt="GitHub pull requests" src="https://img.shields.io/github/issues-pr/miyuesc/bpmn-process-designer"></a>
 </p>
 
 <p align="center">
   <a href="https://miyuesc.github.io/process-designer-v2/">💻在线演示</a>
   ·
-  <a href="https://github.com/your-username/your-project-name/issues/new">🐛报告 Bug</a>
+  <a href="https://github.com/miyuesc/bpmn-process-designer/issues/new">🐛报告 Bug</a>
 </p>
+
 ## 项目简介
 
 一个基于 `bpmn.js`，`Vue 2.x` 和 `ElementUI` 开发的 BPMN 2.0 流程设计器（网页版），您可以使用它在浏览器上查看和编辑符合 `BPMN 2.0` 规范的流程文件。
@@ -48,7 +49,7 @@ bpmn.js 的核心依赖 —— diagram.js，其核心模块已经支持 `TypeScr
 
 ```bash
 # 克隆仓库
-git clone https://github.com/your-username/your-project-name.git -b v2
+git clone https://github.com/miyuesc/bpmn-process-designer.git -b v2
 
 # 安装依赖
 npm install
@@ -128,5 +129,5 @@ MiyueFE（白小米），也可以叫我小白或者小米，常驻 [掘金社�
 
 ## 开源许可
 
-[Apache License](https://github.com/miyuesc/bpmn-process-designer/blob/main/LICENSE) © 2023 [miyuesc](https://github.com/miyuesc)
+[Apache License](https://github.com/miyuesc/bpmn-process-designer/blob/v2/LICENSE) © 2023 [miyuesc](https://github.com/miyuesc)
 
