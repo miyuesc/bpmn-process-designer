@@ -34,6 +34,7 @@ import ElementExtensionProperties from "@packages/components/Panel/components/El
 import ElementExecutionListeners from "@packages/components/Panel/components/ElementExecutionListeners";
 import ElementAsyncContinuations from "@packages/components/Panel/components/ElementAsyncContinuations";
 import ElementStartInitiator from "@packages/components/Panel/components/ElementStartInitiator";
+import ElementExtensionField from "@packages/components/Panel/components/ElementExtensionField";
 
 export default {
   name: "BpmnPanel",
@@ -46,7 +47,8 @@ export default {
     ElementExtensionProperties,
     ElementExecutionListeners,
     ElementAsyncContinuations,
-    ElementStartInitiator
+    ElementStartInitiator,
+    ElementExtensionField
   },
   data() {
     return {
@@ -121,6 +123,7 @@ export default {
       isExecutable(element) && this.renderComponents.push(ElementExecutionListeners);
       isAsynchronous(element) && this.renderComponents.push(ElementAsyncContinuations);
       isStartInitializable(element) && this.renderComponents.push(ElementStartInitiator);
+      this.renderComponents.push(ElementExtensionField);
     }
   }
 };
