@@ -58,6 +58,13 @@ npm install
 npm demo
 ```
 
+## 开发指南
+
+`bpmn.js` 的 **核心原理与常规改造** 可以参见我的文章：[Bpmn.js 进阶指南之原理分析与模块改造](https://juejin.cn/post/7117481147277246500)
+
+**常用模块的开发及自定义**，参见 [Bpmn.js 全面进阶指南](https://juejin.cn/column/6964382482007490590)
+
+
 ## 功能说明
 
 当前项目内主要包含五个组件：
@@ -81,13 +88,45 @@ npm demo
 - `store` 中主要存放当前 `Modeler` 实例与节点实例，以及项目配置项，在二次开发过程中可以采用别的数据共享方式取代
 - `EventBus` 事件总线是该项目的 **核心消息传递方式**：因为 **节点实例不能被 `Vue` 进行响应式处理，影响性能且容易产生属性读取更新错误**，并且 **表单需要实时监听节点变化**，所以通过消息总线共享事件和数据是比较好的处理方式。
 
-## 开发指南
+## 可用功能
 
-`bpmn.js` 的核心内容可以参见我的文章：[Bpmn.js 进阶指南之原理分析与模块改造](https://juejin.cn/post/7117481147277246500)
+### 1. 工具栏
 
-常见功能的开发及自定义，参见 [Bpmn.js 全面进阶指南](https://juejin.cn/column/6964382482007490590)
+- [x] 导入文件
+- [x] 导出文件（xml, bpmn, svg）
+- [x] 预览文件字符串（xml, json）
+- [x] 元素对其（垂直上中下、水平左中右）
+- [x] 缩放
+- [x] 撤销恢复与重做
+- [x] 扩展功能（流程模拟，小地图，快捷键提示，bpmn 事件查询）
 
-## 贡献
+### 2. 编辑器
+
+- [x] 自定义流程id与名称
+- [x] 可选流程引擎（camunda，activiti，flowable）
+- [x] 动态背景设置
+- [x] 自定义 PaletteProvider
+- [x] 自定义 Renderer
+- [x] 自定义 ContentPadProvider
+- [x] 自定义 Rules
+- [x] 自定义 ElementFactory
+- [x] 扩展右键菜单
+- [ ] 自定义 Overlays
+- [ ] 扩展 Tooltip
+- [ ] 部分元素高亮
+
+### 3. 属性面板
+
+- [x] 基础信息（id, name, version, executable ...）
+- [x] 附件文档（documentation）
+- [x] 执行作业
+- [x] 异步配置
+- [x] 流程启动项
+- [x] 扩展属性
+- [x] 执行监听器
+- [x] 流转条件
+- [ ] 任务监听器
+- [ ] 任务多实例（会签、或签）## 贡献
 
 在这里列出如何为项目做出贡献，例如：
 
@@ -97,13 +136,29 @@ npm demo
 4. 推送到分支 (`git push origin feature/your-feature`)
 5. 创建一个新的 Pull Request
 
+## 界面预览
+
+![img.png](./docs-images/README/img.png)
+
+![img_1.png](./docs-images/README/img_1.png)
+
+![img_2.png](./docs-images/README/img_2.png)
+
+![img_3.png](./docs-images/README/img_3.png)
+
+![img_4.png](./docs-images/README/img_4.png)
+
+![img_5.png](./docs-images/README/img_5.png)
+
+![img_6.png](./docs-images/README/img_6.png)
+
 ## 作者简介
 
 MiyueFE（白小米），也可以叫我小白或者小米，常驻 [掘金社区](https://juejin.cn/)，也可以通过一下方式联系我：
 
 - 邮箱：[QQ mail](mailto:913784771@qq.com)
 - 掘金：[MiyueFE](https://juejin.cn/user/747323639208391)
-- 公众号：MiyueFE 的前端圈<img alt="wechat.png" src="./docs-images/README/qrcode.jpg" width="200"/>
+- 公众号：MiyueFE 的前端圈<img alt="wechat.png" src="././docs-images/README-images/README/qrcode.jpg" width="200"/>
 
 ## 赞助
 
