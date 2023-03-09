@@ -126,7 +126,9 @@ npm demo
 - [x] 执行监听器
 - [x] 流转条件
 - [ ] 任务监听器
-- [ ] 任务多实例（会签、或签）## 贡献
+- [ ] 任务多实例（会签、或签）
+
+## 贡献
 
 在这里列出如何为项目做出贡献，例如：
 
@@ -158,7 +160,7 @@ MiyueFE（白小米），也可以叫我小白或者小米，常驻 [掘金社�
 
 - 邮箱：[QQ mail](mailto:913784771@qq.com)
 - 掘金：[MiyueFE](https://juejin.cn/user/747323639208391)
-- 公众号：MiyueFE 的前端圈<img alt="wechat.png" src="././docs-images/README-images/README/qrcode.jpg" width="200"/>
+- 公众号：MiyueFE 的前端圈<img alt="wechat.png" src="./docs-images/README/qrcode.jpg" width="200"/>
 
 ## 赞助
 
