@@ -23,6 +23,7 @@ import activitiModdleDescriptors from "@packages/moddle-extensions/activiti.json
 import camundaModdleDescriptors from "@packages/moddle-extensions/camunda.json";
 import flowableModdleDescriptors from "@packages/moddle-extensions/flowable.json";
 import miyueModdleDescriptors from "@packages/moddle-extensions/miyue.json";
+import zeebeModdleDescriptors from "@packages/moddle-extensions/zeebe.json";
 
 // 自定义扩展部分
 import EnhancementPalette from "@packages/additional-modules/Palette/EnhancementPalette";
@@ -141,6 +142,7 @@ export default function (settings) {
     if (settings.processEngine === "camunda") moddle["camunda"] = camundaModdleDescriptors;
     if (settings.processEngine === "flowable") moddle["flowable"] = flowableModdleDescriptors;
   }
+  moddle["zeebe"] = zeebeModdleDescriptors;
 
   // 设置自定义属性
   moddle["miyue"] = miyueModdleDescriptors;
