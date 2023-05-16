@@ -24,6 +24,7 @@ export async function createNewDiagram(modeler, newXml, settings) {
     const newId = processId ? processId : `Process_${timestamp}`;
     const newName = processName || `业务流程_${timestamp}`;
     const xmlString = newXml || emptyXML(newId, newName);
+    console.log(xmlString);
     const { warnings } = await modeler.importXML(xmlString);
     if (warnings && warnings.length) {
       warnings.forEach(catchWarning);

@@ -59,28 +59,28 @@ export default function (settings) {
   }
 
   // 配置模板选择弹窗（会影响默认 popupmenu）
-  if (settings.templateChooser || settings.penalMode !== "custom") {
-    modules.push(BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule);
-    moddle = {};
-    if (settings.penalMode !== "custom") {
-      options["propertiesPanel"] = { parent: "#camunda-panel" };
-      moddle["camunda"] = camundaModdleDescriptors;
-    }
-    if (settings.templateChooser) {
-      modules.push(
-        CloudElementTemplatesPropertiesProviderModule,
-        ElementTemplateChooserModule,
-        ConnectorsExtensionModule
-      );
-      options["exporter"] = {
-        name: "element-template-chooser",
-        version: "0.0.1"
-      };
-      options["connectorsExtension"] = {
-        appendAnything: true
-      };
-    }
-  }
+  // if (settings.templateChooser || settings.penalMode !== "custom") {
+  //   modules.push(BpmnPropertiesPanelModule, BpmnPropertiesProviderModule, CamundaPlatformPropertiesProviderModule);
+  //   moddle = {};
+  //   if (settings.penalMode !== "custom") {
+  //     options["propertiesPanel"] = { parent: "#camunda-panel" };
+  //     moddle["camunda"] = camundaModdleDescriptors;
+  //   }
+  //   if (settings.templateChooser) {
+  //     modules.push(
+  //       CloudElementTemplatesPropertiesProviderModule,
+  //       ElementTemplateChooserModule,
+  //       ConnectorsExtensionModule
+  //     );
+  //     options["exporter"] = {
+  //       name: "element-template-chooser",
+  //       version: "0.0.1"
+  //     };
+  //     options["connectorsExtension"] = {
+  //       appendAnything: true
+  //     };
+  //   }
+  // }
 
   // 设置 lint 校验
   if (settings.useLint) {
@@ -142,7 +142,7 @@ export default function (settings) {
     if (settings.processEngine === "camunda") moddle["camunda"] = camundaModdleDescriptors;
     if (settings.processEngine === "flowable") moddle["flowable"] = flowableModdleDescriptors;
   }
-  moddle["zeebe"] = zeebeModdleDescriptors;
+  // moddle["zeebe"] = zeebeModdleDescriptors;
 
   // 设置自定义属性
   moddle["miyue"] = miyueModdleDescriptors;

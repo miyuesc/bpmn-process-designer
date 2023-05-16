@@ -98,6 +98,9 @@ export default {
       this.conditionData.conditionType === "expression" && this.getConditionExpression();
       this.conditionData.conditionType === "script" && this.getConditionScript();
     },
+    getConditionExpression() {
+      this.conditionData.expression = CU.getConditionExpressionValue(getActive());
+    },
     getConditionScript() {
       this.conditionData.language = CU.getConditionScriptLanguageValue(getActive());
       this.conditionData.scriptType = CU.getConditionScriptTypeValue(getActive());
