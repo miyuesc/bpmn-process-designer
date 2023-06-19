@@ -176,7 +176,7 @@ MiyueFE（白小米），也可以叫我小白或者小米，常驻 [掘金社�
 ## 其他项目
 
 1. [diagram-js-grid-bg](https://github.com/miyuesc/diagram-js-grid-bg)：基于 diagram-js-grid 的 SVG 网格背景，可用于diagram-js的相关项目，例如 bpmn-js、dmn-js 等
-2. [bpmn-js-external-label-modeling]https://github.com/miyuesc/bpmn-js-external-label-modeling)：一个用来将 Label 标签渲染在节点外部的bpmn-js插件。
+2. [bpmn-js-external-label-modeling](https://github.com/miyuesc/bpmn-js-external-label-modeling)：一个用来将 Label 标签渲染在节点外部的bpmn-js插件。
 
 ## 友情链接
 
