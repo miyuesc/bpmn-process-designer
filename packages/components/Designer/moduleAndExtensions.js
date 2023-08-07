@@ -11,12 +11,13 @@ import {
 import ElementTemplateChooserModule from "@bpmn-io/element-template-chooser";
 import ConnectorsExtensionModule from "bpmn-js-connectors-extension";
 // 官方 默认点状背景
-import Grid from "diagram-js/lib/features/grid-snapping/visuals";
+// import Grid from "diagram-js/lib/features/grid-snapping/visuals";
 // 流程图校验部分
 import lintModule from "bpmn-js-bpmnlint";
 import { resolver, rules } from "@packages/additional-modules/Lint/bpmnlint";
 // 小地图
 import minimapModule from "diagram-js-minimap";
+import gridBGModule from "diagram-js-grid-bg";
 
 // moddle 定义文件
 import activitiModdleDescriptors from "@packages/moddle-extensions/activiti.json";
@@ -111,7 +112,7 @@ export default function (settings) {
 
   // 官方网点背景
   if (settings.bg === "grid") {
-    modules.push(Grid);
+    modules.push(gridBGModule);
   }
 
   // 设置其他模块的启用
