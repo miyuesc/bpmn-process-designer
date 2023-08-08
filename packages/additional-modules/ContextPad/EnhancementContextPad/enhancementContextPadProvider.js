@@ -48,30 +48,30 @@ class EnhancementContextPadProvider extends ContextPadProvider {
     const actions = {};
     const modeling = this._modeling;
 
-    const appendUserTask = (event, element) => {
-      const shape = this._elementFactory.createShape({ type: "bpmn:UserTask" });
-      this._create.start(event, shape, {
-        source: element
-      });
-    };
-
-    const append = this._autoPlace
-      ? (event, element) => {
-          const shape = this._elementFactory.createShape({ type: "bpmn:UserTask" });
-          this._autoPlace.append(element, shape);
-        }
-      : appendUserTask;
-
-    // 添加创建用户任务按钮
-    actions["append.append-user-task"] = {
-      group: "model",
-      className: "bpmn-icon-user-task",
-      title: "用户任务",
-      action: {
-        dragstart: appendUserTask,
-        click: append
-      }
-    };
+    // const appendUserTask = (event, element) => {
+    //   const shape = this._elementFactory.createShape({ type: "bpmn:UserTask" });
+    //   this._create.start(event, shape, {
+    //     source: element
+    //   });
+    // };
+    //
+    // const append = this._autoPlace
+    //   ? (event, element) => {
+    //       const shape = this._elementFactory.createShape({ type: "bpmn:UserTask" });
+    //       this._autoPlace.append(element, shape);
+    //     }
+    //   : appendUserTask;
+    //
+    // // 添加创建用户任务按钮
+    // actions["append.append-user-task"] = {
+    //   group: "model",
+    //   className: "bpmn-icon-user-task",
+    //   title: "用户任务",
+    //   action: {
+    //     dragstart: appendUserTask,
+    //     click: append
+    //   }
+    // };
 
     // 添加一个与edit一组的按钮
     actions["enhancement-op-1"] = {
