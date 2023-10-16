@@ -47,6 +47,7 @@ class EnhancementContextPadProvider extends ContextPadProvider {
   getContextPadEntries(element) {
     const actions = {};
     const modeling = this._modeling;
+    const contextPad = this._contextPad;
 
     // const appendUserTask = (event, element) => {
     //   const shape = this._elementFactory.createShape({ type: "bpmn:UserTask" });
@@ -93,6 +94,16 @@ class EnhancementContextPadProvider extends ContextPadProvider {
       action: {
         click: function (event, delElement) {
           modeling.removeElements([...(delElement.incoming || []), ...(delElement.outgoing || []), delElement]);
+        }
+      }
+    };
+    actions["enhancement-op-1"] = {
+      group: "edit",
+      className: "enhancement-op",
+      title: "切换ContextPad样式",
+      action: {
+        click: function (e) {
+          contextPad.toggleStyles && contextPad.toggleStyles();
         }
       }
     };

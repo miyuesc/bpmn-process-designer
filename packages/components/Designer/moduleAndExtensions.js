@@ -18,6 +18,7 @@ import { resolver, rules } from "@packages/additional-modules/Lint/bpmnlint";
 // 小地图
 import minimapModule from "diagram-js-minimap";
 import gridBGModule from "diagram-js-grid-bg";
+import contextPadModule from "diagram-js-context-pad";
 
 // moddle 定义文件
 import activitiModdleDescriptors from "@packages/moddle-extensions/activiti.json";
@@ -114,6 +115,12 @@ export default function (settings) {
   if (settings.bg === "grid") {
     modules.push(gridBGModule);
   }
+
+  // 扩展的上下文菜单
+  modules.push(contextPadModule);
+  options["contextPad"] = {
+    beauty: true
+  };
 
   // 设置其他模块的启用
   if (settings.otherModule) {
