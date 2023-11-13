@@ -218,6 +218,7 @@ MiyueFE（白小米），也可以叫我小白或者小米，常驻 [掘金社�
 4. PL-FE：[Bpmn Document](https://github.com/PL-FE/bpmn-doc)
 5. 芋道源码： [ruoyi-vue-pro](https://gitee.com/zhijiantianya/ruoyi-vue-pro) ，一套全部开源的企业级的快速开发平台，毫无保留给个人及企业免费使用。
 6. dialYun：React Bpmn Designer - [github](https://github.com/dialYun/react_bpmn_designer), [gitee](https://gitee.com/dialYun/react_bpmn_designer)
+7. kstry：流程编排、规则引擎、并发、微服务整合框架 - [github](https://github.com/kstry/kstry-core), [gitee](https://gitee.com/kstry/kstry-core)
 
 ## 开源许可
 
