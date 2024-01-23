@@ -158,6 +158,15 @@ npm demo
 - [ ] 任务监听器
 - [ ] 任务多实例（会签、或签）
 
+### <img src="./docs-images/README/image-20240117164127927.png" alt="image-20240117164127927" width=18 /> Bpmn-js 相关工具库
+
+| 🎁 Projects <div style="width:100px">   | ⭐ Description                                                | ☄ Downloads                                                  | ✨ License                                                    |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [diagram-js-grid-bg](https://github.com/miyuesc/diagram-js-grid-bg) | A visual grid backgroud for diagram-js, base on diagram-js-grid. <br/> 基于 diagram-js-grid 的 SVG 网格背景，可用于diagram-js的相关项目，例如 bpmn-js、dmn-js 等。 | ![NPM Downloads](https://img.shields.io/npm/dw/diagram-js-grid-bg) | ![NPM License](https://img.shields.io/npm/l/diagram-js-grid-bg) |
+| [diagram-js-context-pad](https://github.com/miyuesc/diagram-js-context-pad) | An element context menu component for diagram-js/bpmn-js use, base on diagram-js/lib/features/context-pad.<br/> 一个提供给 diagram-js/bpmn-js 使用的元素上下文菜单组件，基于 `diagram-js/lib/features/context-pad`。 | ![NPM Downloads](https://img.shields.io/npm/dw/diagram-js-context-pad) | ![NPM License](https://img.shields.io/npm/l/diagram-js-context-pad) |
+| [diagram-js-accordion-palette](https://github.com/miyuesc/diagram-js-accordion-palette) | A palette that supports folding and unfolding, provided for diagram-js use。Base on diagram-js/palette <br/> 一个支持折叠展开的调色板，提供给 diagram-js 使用。基于 diagram-js 本身的 Palette。 | ![NPM Downloads](https://img.shields.io/npm/dw/diagram-js-accordion-palette) | ![NPM License](https://img.shields.io/npm/l/diagram-js-accordion-palette) |
+| [bpmn-js-i18n-zh](https://github.com/miyuesc/bpmn-js-i18n-zh) | Chinese internationalization resources for bpmn-js. <br/> 关于 bpmn-js-properties-panel 的中文支持。 | ![NPM Downloads](https://img.shields.io/npm/dw/bpmn-js-i18n-zh) | ![NPM License](https://img.shields.io/npm/l/bpmn-js-i18n-zh) |
+| [bpmn-js-external-label-modeling](https://github.com/miyuesc/bpmn-js-external-label-modeling) | A bpmn-js plugin used to render Label tags outside of nodes. <br/> 一个用来将Label标签渲染在节点外部的bpmn-js插件。 | ![NPM Downloads](https://img.shields.io/npm/dw/bpmn-js-external-label-modeling) | ![NPM License](https://img.shields.io/npm/l/bpmn-js-external-label-modeling) |
 
 
 ## 贡献
