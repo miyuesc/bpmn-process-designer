@@ -87,7 +87,7 @@ git clone https://github.com/miyuesc/bpmn-process-designer.git -b v2
 npm install
 
 # 启动项目
-npm demo
+npm run demo
 ```
 
 ## 开发指南
