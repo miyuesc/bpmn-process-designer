@@ -42,8 +42,7 @@
           </el-form-item>
           <el-form-item label="背景设置">
             <el-radio-group v-model="editorSettings.bg">
-              <el-radio label="grid-image">自定义网格</el-radio>
-              <el-radio label="grid">默认网点</el-radio>
+              <el-radio label="grid">网格背景</el-radio>
               <el-radio label="image">图片</el-radio>
               <el-radio label="none">空</el-radio>
             </el-radio-group>

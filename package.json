@@ -20,6 +20,7 @@
     "bpmnlint": "^7.8.0",
     "camunda-bpmn-moddle": "^7.0.1",
     "core-js": "^3.8.1",
+    "diagram-js-accordion-palette": "^1.3.1",
     "diagram-js-context-pad": "^1.0.2",
     "diagram-js-grid-bg": "^1.0.3",
     "diagram-js-minimap": "^2.1.1",

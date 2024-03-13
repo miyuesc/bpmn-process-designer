@@ -19,6 +19,7 @@ import { resolver, rules } from "@packages/additional-modules/Lint/bpmnlint";
 import minimapModule from "diagram-js-minimap";
 import gridBGModule from "diagram-js-grid-bg";
 import contextPadModule from "diagram-js-context-pad";
+import accordionPaletteModule from "diagram-js-accordion-palette";
 
 // moddle 定义文件
 import activitiModdleDescriptors from "@packages/moddle-extensions/activiti.json";
@@ -120,6 +121,13 @@ export default function (settings) {
   modules.push(contextPadModule);
   options["contextPad"] = {
     beauty: true
+  };
+
+  // 折叠Palette
+  modules.push(accordionPaletteModule);
+  options["accordionPalette"] = {
+    accordion: false,
+    showName: true
   };
 
   // 设置其他模块的启用

@@ -6,7 +6,7 @@ export const defaultSettings = {
   penalMode: "custom",
   contextPadMode: "enhancement",
   rendererMode: "rewrite",
-  bg: "grid-image",
+  bg: "grid",
   toolbar: true,
   useMinimap: true,
   useLint: true,
