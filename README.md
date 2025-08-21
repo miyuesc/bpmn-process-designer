@@ -31,8 +31,6 @@ QQ Group: 582010059
 
 bpmn-js 等相关内容，遇到问题可以在 [bpmn-js-questions: bpmn工具库说明及常见问题解答](https://github.com/miyuesc/bpmn-js-questions) 中查询或者提问。
 
-由于最近被骂的太狠了，这个项目可能不会经常更新，请关注上述产品。
-
 ---
 
 ## 作者简介
@@ -68,6 +66,10 @@ MiyueFE（白小米），也可以叫我小白或者小米，常驻 [稀土掘�
 **本项目遵守 Apache License 2.0 开源协议，详情请参阅 [LICENSE](https://github.com/miyuesc/bpmn-process-designer/blob/next/LICENSE) 文件**。
 
 基于此项目进行开发时，请保留作者的版权信息。
+
+## 赞助
+
+<img src="https://i0.hdslb.com/bfs/openplatform/82d1a037e4c40044188bfbfffd71b867b3ede97c.jpg" width="400"/>
 
 ## 书籍推荐
 
